@@ -15,6 +15,10 @@ License: GPL2
 //Agregar métodos de envío
 include_once plugin_dir_path(__FILE__) . '/shipping/shipping-methods.php';
 
+//Agregar modal
+include_once plugin_dir_path(__FILE__) . '/modals/modals.php';
+
+
 
 // Agregar la acción al hook woocommerce_new_order
 add_action('woocommerce_checkout_order_processed', 'fex_post_flete', 10, 1);

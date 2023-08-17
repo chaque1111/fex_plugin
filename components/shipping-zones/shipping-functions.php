@@ -1,7 +1,8 @@
 <?php
+
 wp_enqueue_style('shipping-styles', plugin_dir_url("fex.php") . 'fex/assets/css/shipping-zones.css');
 wp_enqueue_style('landing-styles', plugin_dir_url("fex.php") . 'fex/assets/css/onboarding.css');
-session_start();
+
 function obtener_direccion_woocommerce()
 {
     $direccion = array(

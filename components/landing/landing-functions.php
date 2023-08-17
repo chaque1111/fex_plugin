@@ -1,4 +1,5 @@
 <?php
+session_start();
 if (isset($_POST["Ingresar"]) && $_POST["accessKey"] !== "" && $_POST["country"] !== "") {
     $country = $_POST["country"];
     $accessKey = $_POST["accessKey"];
@@ -30,10 +31,10 @@ if (isset($_POST["Ingresar"]) && $_POST["accessKey"] !== "" && $_POST["country"]
 
     if (isset($resultado) && $resultado !== false) {
         // Manejar la respuesta del servidor
-        session_start();
         $_SESSION["accessKey"] = $accessKey;
         $_SESSION["token"] = $resultado;
         $_SESSION["authorized"] = true;
+
         update_option('access_key', $accessKey);
     } else {
         $_SESSION["authorized"] = false;

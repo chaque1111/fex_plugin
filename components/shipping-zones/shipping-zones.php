@@ -82,7 +82,7 @@ include_once "shipping-functions.php";
     </div>
 </div>
 
-<?php if (!isset($_SESSION["authorized"]) || isset($_SESSION["authorized"]) && $_SESSION["authorized"] == false) { ?>
+<?php if (isset($_SESSION["authorized"]) && $_SESSION["authorized"] === false) { ?>
     <script>
         jQuery(document).ready(function () {
             console.log("NOK");

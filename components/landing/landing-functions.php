@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (isset($_POST["Ingresar"]) && $_POST["accessKey"] !== "" && $_POST["country"] !== "") {
     $country = $_POST["country"];
     $accessKey = $_POST["accessKey"];

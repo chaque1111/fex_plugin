@@ -76,7 +76,7 @@ include_once "shipping-functions.php";
             <label for="longitude">Longitud:</label>
             <input type="text" name="longitude" id="longitude" required>
             <button id="verify-cors">Verificar coordenadas en el mapa</button>
-            <p>Si toda la información es correcta guarde guarde la configuración de su tienda</p>
+            <p>Si toda la información es correcta guarde la configuración de su tienda</p>
             <input type="submit" id="save-shipping-zones" value="guardar configuración">
         </form>
     </div>

@@ -23,15 +23,14 @@ function save_cookie_ajax_callback()
 {
     session_start();
     if (isset($_POST['vehicle'])) {
-        $vehicle = sanitize_text_field($_POST['vehicle']);
-        setcookie("vehicle", $vehicle, time() + 600, "/");
+        $_SESSION["vehicle"] = $_POST["vehicle"];
         $data = array(
             "acceso" => get_option("access_key"),
             "ori_lat" => get_option("get_fex_latitude"),
             "ori_lng" => get_option("get_fex_longitude"),
             "des_lat" => $_SESSION["client_latitude"],
             "des_lng" => $_SESSION["client_longitude"],
-            "vehiculo" => 5,
+            "vehiculo" => $_POST['vehicle'],
             "reg_origen" => "0"
         );
 

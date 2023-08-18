@@ -9,11 +9,17 @@ Author URI: https://www.linkedin.com/company/holocruxe
 License: GPL2
 */
 
-// function agregar_estilos()
+register_activation_hook(__FILE__, 'fex_add_menu');
+// function adjust_shipping_rate($rates)
 // {
-//     wp_enqueue_style('modal-styles', plugin_dir_url("fex.php") . 'fex/assets/css/modal-express.css');
+//     global $woocommerce;
+//     foreach ($rates as $rate) {
+//         $cost = $rate->cost;
+//         $rate->cost = 50;
+//     }
+//     return $rates;
 // }
-// add_action('wp_enqueue_scripts', 'agregar_estilos');
+// add_filter('woocommerce_package_rates', 'adjust_shipping_rate', 50, 1);
 
 
 //Agregar métodos de envío
@@ -30,7 +36,10 @@ include_once plugin_dir_path(__FILE__) . '/functions-ajax/post.php';
 add_action('woocommerce_checkout_order_processed', 'fex_post_flete', 10, 1);
 
 
-register_activation_hook(__FILE__, 'fex_add_menu');
+
+
+
+
 function fex_post_flete($order_id)
 {
     // Obtener el objeto del pedido
@@ -57,7 +66,7 @@ function fex_post_flete($order_id)
             "des_carga" => "Envío fex para woocommerce",
             "rec_nom" => $info_client["first_name"] . ' ' . $info_client["last_name"],
             "rec_tel" => $customer_data->billing_phone,
-            "vehiculo" => "7",
+            "vehiculo" => $_SESSION["vehicle"],
             "reg_origen" => "0"
         );
 
@@ -133,9 +142,6 @@ add_action('admin_menu', 'fex_add_menu');
 // Mostrar página de inicio
 function fex_show_landing()
 {
-    if (class_exists('WC_Shipping_Method')) {
-
-    }
     include_once plugin_dir_path(__FILE__) . '/components/landing/landing.php';
 }
 

@@ -48,54 +48,39 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                 public function calculate_shipping($package = array())
                 {
                     session_start();
-                    if (isset($_SESSION["client_latitude"]) && isset($_SESSION["client_longitude"])) {
-                        $client_latitude = $_SESSION["client_latitude"];
-                        $client_longitude = $_SESSION["client_longitude"];
-                        $shop_latitude = get_option('get_fex_latitude');
-                        $shop_longitude = get_option('get_fex_longitude');
-                        $server_url = 'http://localhost:3001/flete/shipping'; // URL del servidor de obtención de precio
-                        $response = file_get_contents($server_url);
-                        $cart_weight = WC()->cart->get_cart_contents_weight();
 
-                        $data = array(
-                            'client_latitude' => $client_latitude,
-                            'client_longitude' => $client_longitude,
-                            'shop_latitude' => $shop_latitude,
-                            'shop_longitude' => $shop_longitude,
-                            'cart_weight' => $cart_weight
-                        );
+                    $data = array(
+                        "acceso" => get_option("access_key"),
+                        "ori_lat" => get_option("get_fex_latitude"),
+                        "ori_lng" => get_option("get_fex_longitude"),
+                        "des_lat" => $_SESSION["client_latitude"],
+                        "des_lng" => $_SESSION["client_longitude"],
+                        "vehiculo" => $_POST['vehicle'],
+                        "reg_origen" => "0"
+                    );
 
-                        // Configurar los encabezados de la solicitud
-                        $options = array(
-                            'http' => array(
-                                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-                                'method' => 'POST',
-                                'content' => http_build_query($data)
-                            )
-                        );
-                        // Crear el contexto de flujo
-                        $context = stream_context_create($options);
+                    $jsonData = json_encode($data);
+                    $url = 'https://fex.cl/fex_api/externo/flete/cotizar';
 
-                        // Realizar la solicitud POST y obtener la respuesta
-                        $response = file_get_contents($server_url, false, $context);
+                    $options = array(
+                        'http' => array(
+                            'method' => 'POST',
+                            'header' => "Content-Type: application/json\r\n",
+                            'content' => $jsonData
+                        )
+                    );
 
-                        // Si necesitas manejar la respuesta, puedes hacerlo aquí
-                        $rate = array(
-                            'label' => $this->title,
-                            'cost' => $response,
-                            'calc_tax' => 'per_item'
-                        );
-                        // Register the rate
-                        $this->add_rate($rate);
-                    }
-                    else {
-                        $rate = array(
-                            'label' => $this->title,
-                            'calc_tax' => 'per_item'
-                        );
-                        // Register the rate
-                        $this->add_rate($rate);
-                    }
+                    $context = stream_context_create($options);
+
+                    $result = file_get_contents($url, false, $context);
+                    $rate = array(
+                        'label' => $this->title,
+                        'cost' => $result,
+                        'calc_tax' => 'per_item'
+                    );
+                    // Register the rate
+                    $this->add_rate($rate);
+
 
                 }
             }
@@ -205,6 +190,7 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                     else {
                         $rate = array(
                             'label' => $this->title,
+                            'cost' => 50,
                             'calc_tax' => 'per_item'
                         );
                         // Register the rate
@@ -229,63 +215,55 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
 
 
     //pide coordenadas al cliente
-   /* add_action('wp_ajax_save_coordinates', 'save_coordinates_callback');
+    /* add_action('wp_ajax_save_coordinates', 'save_coordinates_callback');
     add_action('wp_ajax_nopriv_save_coordinates', 'save_coordinates_callback');
-
     function save_coordinates_callback()
     {
-        if (isset($_POST['latitude']) && isset($_POST['longitude'])) {
-            session_start();
-            $_SESSION["client_latitude"] = $_POST['latitude'];
-            $_SESSION["client_longitude"] = $_POST['longitude'];
-
-            wp_send_json(true);
-        }
-        else {
-            $response = array('status' => 'error', 'message' => 'Invalid data');
-            wp_send_json($response);
-        }
+    if (isset($_POST['latitude']) && isset($_POST['longitude'])) {
+    session_start();
+    $_SESSION["client_latitude"] = $_POST['latitude'];
+    $_SESSION["client_longitude"] = $_POST['longitude'];
+    wp_send_json(true);
     }
-
+    else {
+    $response = array('status' => 'error', 'message' => 'Invalid data');
+    wp_send_json($response);
+    }
+    }
     add_action('woocommerce_before_shop_loop', 'fex_cotizar');
-
-
     function fex_cotizar()
     {
-        ?>
-                <script>
-                    jQuery(document).ready(function ($) {
-                        if ("geolocation" in navigator) {
-                            navigator.geolocation.getCurrentPosition(function (position) {
-                                var latitude = position.coords.latitude;
-                                var longitude = position.coords.longitude;
-                                console.log("Latitud:", latitude);
-                                console.log("Longitud:", longitude);
-                                $.ajax({
-                                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
-                                    type: 'POST',
-                                    data: {
-                                        action: 'save_coordinates',
-                                        latitude: latitude,
-                                        longitude: longitude,
-                                    },
-                                    dataType: 'json',
-                                    success: function (response) {
-                                        console.log('Respuesta exitosa:', response);
-                                    },
-                                    error: function (xhr, status, error) {
-                                        console.log('Error:', error);
-                                    }
-                                });
-
-                            });
-
-                        } else {
-                            console.log("La geolocalización no está disponible en este navegador.");
-                        }
-                    })
-                </script>
-
-                <?php
+    ?>
+    <script>
+    jQuery(document).ready(function ($) {
+    if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    console.log("Latitud:", latitude);
+    console.log("Longitud:", longitude);
+    $.ajax({
+    url: '<?php echo admin_url('admin-ajax.php'); ?>',
+    type: 'POST',
+    data: {
+    action: 'save_coordinates',
+    latitude: latitude,
+    longitude: longitude,
+    },
+    dataType: 'json',
+    success: function (response) {
+    console.log('Respuesta exitosa:', response);
+    },
+    error: function (xhr, status, error) {
+    console.log('Error:', error);
+    }
+    });
+    });
+    } else {
+    console.log("La geolocalización no está disponible en este navegador.");
+    }
+    })
+    </script>
+    <?php
     }*/
 }

@@ -21,6 +21,7 @@ add_action('wp_ajax_nopriv_save_cookie', 'save_cookie_ajax_callback');
 
 function save_cookie_ajax_callback()
 {
+    session_start();
     if (isset($_POST['vehicle'])) {
         $vehicle = sanitize_text_field($_POST['vehicle']);
         setcookie("vehicle", $vehicle, time() + 600, "/");

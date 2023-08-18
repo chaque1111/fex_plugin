@@ -111,15 +111,15 @@ include_once "dashboard-functions.php";
     });
 </script>
 
-<?php if (!isset($_SESSION["authorized"]) || isset($_SESSION["authorized"]) && $_SESSION["authorized"] == false) { ?>
-
+<?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) { ?>
     <script>
         jQuery(document).ready(function () {
             console.log("NOK");
             jQuery("#pickit-error").css("display", 'block');
         });
     </script>
-<?php } else { ?>
+<?php }
+else { ?>
     <script>
         jQuery(document).ready(function ($) {
             $.ajax({

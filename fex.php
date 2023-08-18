@@ -9,12 +9,17 @@ Author URI: https://www.linkedin.com/company/holocruxe
 License: GPL2
 */
 
+// function agregar_estilos()
+// {
+//     wp_enqueue_style('modal-styles', plugin_dir_url("fex.php") . 'fex/assets/css/modal-express.css');
+// }
+// add_action('wp_enqueue_scripts', 'agregar_estilos');
+
 
 //Agregar métodos de envío
 include_once plugin_dir_path(__FILE__) . '/shipping/shipping-methods.php';
 
 //Agregar modal
-
 include_once plugin_dir_path(__FILE__) . '/modals/modals.php';
 
 //Agregando funciones de ajax

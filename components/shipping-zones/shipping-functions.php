@@ -1,8 +1,6 @@
 <?php
-
 wp_enqueue_style('shipping-styles', plugin_dir_url("fex.php") . 'fex/assets/css/shipping-zones.css');
 wp_enqueue_style('landing-styles', plugin_dir_url("fex.php") . 'fex/assets/css/onboarding.css');
-
 function obtener_direccion_woocommerce()
 {
     $direccion = array(
@@ -70,7 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($response === false) {
             // Error al realizar la solicitud
             echo 'Error de cURL: ' . curl_error($ch);
-        } else {
+        }
+        else {
             // Procesa la respuesta
             update_option("shipping_zones_is_config", 1);
         }

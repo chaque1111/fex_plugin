@@ -229,7 +229,7 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
 
 
     //pide coordenadas al cliente
-    add_action('wp_ajax_save_coordinates', 'save_coordinates_callback');
+   /* add_action('wp_ajax_save_coordinates', 'save_coordinates_callback');
     add_action('wp_ajax_nopriv_save_coordinates', 'save_coordinates_callback');
 
     function save_coordinates_callback()
@@ -287,5 +287,5 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                 </script>
 
                 <?php
-    }
+    }*/
 }

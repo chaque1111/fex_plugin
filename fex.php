@@ -10,15 +10,16 @@ License: GPL2
 */
 
 
-
-
 //Agregar métodos de envío
 include_once plugin_dir_path(__FILE__) . '/shipping/shipping-methods.php';
 
 //Agregar modal
+
 include_once plugin_dir_path(__FILE__) . '/modals/modals.php';
 
+//Agregando funciones de ajax
 
+include_once plugin_dir_path(__FILE__) . '/functions-ajax/post.php';
 
 // Agregar la acción al hook woocommerce_new_order
 add_action('woocommerce_checkout_order_processed', 'fex_post_flete', 10, 1);
@@ -72,7 +73,8 @@ function fex_post_flete($order_id)
         // Verificar la respuesta del servidor externo
         if ($response === false) {
             error_log('Error al enviar la solicitud.');
-        } else {
+        }
+        else {
             // Procesar la respuesta del servidor si es necesario
             // Puedes realizar acciones basadas en la respuesta del servidor
         }

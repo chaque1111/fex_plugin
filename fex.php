@@ -10,6 +10,7 @@ License: GPL2
 */
 
 register_activation_hook(__FILE__, 'fex_add_menu');
+
 // function adjust_shipping_rate($rates)
 // {
 //     global $woocommerce;
@@ -32,14 +33,10 @@ include_once plugin_dir_path(__FILE__) . '/modals/modals.php';
 
 include_once plugin_dir_path(__FILE__) . '/functions-ajax/post.php';
 
+//
+
 // Agregar la acción al hook woocommerce_new_order
 add_action('woocommerce_checkout_order_processed', 'fex_post_flete', 10, 1);
-
-
-
-
-
-
 function fex_post_flete($order_id)
 {
     // Obtener el objeto del pedido

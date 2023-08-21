@@ -50,9 +50,8 @@ function save_cookie_ajax_callback()
         $result = file_get_contents($url, false, $context);
 
         // Mostrar la respuesta (puede ser un JSON u otro formato)
-
-
-        wp_send_json($result);
+        
+        wp_send_json(json_decode($result));
     }
     else {
         $response = array('status' => 'error', 'message' => 'Invalid data');

@@ -123,7 +123,7 @@ else { ?>
     <script>
         jQuery(document).ready(function ($) {
             $.ajax({
-                url: "http://localhost:3001/flete",
+                url: "https://naboo-production.up.railway.app/flete",
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
@@ -137,7 +137,7 @@ else { ?>
             });
             $(".reload-icon").click(function () {
                 $.ajax({
-                    url: "http://localhost:3001/flete",
+                    url: "https://naboo-production.up.railway.app/flete",
                     type: "GET",
                     dataType: "json",
                     success: function (data) {

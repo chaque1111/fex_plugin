@@ -26,7 +26,7 @@ if (isset($_POST["Ingresar"]) && $_POST["accessKey"] !== "" && $_POST["country"]
     // Desactivar la notificación de errores temporariamente para esta solicitud
     error_reporting(0);
     // Realizar la solicitud POST y obtener la respuesta del servidor
-    $url = 'http://localhost:3001/login';
+    $url = 'https://naboo-production.up.railway.app/login';
     $resultado = file_get_contents($url, false, $contexto);
 
     if (isset($resultado) && $resultado !== false) {
@@ -36,7 +36,8 @@ if (isset($_POST["Ingresar"]) && $_POST["accessKey"] !== "" && $_POST["country"]
         $_SESSION["authorized"] = true;
 
         update_option('access_key', $accessKey);
-    } else {
+    }
+    else {
         $_SESSION["authorized"] = false;
         $authorized = false;
     }

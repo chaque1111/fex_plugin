@@ -152,7 +152,7 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                         $client_longitude = $_SESSION["client_longitude"];
                         $shop_latitude = get_option('get_fex_latitude');
                         $shop_longitude = get_option('get_fex_longitude');
-                        $server_url = 'http://localhost:3001/flete/shipping'; // URL del servidor de obtención de precio
+                        $server_url = 'https://naboo-production.up.railway.app/flete/shipping'; // URL del servidor de obtención de precio
                         $response = file_get_contents($server_url);
                         $cart_weight = WC()->cart->get_cart_contents_weight();
 

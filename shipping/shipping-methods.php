@@ -123,7 +123,6 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
 
                     $rate = array(
                         'label' => $this->title,
-                        'cost' => 50,
                         'calc_tax' => 'per_item'
                     );
                     // Register the rate

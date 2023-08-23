@@ -68,6 +68,9 @@ function save_config_ajax_callback()
 {
     session_start();
     if (isset($_SESSION["vehicle_calculate"]) && isset($_SESSION["price_calculate"])) {
+        if ($_POST["date"]) {
+            $_SESSION["date"] = $_POST["date"];
+        }
         $_SESSION["vehicle"] = $_SESSION["vehicle_calculate"];
         $_SESSION["price"] = $_SESSION["price_calculate"];
         setcookie('shipping_city_cost', $_SESSION["price_calculate"], time() + (86400 * 30), '/');

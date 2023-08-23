@@ -93,7 +93,18 @@ function fex_post_flete($order_id)
     }
 }
 
-
+function adjust_shipping_rate($rates)
+{
+    global $woocommerce;
+    foreach ($rates as $rate) {
+        if ($rate->method_id === "fex_express_shipping_method") {
+            $cost = $rate->cost;
+            $rate->cost = $_COOKIE['shipping_city_cost'];
+        }
+    }
+    return $rates;
+}
+add_filter('woocommerce_package_rates', 'adjust_shipping_rate', 50, 1);
 
 function fex_add_menu()
 {

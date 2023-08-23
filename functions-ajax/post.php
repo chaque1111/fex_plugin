@@ -70,56 +70,16 @@ function save_config_ajax_callback()
     if (isset($_SESSION["vehicle_calculate"]) && isset($_SESSION["price_calculate"])) {
         $_SESSION["vehicle"] = $_SESSION["vehicle_calculate"];
         $_SESSION["price"] = $_SESSION["price_calculate"];
+        setcookie('shipping_city_cost', $_SESSION["price_calculate"], time() + (86400 * 30), '/');
+        $_COOKIE['shipping_city_cost'] = $_SESSION["price_calculate"];
+        $packages = WC()->cart->get_shipping_packages();
+        foreach ($packages as $package_key => $package) {
+            WC()->session->set('shipping_for_package_' . $package_key, false);
+        }
+
         wp_send_json(true);
     }
     else {
         wp_send_json("false");
     }
 }
-
-
-
-
-
-
-
-
-
-
-/* add_action('woocommerce_before_shop_loop', 'fex_cotizar');
-function fex_cotizar()
-{
-?>
-<script>
-jQuery(document).ready(function ($) {
-if ("geolocation" in navigator) {
-navigator.geolocation.getCurrentPosition(function (position) {
-var latitude = position.coords.latitude;
-var longitude = position.coords.longitude;
-console.log("Latitud:", latitude);
-console.log("Longitud:", longitude);
-$.ajax({
-url: '<?php echo admin_url('admin-ajax.php'); ?>',
-type: 'POST',
-data: {
-action: 'save_coordinates',
-latitude: latitude,
-longitude: longitude,
-},
-dataType: 'json',
-success: function (response) {
-console.log('Respuesta exitosa:', response);
-},
-error: function (xhr, status, error) {
-console.log('Error:', error);
-}
-});
-});
-} else {
-console.log("La geolocalización no está disponible en este navegador.");
-}
-})
-</script>
-<?php
-}
-*/

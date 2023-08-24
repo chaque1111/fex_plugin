@@ -27,10 +27,10 @@ function fex_flete_programado($order_id)
             "rec_nom" => $info_client["first_name"] . ' ' . $info_client["last_name"],
             "rec_tel" => $customer_data->billing_phone,
             "vehiculo" => $_SESSION["vehicle"],
-            "programado" => $_SESSION["date"],
+            "programado" => $_SESSION["programado"],
             "reg_origen" => "0"
         );
-
+   
         // URL del servidor externo donde deseas enviar la solicitud POST
         $server_url = 'https://naboo-production.up.railway.app/flete';
 
@@ -44,7 +44,7 @@ function fex_flete_programado($order_id)
         );
         $context = stream_context_create($options);
         $response = file_get_contents($server_url, false, $context);
-
+ 
         // Verificar la respuesta del servidor externo
         if ($response === false) {
             error_log('Error al enviar la solicitud.');

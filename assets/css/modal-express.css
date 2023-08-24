@@ -163,3 +163,8 @@
   cursor: not-allowed; /* Cambia el cursor a 'no permitido' cuando está deshabilitado */
   /* ... otros estilos para el estado deshabilitado ... */
 }
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+  text-align: center;
+  width: 0px;
+}

@@ -6,7 +6,7 @@ function agregar_modal_fex()
     ?>
     <script>
         jQuery(document).ready(function ($) {
-            $('body').on('change', 'input[name="shipping_method[0]"]', function () {
+            $('body').on('click', 'input[name="shipping_method[0]"]', function () {
                 var metodoEnvioSeleccionado = $(this).val();
                 if (metodoEnvioSeleccionado === 'fex_express_shipping_method') {
                     //geolocalización 
@@ -188,7 +188,7 @@ function agregar_modal_fex_programado()
     ?>
     <script>
         jQuery(document).ready(function ($) {
-            $('body').on('change', 'input[name="shipping_method[0]"]', function () {
+            $('body').on('click', 'input[name="shipping_method[0]"]', function () {
                 var metodoEnvioSeleccionado = $(this).val();
                 if (metodoEnvioSeleccionado === 'fex_programado_shipping_method') {
                     //geolocalización 
@@ -219,6 +219,10 @@ function agregar_modal_fex_programado()
                     } else {
                         console.log("La geolocalización no está disponible en este navegador.");
                     }
+                    <?php
+                        $nextMonth = new DateTime();
+                        $nextMonth->modify('+1 month');
+                        ?>
 
                     // Mostrar el modal aquí
                     var modalContent = `
@@ -267,38 +271,89 @@ function agregar_modal_fex_programado()
                                   <span class="checkmark"></span>
                         </div>
                      </div>
-                     <p class="p-fex">Debes darnos acceso a tu ubiación para poder calcular el precio del envío</p>             
+                     <p class="p-fex">Debes darnos acceso a tu ubiación para poder calcular el precio del envío</p>
                      <div class="price-container"><h3 class="price-text">Precio: <span class="price">                 
-                       <?php
+                     <?php
                        if (isset($_SESSION["price"])) {
                            echo "$" . $_SESSION["price"];
-                       }
+                        }
                        else {
                            echo "$0";
-                       }
-                       ?>
+                        }
+                        ?>
+                        
                      </class=span></h3></div>
-                     <img style="width: 130px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/tarjetas.png') ?>"><br/>
-                     <button class="confirm-button" disabled>Confirmar método de envío</button>
-                   </form>`;
-                    $('body').append(modalContent);
-                    //cerrar modal
-                    $('.close-button').click(function () {
-                        event.preventDefault();
-                        $('.my-modal').fadeOut(function () {
-                            $(this).remove();
+                     <p class="p-fex">Programa la fecha y hora en la que te llegará el producto</p>             
+                       <?php
+                       //inputs de fecha php
+                           if (isset($_SESSION["programado"])) {
+                               echo '<input id="date-fex" type="date" min=' . date('Y-m-d') . ' max=' . $nextMonth->format('Y-m-28') . ' value=' . $_SESSION["date"] . ' required/>';
+                               echo '<input type="time" id="time-fex"  min="08:00" max="22:00" value='. $_SESSION["time"] .' required />';                    
+                           }
+                           else {
+                               echo '<input id="date-fex" type="date" min=' . date('Y-m-d') . ' max='.$nextMonth->format('Y-m-28').' value='.date('Y-m-d').' required/>';
+                               echo '<input type="time" id="time-fex"  min="08:00" max="22:00" required />';
+                           }
+                           ?>                     
+                         <input type="submit" class="confirm-button" disabled value="Confirmar método de envío"/input>
+                       </form>`;
+                      
+                        $('body').append(modalContent);
+                       //validación de fechas
+                       $('#date-fex').on('blur',function() {                  
+                            var selectedDate = new Date(); // Convierte la cadena en un objeto Date
+                            var year = selectedDate.getFullYear();
+                            var month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // Suma 1 al mes ya que en JavaScript los meses comienzan desde 0
+                            var day = String(selectedDate.getDate()).padStart(2, '0');                    
+                            var formattedDate = year + '-' + month + '-' + day;
+                            //disable confirm-button false
+                            $('.confirm-button').prop('disabled', false);               
+                            if($(this).val() === formattedDate){     
+                               var currentTime = new Date();
+                               var hours = String(currentTime.getHours()).padStart(2, '0');
+                               var minutes = String(currentTime.getMinutes()).padStart(2, '0');    
+                               var formattedTime = hours + ':' + minutes;
+                               $("#time-fex").attr("min", formattedTime);
+                            }else{
+                                 $("#time-fex").attr("min", "08:00");
+                            }
+                          });
+                          $('#time-fex').on('blur',function() {
+                            var selectedDate = new Date(); // Convierte la cadena en un objeto Date
+                            var year = selectedDate.getFullYear();
+                            var month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // Suma 1 al mes ya que en JavaScript los meses comienzan desde 0
+                            var day = String(selectedDate.getDate()).padStart(2, '0');                    
+                            var formattedDate = year + '-' + month + '-' + day;
+                            //disable confirm-button false
+                            $('.confirm-button').prop('disabled', false);               
+                            if($("#date-fex").val() === formattedDate){     
+                               var currentTime = new Date();
+                               var hours = String(currentTime.getHours()).padStart(2, '0');
+                               var minutes = String(currentTime.getMinutes()).padStart(2, '0');    
+                               var formattedTime = hours + ':' + minutes;
+                               $("#time-fex").attr("min", formattedTime);
+                            }else{
+                                 $("#time-fex").attr("min", "08:00");
+                            }
+                          });
+                          
+                        //cerrar modal
+                        $('.close-button').click(function () {
+                            event.preventDefault();
+                            $('.my-modal').fadeOut(function () {
+                                $(this).remove();
+                            });
                         });
-                    });
-                    //calcular precio
-                    $('.my-modal').change(function () {
-                        event.preventDefault();
-                        var valorSeleccionado = $('input[name="radio"]:checked').val();
-                        const overlay = document.querySelector('.overlay');
-                        const modal = document.querySelector('.my-modal');
-                        overlay.style.display = 'block';
+                        //calcular precio
+                        $('.contain-vehicles').change(function () {
+                            event.preventDefault();
+                            var valorSeleccionado = $('input[name="radio"]:checked').val();
+                            const overlay = document.querySelector('.overlay');
+                            const modal = document.querySelector('.my-modal');
+                            overlay.style.display = 'block';
 
-                        $.ajax({
-                            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                            $.ajax({
+                                url: '<?php echo admin_url('admin-ajax.php'); ?>',
                             type: 'POST',
                             data: {
                                 action: 'calculate_shipping',
@@ -327,20 +382,23 @@ function agregar_modal_fex_programado()
 
                     });
                     //confirmar método de envío
-                    $('.confirm-button').click(function () {
-                        event.preventDefault();
+                    $('.my-modal').submit(function (event) {
+                       event.preventDefault()
+                        var date = $("#date-fex").val()
+                        var time = $("#time-fex").val()
                         $.ajax({
                             url: '<?php echo admin_url('admin-ajax.php'); ?>',
                             type: 'POST',
                             data: {
                                 action: 'save_config',
-                                date: '2023-08-24 17:00:00'
+                                time: time,
+                                date: date,
+                                programado: `${date} ${time}:00`
                             },
                             dataType: 'json',
                             success: function (response) {
                                 console.log(response)
                                 if (response === true) {
-
                                     window.location.reload()
                                     $('.my-modal').fadeOut(function () {
                                         $(this).remove();
@@ -350,8 +408,7 @@ function agregar_modal_fex_programado()
                             error: function (xhr, status, error) {
                                 console.log('Error:', error);
                             }
-                        });
-
+                        });               
                     });
 
                     $('.my-modal').fadeIn();

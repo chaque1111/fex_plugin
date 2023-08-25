@@ -1,6 +1,6 @@
 /* Estilos para el modal personalizado */
 
-.overlay {
+.fex-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -10,10 +10,10 @@
   z-index: 999; /* Z-index inferior al del modal */
   display: none; /* Inicialmente oculto */
 }
-.overlay:hover {
+.fex-overlay:hover {
   cursor: progress;
 }
-.my-modal {
+.fex-my-modal {
   z-index: 1000;
   display: none;
   position: fixed;
@@ -26,7 +26,7 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   min-width: 720px;
 }
-.close-button {
+.fex-close-button {
   float: right;
   background-color: #ff6c0e;
   color: white;
@@ -36,29 +36,28 @@
   width: 25px;
   border-style: none;
 }
-.close-button:hover {
+.fex-close-button:hover {
   cursor: pointer;
   background-color: rgba(204, 102, 51, 1);
 }
-.title-fex {
+.fex-title-fex {
   margin-top: 0;
   font-size: 30px;
   font-weight: 600;
   color: rgba(204, 102, 51, 1);
   color: #ff6c0e;
 }
-.description-shipping {
+.fex-description-shipping {
   margin-top: 0px;
   font-size: 16px;
   color: rgba(204, 102, 51, 1);
 }
-.p-fex {
+.fex-p-fex {
   margin: 0px;
   font-size: 13px;
   color: rgba(204, 102, 51, 1);
 }
-
-.contain-vehicles {
+.fex-contain-vehicles {
   margin-top: 20px;
   margin-bottom: 20px;
   display: flex;
@@ -66,20 +65,19 @@
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(204, 102, 51, 1);
 }
-.contain-opt {
+.fex-contain-opt {
   flex: 1; /* Distribuye el espacio disponible por igual entre los elementos */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.contain-moto {
+.fex-contain-moto {
   flex-grow: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
-.container {
+.fex-container {
   height: 100%;
   display: flex;
   justify-content: flex-end;
@@ -90,13 +88,13 @@
   bottom: 0px;
   margin-bottom: 0px !important;
 }
-.container:hover {
+.fex-container:hover {
   cursor: pointer;
 }
-.input-vehicle {
+.fex-input-vehicle {
   background: rgba(0, 0, 0, 0.5);
 }
-.input-vehicle {
+.fex-input-vehicle {
   /* remove standard background appearance */
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -114,13 +112,10 @@
   margin-top: 3px;
   margin-bottom: 0px;
 }
-
-/* appearance for checked radiobutton */
-.input-vehicle:checked {
+.fex-input-vehicle:checked {
   background-color: #ff6c0e;
 }
-
-.calculate-price {
+.fex-calculate-price {
   margin-top: 10px;
   border-style: none;
   border-radius: 4px;
@@ -129,21 +124,21 @@
   color: white;
   background: #ff6c0e;
 }
-.price-text {
+.fex-price-text {
   font-size: 17px;
   font-weight: 500;
   color: #333;
   margin-bottom: 10px;
 }
-.price {
+.fex-price {
   font-weight: bold;
   color: green;
 }
-.calculate-price:hover {
+.fex-calculate-price:hover {
   cursor: pointer;
   background: rgba(204, 102, 51, 1);
 }
-.confirm-button {
+.fex-confirm-button {
   margin-top: 10px;
   background-color: #4caf50; /* Color predominante naranja */
   color: white; /* Texto en color blanco para resaltar */
@@ -153,12 +148,10 @@
   cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
   transition: background-color 0.3s ease; /* Transición suave para el cambio de color */
 }
-
-.confirm-button:hover {
+.fex-confirm-button:hover {
   background-color: #45a049; /* Color naranja ligeramente más claro al pasar el cursor */
 }
-
-.confirm-button:disabled {
+.fex-confirm-button:disabled {
   background-color: #ccc; /* Cambia el color de fondo cuando está deshabilitado */
   cursor: not-allowed; /* Cambia el cursor a 'no permitido' cuando está deshabilitado */
   /* ... otros estilos para el estado deshabilitado ... */

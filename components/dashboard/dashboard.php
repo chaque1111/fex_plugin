@@ -26,7 +26,7 @@ include_once "dashboard-functions.php";
 </div>
 <img class="fex-logo" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/fex_app.png') ?>">
 <div class="dashboard-container">
-    <div class="contain_options">
+    <!-- <div class="contain_options">
         <ul>
             <div class="contain_opt">
                 <img class="icon_opt" src="<?php echo plugin_dir_url("fex.php") . 'fex/assets/icons/cubo.png'; ?>">
@@ -41,7 +41,7 @@ include_once "dashboard-functions.php";
                 <li class="title_opt">Puntos de entrega</li>
             </div>
         </ul>
-    </div>
+    </div> -->
     <div class="contain_data">
         <div class="contain-opt-data">
             <div class="contain-title-filters">
@@ -61,12 +61,13 @@ include_once "dashboard-functions.php";
                     src="<?php echo plugin_dir_url("fex.php") . 'fex/assets/icons/recargar.png'; ?>">
             </div>
             <div class="container-camps">
-                <H2 class="camp">#ORDEN DE WOO</H2>
-                <H2 class="camp">NÚMERO DE SEGUIMIENTO</H2>
+                <H2 class="camp">#ORDER WOO</H2>
+                <H2 class="camp">SEGUIMIENTO FEX</H2>
                 <H2 class="camp">STATUS FEX</H2>
                 <H2 class="camp">MODO</H2>
                 <H2 class="camp">FECHA</H2>
-                <H2 class="camp">PAGO</H2>
+                <H2 class="camp">DISTANCIA</H2>
+                <H2 class="camp">TOTAL</H2>
             </div>
 
             <div class="contain-orders">
@@ -123,12 +124,12 @@ else { ?>
     <script>
         jQuery(document).ready(function ($) {
             $.ajax({
-                url: "https://naboo-production.up.railway.app/flete",
+                url: "<?php echo 'https://naboo-production.up.railway.app/flete/' . get_option("access_key"); ?>",
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
                     // window.apiData = data;
-
+                    console.log(data)
                     renderData(data);
                 },
                 error: function (xhr, status, error) {
@@ -137,12 +138,12 @@ else { ?>
             });
             $(".reload-icon").click(function () {
                 $.ajax({
-                    url: "https://naboo-production.up.railway.app/flete",
+                    url: "<?php echo 'https://naboo-production.up.railway.app/flete/' . get_option("access_key"); ?>",
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
                         // window.apiData = data;
-
+                        console.log(data)
                         renderData(data);
                     },
                     error: function (xhr, status, error) {
@@ -156,19 +157,30 @@ else { ?>
 
                 // Limpiar el contenido actual del contenedor
                 dataContainer.empty();
-
+                function claseStatus(estado) {
+                    if (estado === 0) return "fex-esperando";
+                    if (estado === 2) return "fex-aceptado";
+                    if (estado === 5) return "fex-pagado";
+                    if (estado === 8) return "fex-cargado";
+                    if (estado === 9) return "fex-terminando";
+                    if (estado === 10) return "fex-terminado";
+                    if (estado === 14) return "fex-no-transportista";
+                    if (estado === 16) return "fex-cancelado";
+                    if (estado === 14) return "fex-cacel-system"
+                }
                 // Iterar sobre los datos y crear los elementos HTML correspondientes
                 $.each(data, function (index, item) {
-                    var newElement = $("<div>").addClass("order");
+                    var newElement = $("<div>").addClass("order-fex");
                     // Aquí puedes personalizar cómo se mostrará cada elemento del JSON en el HTML
-                    var orden_woo = $("<h3>").text(item.orden_woo);
-                    var numero_seg = $("<h3>").text(item.numero_seg);
-                    var status_fex = $("<h3>").text(item.status_fex);
-                    var modo = $("<h3>").text(item.modo);
-                    var fecha = $("<h3>").text(item.fecha);
-                    var pago = $("<h3>").text(item.pago);
+                    var wc_order = $("<h3>").text("#74").addClass("order-woo");
+                    var numero_seg = $("<h3>").text(item.servicio).addClass("num-seg");
+                    var status_fex = $("<h3>").text(`${item.estado === 5 ? "pagado" : item.descripcion}`).addClass(claseStatus(item.estado));
+                    var modo = $("<h3>").text(item.tipo).addClass("modo-fex");
+                    var fecha = $("<h3>").text("25-08-2023").addClass("fecha-fex");
+                    var distancia = $("<h3>").text(item.distancia).addClass("distancia-envio");
+                    var total = $("<h3>").text(`$${item.total}`).addClass("total-price-fex");
                     // se agregan los nuevos elementos 
-                    newElement.append(orden_woo, numero_seg, status_fex, modo, fecha, pago);
+                    newElement.append(wc_order, numero_seg, status_fex, modo, fecha, distancia, total);
                     dataContainer.append(newElement);
                 });
             }

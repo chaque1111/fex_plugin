@@ -15,6 +15,7 @@ function fex_flete_express($order_id)
     $customer_data = get_userdata($customer_id);
     // Verificar si el método de envío es el deseado (cambia 'fex_shipping_method' por el método real)
     if ($order->get_shipping_method() === "Fex express" && isset($_SESSION["client_latitude"]) && isset($_SESSION["client_longitude"])) {
+        $currentDateTime = new DateTime(); // Crea un objeto DateTime con la fecha y hora actuales
         $post_data = array(
             "acceso" => get_option("access_key"),
             "ori_lat" => get_option("get_fex_latitude"),
@@ -27,7 +28,9 @@ function fex_flete_express($order_id)
             "rec_nom" => $info_client["first_name"] . ' ' . $info_client["last_name"],
             "rec_tel" => $customer_data->billing_phone,
             "vehiculo" => $_SESSION["vehicle"],
-            "reg_origen" => "0"
+            "reg_origen" => "0",
+            // "fecha" => $currentDateTime->format('Y-m-d H:i:s'),
+            // "wc_order" => $order->get_order_number()
         );
 
         // URL del servidor externo donde deseas enviar la solicitud POST

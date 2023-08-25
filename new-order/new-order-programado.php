@@ -15,6 +15,7 @@ function fex_flete_programado($order_id)
     $customer_data = get_userdata($customer_id);
     // Verificar si el método de envío es el deseado (cambia 'fex_shipping_method' por el método real)
     if ($order->get_shipping_method() === "Fex programado" && isset($_SESSION["client_latitude"]) && isset($_SESSION["client_longitude"])) {
+        $currentDateTime = new DateTime(); // Crea un objeto DateTime con la fecha y hora actuales
         $post_data = array(
             "acceso" => get_option("access_key"),
             "ori_lat" => get_option("get_fex_latitude"),
@@ -28,9 +29,11 @@ function fex_flete_programado($order_id)
             "rec_tel" => $customer_data->billing_phone,
             "vehiculo" => $_SESSION["vehicle"],
             "programado" => $_SESSION["programado"],
-            "reg_origen" => "0"
+            "reg_origen" => "0",
+            // "fecha" => $currentDateTime->format('Y-m-d H:i:s'),
+            // "wc_order" => $order->get_order_number()
         );
-   
+
         // URL del servidor externo donde deseas enviar la solicitud POST
         $server_url = 'https://naboo-production.up.railway.app/flete';
 
@@ -44,7 +47,7 @@ function fex_flete_programado($order_id)
         );
         $context = stream_context_create($options);
         $response = file_get_contents($server_url, false, $context);
- 
+
         // Verificar la respuesta del servidor externo
         if ($response === false) {
             error_log('Error al enviar la solicitud.');

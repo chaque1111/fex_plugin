@@ -62,10 +62,26 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
     }
 
     add_action('woocommerce_shipping_init', 'express_shipping_method_init');
-
     function add_express_shipping_method($methods)
     {
-        $methods['express_shipping_method'] = 'Fex_Express_Shipping_Method';
+        // Verifica si el envío gratuito está activo
+        $free_shipping_enabled = false;
+
+        // Obtén los métodos de envío disponibles
+        $shipping_methods = WC()->shipping()->get_shipping_methods();
+
+        // Busca el método de envío gratuito y verifica si está activo
+        foreach ($shipping_methods as $shipping_method) {
+            if ($shipping_method->id === 'free_shipping') {
+                $free_shipping_enabled = $shipping_method->enabled === 'yes';
+                break;
+            }
+        }
+
+        if (!$free_shipping_enabled) {
+            $methods['express_shipping_method'] = 'Fex_Express_Shipping_Method';
+        }
+
         return $methods;
     }
 
@@ -137,7 +153,24 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
 
     function add_programado_shipping_method($methods)
     {
-        $methods['programado_shipping_method'] = 'Fex_Programado_Shipping_Method';
+        // Verifica si el envío gratuito está activo
+        $free_shipping_enabled = false;
+
+        // Obtén los métodos de envío disponibles
+        $shipping_methods = WC()->shipping()->get_shipping_methods();
+
+        // Busca el método de envío gratuito y verifica si está activo
+        foreach ($shipping_methods as $shipping_method) {
+            if ($shipping_method->id === 'free_shipping') {
+                $free_shipping_enabled = $shipping_method->enabled === 'yes';
+                break;
+            }
+        }
+
+        if (!$free_shipping_enabled) {
+            $methods['programado_shipping_method'] = 'Fex_Programado_Shipping_Method';
+        }
+
         return $methods;
     }
 

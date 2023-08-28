@@ -10,7 +10,7 @@ include_once "landing-functions.php";
             <span class="close">&times;</span>
         </a>
         <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/ok.png') ?>">
-
+       
         <h2>
             <?php echo __('Credenciales correctas', 'wc-pickit') ?>
         </h2>
@@ -55,7 +55,7 @@ include_once "landing-functions.php";
             <div class="column30">
                 <div class="left-pane">
                     <img style="width: 15vw;"
-                        src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/fex_app.png') ?>">
+                        src="<?php echo plugin_dir_url("fex.php") . 'fex/assets/img/fex_app.png'?>">
                     <h1 class="welcome">
                         <?= sprintf(__('¡Hola Bienvenido a Fex!', 'wc-pickit'), get_option('blogname')) ?>
                     </h1>

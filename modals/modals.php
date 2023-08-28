@@ -148,11 +148,13 @@ function agregar_modal_fex()
                     //confirmar método de envío
                     $('.fex-confirm-button').click(function () {
                         event.preventDefault();
+                        var valorSeleccionado = $('input[name="radio"]:checked').val();
                         $.ajax({
                             url: '<?php echo admin_url('admin-ajax.php'); ?>',
                             type: 'POST',
                             data: {
                                 action: 'save_config',
+                                 vehicle: valorSeleccionado,
                             },
                             dataType: 'json',
                             success: function (response) {
@@ -362,8 +364,8 @@ function agregar_modal_fex_programado()
                             dataType: 'json',
                             success: function (response) {
                                 if (response === "false") {
-                                    // window.alert("Debes dar acceso a tu ubiación");
-                                    // window.location.reload()     
+                                    window.alert("Debes dar acceso a tu ubiación");
+                                    window.location.reload()     
                                 } else {
                                     overlay.style.display = 'none';
                                     var h3Element = $(`<h3 class="fex-price-text">Precio: <span class="fex-price">$${response}</span></h3>`);
@@ -384,6 +386,7 @@ function agregar_modal_fex_programado()
                     //confirmar método de envío
                     $('.fex-my-modal').submit(function (event) {
                         event.preventDefault()
+                        var valorSeleccionado = $('input[name="radio"]:checked').val();
                         var date = $("#date-fex").val()
                         var time = $("#time-fex").val()
                         $.ajax({
@@ -391,6 +394,7 @@ function agregar_modal_fex_programado()
                             type: 'POST',
                             data: {
                                 action: 'save_config',
+                                vehicle: valorSeleccionado,
                                 time: time,
                                 date: date,
                                 programado: `${date} ${time}:00`

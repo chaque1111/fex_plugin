@@ -43,8 +43,9 @@ function adjust_shipping_rate($rates)
     global $woocommerce;
     foreach ($rates as $rate) {
         if ($rate->method_id === "fex_express_shipping_method" || $rate->method_id === "fex_programado_shipping_method") {
-            $cost = $rate->cost;
-            $rate->cost = $_COOKIE['shipping_city_cost'];
+            if(isset($_COOKIE['fex_shipping_cost'])){
+                $rate->cost = $_COOKIE['fex_shipping_cost'];
+            }
         }
     }
     return $rates;

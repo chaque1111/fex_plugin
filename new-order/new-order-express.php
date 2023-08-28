@@ -1,4 +1,38 @@
 <?php
+session_start();
+function fex_express_validation($passed, $checkout)
+{
+    // Obtén el ID del método de envío seleccionado
+    $chosen_shipping_method = WC()->session->get('chosen_shipping_methods')[0];
+
+    // Define el ID del método de envío que quieres validar
+    $metodo_envio_validar = 'fex_express_shipping_method'; // Cambia esto por el ID correcto
+
+    if ($chosen_shipping_method === $metodo_envio_validar) {
+        // Realiza tu validación aquí
+        if (!is_user_logged_in()) {
+            wc_add_notice('Debes iniciar sesión para usar el método de envío de Fex', 'error');
+            $passed = false;
+            return;
+        }
+        if (!isset($_SESSION["client_latitude"]) && !isset($_SESSION["client_longitude"])) {
+            wc_add_notice('Para usar el método de envío de fex debes darnos acceso a tu ubicación', 'error');
+            wc_add_notice('Asegúrate de que los permisos de ubicación estén activados', 'error');
+            $passed = false;
+            return;
+        }
+        if (!isset($_SESSION["vehicle"])) {
+            wc_add_notice('Necesita configurar un vehiculo para el método de envio Fex', 'error');
+            $passed = false;
+            return;
+        }
+    }
+
+    return $passed;
+}
+add_filter('woocommerce_after_checkout_validation', 'fex_express_validation', 10, 2);
+
+
 add_action('woocommerce_checkout_order_processed', 'fex_flete_express', 10, 1);
 
 function fex_flete_express($order_id)
@@ -7,7 +41,6 @@ function fex_flete_express($order_id)
     $order = wc_get_order($order_id);
 
     // Obtener el identificador del método de envío
-    session_start();
     $info_client = $order->get_address('shipping');
     $customer_id = $order->get_customer_id();
 
@@ -46,7 +79,12 @@ function fex_flete_express($order_id)
         );
         $context = stream_context_create($options);
         $response = file_get_contents($server_url, false, $context);
-
+        unset($_SESSION['client_latitude']);
+        unset($_SESSION['client_longitude']);
+        unset($_SESSION['vehicle']);
+        unset($_SESSION['vehicle_calculate']);
+        unset($_SESSION['price_calculate']);
+        unset($_SESSION['programado']);
         // Verificar la respuesta del servidor externo
         if ($response === false) {
             error_log('Error al enviar la solicitud.');

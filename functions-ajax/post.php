@@ -68,15 +68,15 @@ function save_config_ajax_callback()
 {
     session_start();
     if (isset($_SESSION["vehicle_calculate"]) && isset($_SESSION["price_calculate"])) {
-        if ($_POST["programado"]) {
+        if ($_POST["programado"] && $_POST["vehicle"]) {
             $_SESSION["programado"] = $_POST["programado"];
             $_SESSION["date"] = $_POST["date"];
             $_SESSION["time"] = $_POST["time"];
         }
-        $_SESSION["vehicle"] = $_SESSION["vehicle_calculate"];
+        $_SESSION["vehicle"] = $_POST["vehicle"];
         $_SESSION["price"] = $_SESSION["price_calculate"];
-        setcookie('shipping_city_cost', $_SESSION["price_calculate"], time() + (60 * 20), '/');
-        $_COOKIE['shipping_city_cost'] = $_SESSION["price_calculate"];
+        setcookie('fex_shipping_cost', $_SESSION["price_calculate"], time() + (60 * 20), '/');
+        $_COOKIE['fex_shipping_cost'] = $_SESSION["price_calculate"];
         $packages = WC()->cart->get_shipping_packages();
         foreach ($packages as $package_key => $package) {
             WC()->session->set('shipping_for_package_' . $package_key, false);

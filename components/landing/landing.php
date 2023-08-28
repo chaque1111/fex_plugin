@@ -60,7 +60,7 @@ include_once "landing-functions.php";
                         <?= sprintf(__('¡Hola Bienvenido a Fex!', 'wc-pickit'), get_option('blogname')) ?>
                     </h1>
                     <p>
-                        <?php echo __("Gracias por comenzar a usar la aplicación de <strong>fex</strong> para <strong>WooCommerce</strong>, Para continuar con el proceso de configuración, es necesario que ya cuentes con una cuenta en <strong>fex</strong>. Si aún no la tienes, <a class='create_account_link' href='#' target='_blank'> Crea tu cuenta aquí.</a>", 'wc-pickit') ?>
+                        <?php echo __("Gracias por comenzar a usar la aplicación de <strong>fex</strong> para <strong>WooCommerce</strong>, Para continuar con el proceso de configuración, es necesario que ya cuentes con una cuenta en <strong>fex</strong>. Si aún no la tienes, <a class='create_account_link' href='https://fex.cl/fex_api/usuario/index/inicio' target='_blank'> Crea tu cuenta aquí.</a>", 'wc-pickit') ?>
                     </p>
                     <img class="left-pane-img" src="<?php echo esc_url($pickit_left_pane_img) ?>">
                 </div>
@@ -71,13 +71,12 @@ include_once "landing-functions.php";
                         <?php echo __('Ingresá tus credenciales de Fex', 'wc-picki') ?>
                     </h2>
                     <p>
-                        <?php echo __('¿No conocés tu Access Key? <a class="contact_link" href="#" target="_blank" >Contáctanos</a>', 'wc-picki') ?>
+                        <?php echo __('¿No conocés tu Access Key? <a class="contact_link" href="https://fex.cl/index.php#support" target="_blank" >Contáctanos</a>', 'wc-picki') ?>
                     </p>
                     <br><br>
                     <form method="post">
                         <?php settings_fields('wc-pickit-settings-onboarding'); ?>
                         <?php do_settings_sections('wc-pickit-settings-onboarding'); ?>
-
                         <label for="wc-pickit-api-key" required>
                             <?php echo __('Access Key', 'wc-pickit') ?>
                         </label>
@@ -87,11 +86,11 @@ include_once "landing-functions.php";
                         </label>
                         <select name="country" id="country">
                             <option value="" id="placeholder-country">Seleccione el país donde opera su tienda</option>
-                            <option value="Argentina">Argentina</option>
+                            <!-- <option value="Argentina">Argentina</option> -->
                             <option value="Chile">Chile</option>
-                            <option value="México">México</option>
+                            <!-- <option value="México">México</option>
                             <option value="Perú">Perú</option>
-                            <option value="Uruguay">Uruguay</option>
+                            <option value="Uruguay">Uruguay</option> -->
                         </select>
 
 

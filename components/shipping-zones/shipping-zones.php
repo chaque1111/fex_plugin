@@ -38,11 +38,12 @@ include_once "shipping-functions.php";
             <li>Si tu navegador solicita permiso para acceder a tu ubicación, por favor acepta para que podamos capturar
                 automáticamente las coordenadas.</li>
             <li>Si prefieres ingresar las coordenadas manualmente, puedes hacerlo en los campos correspondientes.</li>
+            <li>Verifica en el mapa si las coordenadas son correctas, si es así guarda tu configuración.</li>
         </ol>
-        <p>Recuerda que la precisión de las coordenadas dependerá de la calidad de la señal GPS o la dirección que
-            proporciones. Si tienes problemas para obtener las coordenadas, verifica que tu dispositivo tenga activada
-            la
-            función de geolocalización y esté conectado a Internet.</p>
+        <p>Recuerda asegurarte de que tu dispositivo tenga activada la función de geolocalización y esté conectado a
+            Internet.</p>
+
+
         <p>Si necesitas ayuda adicional o tienes alguna pregunta, no dudes en contactarnos.</p>
         <p>¡Gracias y esperamos que disfrutes utilizando Fex!</p>
     </div>
@@ -66,22 +67,23 @@ include_once "shipping-functions.php";
                 <?php echo $direccion['calle']; ?>
             </p>
         </div>
-    </div>
-    <button id="obtain-cors">Obtener cordenadas</button>
-    <div id="contain-info" class="ubication-info-hidden">
-        <div id="map" style="width: 621px; height: 400px;"></div>
+        <button id="obtain-cors">Obtener cordenadas</button>
+        <div id="contain-info" class="ubication-info-hidden">
+            <div id="map" style="width: 621px; height: 400px;"></div>
 
-        <form method="post" id="coordinates-form">
-            <label for="latitude">Latitud:</label>
-            <input type="text" name="latitude" id="latitude" required>
-            <label for="longitude">Longitud:</label>
-            <input type="text" name="longitude" id="longitude" required>
-            <button id="verify-cors">Verificar coordenadas en el mapa</button>
-            <p>Si toda la información es correcta guarde la configuración de su tienda</p>
-            <input type="submit" id="save-shipping-zones" value="guardar configuración">
-        </form>
+            <form method="post" id="coordinates-form">
+                <label for="latitude">Latitud:</label>
+                <input type="text" name="latitude" id="latitude" required>
+                <label for="longitude">Longitud:</label>
+                <input type="text" name="longitude" id="longitude" required>
+
+                <p>Si toda la información es correcta guarde la configuración de su tienda</p>
+                <input type="submit" id="save-shipping-zones" value="Guardar configuración">
+            </form>
+        </div>
     </div>
 </div>
+
 
 <?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) { ?>
     <script>
@@ -96,14 +98,48 @@ include_once "shipping-functions.php";
 <script>
     (function ($) {
         $(document).ready(function () {
+            if (<?php echo get_option("shipping_zones_is_config") ?>) {
+
+                console.log(<?php echo get_option("get_fex_latitude") ?>, <?php echo get_option("get_fex_longitude") ?>)
+
+                $("#contain-info").addClass("ubication-info");
+                const coordinatesForm = $("#coordinates-form");
+                const latitudeInput = $("#latitude");
+                const longitudeInput = $("#longitude");
+                latitudeInput.val(<?php echo get_option("get_fex_latitude") ?>);
+                longitudeInput.val(<?php echo get_option("get_fex_longitude") ?>);
+                jQuery(document).ready(function ($) {
+                    map = L.map('map').setView([-34.6118, -58.4173], 3);
+                    // Agrega una capa de mapa base (por ejemplo, Mapbox Streets)
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(map);
+
+                    marker = L.marker([latitudeInput.val(), longitudeInput.val()]).addTo(map)
+                })
+            }
             $("#obtain-cors").click(function () {
-                const containInfo = document.getElementById("contain-info")
-                containInfo.classList.toggle("ubication-info");
+                $("#contain-info").addClass("ubication-info");
                 const coordinatesForm = $("#coordinates-form");
                 const latitudeInput = $("#latitude");
                 const longitudeInput = $("#longitude");
 
-                if (navigator.geolocation) {
+                if (navigator.geolocation && <?php echo get_option("shipping_zones_is_config") ?>) {
+                    navigator.geolocation.getCurrentPosition(
+                        function (position) {
+                            latitudeInput.val(position.coords.latitude);
+                            longitudeInput.val(position.coords.longitude);
+                            jQuery(document).ready(function ($) {
+                                marker.setLatLng([latitudeInput.val(), longitudeInput.val()]);
+                                map.setView([-34.6118, -58.4173], 3);
+                            })
+                        },
+                        function (error) {
+                            console.log("Error al obtener la ubicación: ", error.message);
+                        }
+                    );
+                }
+                else if (navigator.geolocation && !<?php echo get_option("shipping_zones_is_config") ?>) {
                     navigator.geolocation.getCurrentPosition(
                         function (position) {
                             latitudeInput.val(position.coords.latitude);
@@ -122,20 +158,30 @@ include_once "shipping-functions.php";
                             console.log("Error al obtener la ubicación: ", error.message);
                         }
                     );
-                } else {
-                    console.log("Geolocalización no es soportada en este navegador.");
                 }
+
             })
         });
     })(jQuery);
 </script>
 <script>
     jQuery(document).ready(function ($) {
-        $("#verify-cors").click(function (event) {
-            event.preventDefault()
+        $("#coordinates-form").keydown(function (event) {
+            if (event.keyCode === 13) { // Código de tecla "Enter"
+                event.preventDefault(); // Evita el comportamiento predeterminado (enviar el formulario)
+            }
+        })
+        $("#latitude").change(function (event) {
             const latitudeInput = $("#latitude");
             const longitudeInput = $("#longitude");
-            console.log(latitudeInput.val(), longitudeInput.val())
+            jQuery(document).ready(function ($) {
+                marker.setLatLng([latitudeInput.val(), longitudeInput.val()]);
+                map.setView([-34.6118, -58.4173], 3);
+            })
+        })
+        $("#longitude").change(function (event) {
+            const latitudeInput = $("#latitude");
+            const longitudeInput = $("#longitude");
             jQuery(document).ready(function ($) {
                 marker.setLatLng([latitudeInput.val(), longitudeInput.val()]);
                 map.setView([-34.6118, -58.4173], 3);

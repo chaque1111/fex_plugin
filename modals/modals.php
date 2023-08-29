@@ -35,7 +35,7 @@ function agregar_modal_fex()
 
                         });
                     } else {
-                        console.log("La geolocalización no está disponible en este navegador.");
+                        alert("La geolocalización no está disponible en este navegador.");
                     }
 
                     // Mostrar el modal aquí
@@ -100,6 +100,9 @@ function agregar_modal_fex()
                            </class=span></h3></div>
                            <button class="fex-confirm-button" disabled>Confirmar método de envío</button>
                          </form> `;
+                     $('.fex-my-modal').fadeOut(function () {
+                                        $(this).remove();
+                                    });     
                     $('body').append(modalContent);
                     //cerrar modal
                     $('.fex-close-button').click(function () {
@@ -160,7 +163,6 @@ function agregar_modal_fex()
                             success: function (response) {
                                 console.log(response)
                                 if (response === true) {
-
                                     window.location.reload()
                                     $('.fex-my-modal').fadeOut(function () {
                                         $(this).remove();
@@ -219,7 +221,7 @@ function agregar_modal_fex_programado()
 
                         });
                     } else {
-                        console.log("La geolocalización no está disponible en este navegador.");
+                        alert("La geolocalización no está disponible en este navegador.");
                     }
                     <?php
                     $nextMonth = new DateTime();
@@ -299,7 +301,9 @@ function agregar_modal_fex_programado()
                            ?>                     
                              <input type="submit" class="fex-confirm-button" disabled value="Confirmar método de envío"/input>
                            </form>`;
-
+                     $('.fex-my-modal').fadeOut(function () {
+                                        $(this).remove();
+                                    });
                     $('body').append(modalContent);
                     //validación de fechas
                     $('#date-fex').on('blur', function () {

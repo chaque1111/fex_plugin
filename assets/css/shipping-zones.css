@@ -1,7 +1,7 @@
-.container{
-     display: flex;
-     flex-direction: column;
-     align-items: center;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .steps-container {
@@ -21,29 +21,32 @@ ol {
   list-style-type: decimal;
   padding-left: 0px;
 }
-li{
+li {
   font-size: 14px;
 }
-p { 
-   font-size: 15px;
+p {
+  font-size: 15px;
   margin-bottom: 10px;
 }
 
-.container-info{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  max-width: 600px;
-  margin: 50px auto;
+.container-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: 700px;
+  margin: 0px auto;
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.ubication-info-hidden{
-  visibility: hidden;
-  display:  none;
+.address-info {
+  flex: 1;
 }
-.ubication-info{
+.ubication-info-hidden {
+  visibility: hidden;
+  display: none;
+}
+.ubication-info {
   visibility: visible;
   display: block;
 }

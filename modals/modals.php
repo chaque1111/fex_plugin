@@ -40,69 +40,67 @@ function agregar_modal_fex()
 
                     // Mostrar el modal aquí
                     var modalContent = `
-                            <form class="fex-my-modal">
-                            <div class="fex-overlay"></div> 
-                            <button class="fex-close-button">x</button>
-                            <h2 class="fex-title-fex">Fex express</h2>
-                            <p class="fex-description-shipping">¡Tus productos llegan en 30 minutos en la ciudad de Santiago!</p>
-                            <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
-                           <p class="fex-p-fex">¡Recuerda que el precio se calcula según tu ubiación actual!</p>
-                           <div class="fex-contain-vehicles">
-                           <div  class="fex-contain-moto">
-                           <img class="fex-vehicle-icon" style="width: 60px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
-                           <label class="fex-container">Moto
-                           <input class="fex-input-vehicle" value="1" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "1") ? "checked" : ""; ?> type="radio" name="radio">
-                           <span class="fex-checkmark"></span>
-                           </div>
-                           <div class="fex-contain-opt">
-                           <img class="fex-vehicle-icon" style="width: 105px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/auto_fex.png') ?>">
-                           <label class="fex-container">Auto
-                           <input class="fex-input-vehicle" value="2" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "2") ? "checked" : ""; ?> type="radio" name="radio">
-                           <span class="fex-checkmark"></span>
-                           </div>
-                           <div class="fex-contain-opt">
-                           <img class="fex-vehicle-icon" style="width: 100px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/furgon_fex.png') ?>">
-                           <label class="fex-container">Furgón
-                           <input class="fex-input-vehicle" value="3" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "3") ? "checked" : ""; ?> type="radio" name="radio">
-                            <span class="fex-checkmark"></span>
-                              </div>
-                              <div class="fex-contain-opt">
-                              <img class="fex-vehicle-icon" style="width: 150px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camioneta_fex.png') ?>">
-                              <label class="fex-container">Camioneta
-                              <input class="fex-input-vehicle" value="5" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "5") ? "checked" : ""; ?> type="radio" name="radio">
-                              <span class="fex-checkmark"></span>
-                              </div>
-                              <div class="fex-contain-opt">
-                              <img class="fex-vehicle-icon" style="width: 155px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_abierto_fex.png') ?>">
-                              <label class="fex-container">Camión abierto
-                              <input class="fex-input-vehicle" value="7" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "7") ? "checked" : ""; ?> type="radio" name="radio">
-                              <span class="fex-checkmark"></span>
-                              </div>
-                              <div class="fex-contain-opt">
-                              <img class="fex-vehicle-icon" style="width: 105px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_cerrado_fex.png') ?>">
-                              <label class="fex-container">Camión cerrado
-                              <input class="fex-input-vehicle" value="8" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "8") ? "checked" : ""; ?> type="radio" name="radio">
-                              <span class="fex-checkmark"></span>
-                              </div>
-                              </div>
-                              <p class="fex-p-fex">Debes darnos acceso a tu ubiación para poder calcular el precio del envío</p>
-                              <div class="fex-price-container"><h3 class="fex-price-text">Precio: <span class="fex-price">
-                              <?php
-
-
-                              if (isset($_SESSION["price"])) {
-                                  echo "$" . $_SESSION["price"];
-                              }
-                              else {
-                                  echo "$0";
-                              }
-                              ?>
-                           </class=span></h3></div>
-                           <button class="fex-confirm-button" disabled>Confirmar método de envío</button>
-                         </form> `;
-                     $('.fex-my-modal').fadeOut(function () {
-                                        $(this).remove();
-                                    });     
+                    <form class="fex-my-modal">
+                    <div class="fex-overlay"></div> 
+                    <button class="fex-close-button">x</button>
+                    <h2 class="fex-title-fex">Fex express</h2>
+                    <p class="fex-description-shipping">¡Tus productos llegan en 30 minutos en la ciudad de Santiago!</p>
+                    <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
+                    <p class="fex-p-fex">¡Recuerda que el precio se calcula según tu ubiación actual!</p>
+                    <div class="fex-contain-vehicles">
+                    <div  class="fex-contain-moto">
+                    <img class="fex-vehicle-icon" style="width: 60px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
+                    <label class="fex-container">Moto
+                    <input class="fex-input-vehicle" value="1" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "1") ? "checked" : ""; ?> type="radio" name="radio">
+                    <span class="fex-checkmark"></span>
+                    </div>
+                    <div class="fex-contain-opt">
+                    <img class="fex-vehicle-icon" style="width: 105px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/auto_fex.png') ?>">
+                    <label class="fex-container">Auto
+                    <input class="fex-input-vehicle" value="2" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "2") ? "checked" : ""; ?> type="radio" name="radio">
+                    <span class="fex-checkmark"></span>
+                    </div>
+                    <div class="fex-contain-opt">
+                    <img class="fex-vehicle-icon" style="width: 100px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/furgon_fex.png') ?>">
+                    <label class="fex-container">Furgón
+                    <input class="fex-input-vehicle" value="3" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "3") ? "checked" : ""; ?> type="radio" name="radio">
+                    <span class="fex-checkmark"></span>
+                      </div>
+                      <div class="fex-contain-opt">
+                      <img class="fex-vehicle-icon" style="width: 150px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camioneta_fex.png') ?>">
+                      <label class="fex-container">Camioneta
+                      <input class="fex-input-vehicle" value="5" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "5") ? "checked" : ""; ?> type="radio" name="radio">
+                      <span class="fex-checkmark"></span>
+                      </div>
+                      <div class="fex-contain-opt">
+                      <img class="fex-vehicle-icon" style="width: 155px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_abierto_fex.png') ?>">
+                      <label class="fex-container">Camión abierto
+                      <input class="fex-input-vehicle" value="7" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "7") ? "checked" : ""; ?> type="radio" name="radio">
+                      <span class="fex-checkmark"></span>
+                      </div>
+                      <div class="fex-contain-opt">
+                      <img class="fex-vehicle-icon" style="width: 105px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_cerrado_fex.png') ?>">
+                      <label class="fex-container">Camión cerrado
+                      <input class="fex-input-vehicle" value="8" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "8") ? "checked" : ""; ?> type="radio" name="radio">
+                      <span class="fex-checkmark"></span>
+                      </div>
+                      </div>
+                      <p class="fex-p-fex">Debes darnos acceso a tu ubiación para poder calcular el precio del envío</p>
+                      <div class="fex-price-container"><h3 class="fex-price-text">Precio: <span class="fex-price">
+                      <?php
+                      if (isset($_SESSION["price"])) {
+                          echo "$" . $_SESSION["price"];
+                      }
+                      else {
+                          echo "$0";
+                      }
+                      ?>
+                   </class=span></h3></div>
+                   <button class="fex-confirm-button" disabled>Confirmar método de envío</button>
+                 </form> `;
+                    $('.fex-my-modal').fadeOut(function () {
+                        $(this).remove();
+                    });
                     $('body').append(modalContent);
                     //cerrar modal
                     $('.fex-close-button').click(function () {
@@ -129,8 +127,8 @@ function agregar_modal_fex()
                             dataType: 'json',
                             success: function (response) {
                                 if (response === "false") {
-                                    // window.alert("Debes dar acceso a tu ubiación");
-                                    // window.location.reload()     
+                                    window.alert("Debes dar acceso a tu ubiación");
+                                    overlay.style.display = 'none';
                                 } else {
                                     overlay.style.display = 'none';
                                     var h3Element = $(`<h3 class="fex-price-text">Precio: <span class="fex-price">$${response}</span></h3>`);
@@ -157,7 +155,7 @@ function agregar_modal_fex()
                             type: 'POST',
                             data: {
                                 action: 'save_config',
-                                 vehicle: valorSeleccionado,
+                                vehicle: valorSeleccionado,
                             },
                             dataType: 'json',
                             success: function (response) {
@@ -230,80 +228,79 @@ function agregar_modal_fex_programado()
 
                     // Mostrar el modal aquí
                     var modalContent = `
-                       <form class="fex-my-modal">
-                        <div class="fex-overlay"></div> 
-                       <button class="fex-close-button">x</button>
-                         <h2 class="fex-title-fex">Fex programado</h2>
-                         <p class="fex-description-shipping">¡Programa la fecha y hora en la que quieres recibir tus productos!</p>
-                         <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
-                         <p class="fex-p-fex">¡Recuerda que el precio se calcula según tu ubiación actual!</p>
-                        <div class="fex-contain-vehicles">
-                             <div  class="fex-contain-moto">
-                               <img class="fex-vehicle-icon" style="width: 60px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
-                                <label class="fex-container">Moto
-                                    <input class="fex-input-vehicle" value="1" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "1") ? "checked" : ""; ?> type="radio" name="radio">
-                                   <span class="fex-checkmark"></span>
-                           </div>
-                           <div class="fex-contain-opt">
-                               <img class="fex-vehicle-icon" style="width: 105px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/auto_fex.png') ?>">
-                                  <label class="fex-container">Auto
-                                    <input class="fex-input-vehicle" value="2" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "2") ? "checked" : ""; ?> type="radio" name="radio">
-                                     <span class="fex-checkmark"></span>
-                            </div>
-                            <div class="fex-contain-opt">
-                                <img class="fex-vehicle-icon" style="width: 100px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/furgon_fex.png') ?>">
-                                <label class="fex-container">Furgón
-                                    <input class="fex-input-vehicle" value="3" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "3") ? "checked" : ""; ?> type="radio" name="radio">
-                                     <span class="fex-checkmark"></span>
-                            </div>
-                             <div class="fex-contain-opt">
-                               <img class="fex-vehicle-icon" style="width: 150px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camioneta_fex.png') ?>">
-                               <label class="fex-container">Camioneta
-                                   <input class="fex-input-vehicle" value="5" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "5") ? "checked" : ""; ?> type="radio" name="radio">
-                                   <span class="fex-checkmark"></span>
-                           </div>
-                           <div class="fex-contain-opt">
-                                <img class="fex-vehicle-icon" style="width: 155px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_abierto_fex.png') ?>">
-                               <label class="fex-container">Camión abierto
-                                    <input class="fex-input-vehicle" value="7" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "7") ? "checked" : ""; ?> type="radio" name="radio">
-                                   <span class="fex-checkmark"></span>
-                                                               </div>
-                           <div class="fex-contain-opt">
-                                 <img class="fex-vehicle-icon" style="width: 105px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_cerrado_fex.png') ?>">
-                                <label class="fex-container">Camión cerrado
-                                      <input class="fex-input-vehicle" value="8" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "8") ? "checked" : ""; ?> type="radio" name="radio">
-                                      <span class="fex-checkmark"></span>
-                            </div>
-                         </div>
-                         <p class="fex-p-fex">Debes darnos acceso a tu ubiación para poder calcular el precio del envío</p>
-                         <div class="fex-price-container"><h3 class="fex-price-text">Precio: <span class="fex-price">                 
-                         <?php
-                         if (isset($_SESSION["price"])) {
-                             echo "$" . $_SESSION["price"];
-                         }
-                         else {
-                             echo "$0";
-                         }
-                         ?>
-                        
-                         </class=span></h3></div>
-                         <p class="fex-p-fex">Programa la fecha y hora en la que te llegará el producto</p>             
-                           <?php
-                           //inputs de fecha php
-                           if (isset($_SESSION["programado"])) {
-                               echo '<input id="date-fex" type="date" min=' . date('Y-m-d') . ' max=' . $nextMonth->format('Y-m-28') . ' value=' . $_SESSION["date"] . ' required/>';
-                               echo '<input type="time" id="time-fex"  min="08:00" max="22:00" value=' . $_SESSION["time"] . ' required />';
-                           }
-                           else {
-                               echo '<input id="date-fex" type="date" min=' . date('Y-m-d') . ' max=' . $nextMonth->format('Y-m-28') . ' value=' . date('Y-m-d') . ' required/>';
-                               echo '<input type="time" id="time-fex"  min="08:00" max="22:00" required />';
-                           }
-                           ?>                     
-                             <input type="submit" class="fex-confirm-button" disabled value="Confirmar método de envío"/input>
-                           </form>`;
-                     $('.fex-my-modal').fadeOut(function () {
-                                        $(this).remove();
-                                    });
+                 <form class="fex-my-modal">
+                  <div class="fex-overlay"></div> 
+                 <button class="fex-close-button">x</button>
+                   <h2 class="fex-title-fex">Fex programado</h2>
+                   <p class="fex-description-shipping">¡Programa la fecha y hora en la que quieres recibir tus productos!</p>
+                   <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
+                   <p class="fex-p-fex">¡Recuerda que el precio se calcula según tu ubiación actual!</p>
+                  <div class="fex-contain-vehicles">
+                       <div  class="fex-contain-moto">
+                         <img class="fex-vehicle-icon" style="width: 60px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
+                          <label class="fex-container">Moto
+                              <input class="fex-input-vehicle" value="1" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "1") ? "checked" : ""; ?> type="radio" name="radio">
+                             <span class="fex-checkmark"></span>
+                     </div>
+                     <div class="fex-contain-opt">
+                         <img class="fex-vehicle-icon" style="width: 105px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/auto_fex.png') ?>">
+                            <label class="fex-container">Auto
+                              <input class="fex-input-vehicle" value="2" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "2") ? "checked" : ""; ?> type="radio" name="radio">
+                               <span class="fex-checkmark"></span>
+                      </div>
+                      <div class="fex-contain-opt">
+                          <img class="fex-vehicle-icon" style="width: 100px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/furgon_fex.png') ?>">
+                          <label class="fex-container">Furgón
+                              <input class="fex-input-vehicle" value="3" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "3") ? "checked" : ""; ?> type="radio" name="radio">
+                               <span class="fex-checkmark"></span>
+                      </div>
+                       <div class="fex-contain-opt">
+                         <img class="fex-vehicle-icon" style="width: 150px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camioneta_fex.png') ?>">
+                         <label class="fex-container">Camioneta
+                             <input class="fex-input-vehicle" value="5" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "5") ? "checked" : ""; ?> type="radio" name="radio">
+                             <span class="fex-checkmark"></span>
+                     </div>
+                     <div class="fex-contain-opt">
+                          <img class="fex-vehicle-icon" style="width: 155px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_abierto_fex.png') ?>">
+                         <label class="fex-container">Camión abierto
+                              <input class="fex-input-vehicle" value="7" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "7") ? "checked" : ""; ?> type="radio" name="radio">
+                             <span class="fex-checkmark"></span>
+                                                         </div>
+                     <div class="fex-contain-opt">
+                           <img class="fex-vehicle-icon" style="width: 105px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_cerrado_fex.png') ?>">
+                          <label class="fex-container">Camión cerrado
+                                <input class="fex-input-vehicle" value="8" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "8") ? "checked" : ""; ?> type="radio" name="radio">
+                                <span class="fex-checkmark"></span>
+                      </div>
+                   </div>
+                   <p class="fex-p-fex">Debes darnos acceso a tu ubiación para poder calcular el precio del envío</p>
+                   <div class="fex-price-container"><h3 class="fex-price-text">Precio: <span class="fex-price">                 
+                   <?php
+                   if (isset($_SESSION["price"])) {
+                       echo "$" . $_SESSION["price"];
+                   }
+                   else {
+                       echo "$0";
+                   }
+                   ?>
+                   </class=span></h3></div>
+                   <p class="fex-p-fex">Programa la fecha y hora en la que te llegará el producto</p>             
+                     <?php
+                     //inputs de fecha php
+                     if (isset($_SESSION["programado"])) {
+                         echo '<input id="date-fex" type="date" min=' . date('Y-m-d') . ' max=' . $nextMonth->format('Y-m-28') . ' value=' . $_SESSION["date"] . ' required/>';
+                         echo '<input type="time" id="time-fex"  min="08:00" max="22:00" value=' . $_SESSION["time"] . ' required />';
+                     }
+                     else {
+                         echo '<input id="date-fex" type="date" min=' . date('Y-m-d') . ' max=' . $nextMonth->format('Y-m-28') . ' value=' . date('Y-m-d') . ' required/>';
+                         echo '<input type="time" id="time-fex"  min="08:00" max="22:00" required />';
+                     }
+                     ?>                     
+                       <input type="submit" class="fex-confirm-button" disabled value="Confirmar método de envío"/input>
+                     </form>`;
+                    $('.fex-my-modal').fadeOut(function () {
+                        $(this).remove();
+                    });
                     $('body').append(modalContent);
                     //validación de fechas
                     $('#date-fex').on('blur', function () {
@@ -367,9 +364,9 @@ function agregar_modal_fex_programado()
                             },
                             dataType: 'json',
                             success: function (response) {
-                                if (response === "false") {
+                                if (response === "false") {                              
                                     window.alert("Debes dar acceso a tu ubiación");
-                                    window.location.reload()     
+                                    overlay.style.display = 'none';
                                 } else {
                                     overlay.style.display = 'none';
                                     var h3Element = $(`<h3 class="fex-price-text">Precio: <span class="fex-price">$${response}</span></h3>`);

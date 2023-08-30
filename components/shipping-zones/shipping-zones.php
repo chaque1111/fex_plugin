@@ -48,11 +48,12 @@ include_once "shipping-functions.php";
         <p>¡Gracias y esperamos que disfrutes utilizando Fex!</p>
     </div>
     <div class="container-info">
-        <h1>Información de Dirección</h1>
-        <h2>
-            La información de dirección proporcionada es de su tienda WooCommerce.
-        </h2>
+
         <div class="address-info">
+            <h1>Información de Dirección</h1>
+            <h2>
+                La información de dirección proporcionada es de su tienda WooCommerce.
+            </h2>
             <p><strong>Pais:</strong>
                 Chile
             </p>
@@ -67,19 +68,21 @@ include_once "shipping-functions.php";
                 <?php echo $direccion['calle']; ?>
             </p>
         </div>
-        <button id="obtain-cors">Obtener cordenadas</button>
-        <div id="contain-info" class="ubication-info-hidden">
-            <div id="map" style="width: 621px; height: 400px;"></div>
+        <div>
+            <button id="obtain-cors">Obtener cordenadas</button>
+            <div id="contain-info" class="ubication-info-hidden">
+                <div id="map" style="width: 500px; height: 400px;"></div>
 
-            <form method="post" id="coordinates-form">
-                <label for="latitude">Latitud:</label>
-                <input type="text" name="latitude" id="latitude" required>
-                <label for="longitude">Longitud:</label>
-                <input type="text" name="longitude" id="longitude" required>
+                <form method="post" id="coordinates-form">
+                    <label for="latitude">Latitud:</label>
+                    <input type="text" name="latitude" id="latitude" required>
+                    <label for="longitude">Longitud:</label>
+                    <input type="text" name="longitude" id="longitude" required>
 
-                <p>Si toda la información es correcta guarde la configuración de su tienda</p>
-                <input type="submit" id="save-shipping-zones" value="Guardar configuración">
-            </form>
+                    <p>Si toda la información es correcta guarde la configuración de su tienda</p>
+                    <input type="submit" id="save-shipping-zones" value="Guardar configuración">
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -99,9 +102,6 @@ include_once "shipping-functions.php";
     (function ($) {
         $(document).ready(function () {
             if (<?php echo get_option("shipping_zones_is_config") ?>) {
-
-                console.log(<?php echo get_option("get_fex_latitude") ?>, <?php echo get_option("get_fex_longitude") ?>)
-
                 $("#contain-info").addClass("ubication-info");
                 const coordinatesForm = $("#coordinates-form");
                 const latitudeInput = $("#latitude");
@@ -166,6 +166,7 @@ include_once "shipping-functions.php";
 </script>
 <script>
     jQuery(document).ready(function ($) {
+
         $("#coordinates-form").keydown(function (event) {
             if (event.keyCode === 13) { // Código de tecla "Enter"
                 event.preventDefault(); // Evita el comportamiento predeterminado (enviar el formulario)

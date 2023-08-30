@@ -2,7 +2,7 @@
 /*
 Plugin Name: Fex Plugin
 Plugin URI: https://holocruxe.com
-Description: Integración Fex WooCommerce. Una solución completamente funcional que integra las API de FEx, capturando y procesando los hooks y eventos requeridos de Woocommerce.
+Description: Agrega los métodos de envío Fex a tu tienda de Woocommerce. Una solución completamente funcional que integra métodos de envío a tu tienda sin modificar su estructura o estilos. El plugin captura y procesa la información o eventos requeridos de tu tienda Woo para mejorar su performance.
 Version: 1.0
 Author: Holocruxe Factory
 Author URI: https://www.linkedin.com/company/holocruxe
@@ -10,18 +10,6 @@ License: GPL2
 */
 
 register_activation_hook(__FILE__, 'fex_add_menu');
-
-// function adjust_shipping_rate($rates)
-// {
-//     global $woocommerce;
-//     foreach ($rates as $rate) {
-//         $cost = $rate->cost;
-//         $rate->cost = 50;
-//     }
-//     return $rates;
-// }
-// add_filter('woocommerce_package_rates', 'adjust_shipping_rate', 50, 1);
-
 
 //Agregar métodos de envío
 include_once plugin_dir_path(__FILE__) . '/shipping/shipping-methods.php';
@@ -35,6 +23,7 @@ include_once plugin_dir_path(__FILE__) . '/functions-ajax/post.php';
 
 //new order express
 include_once plugin_dir_path(__FILE__) . '/new-order/new-order-express.php';
+
 //new order programado
 include_once plugin_dir_path(__FILE__) . '/new-order/new-order-programado.php';
 

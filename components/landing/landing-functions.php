@@ -37,10 +37,10 @@ if (isset($_POST["Ingresar"]) && $_POST["accessKey"] !== "" && $_POST["country"]
         if (!get_option("shipping_zones_is_config")) {
             update_option("shipping_zones_is_config", 0);
         }
-        if (!get_option("shipping_zones_is_config")) {
+        if (!get_option("shipping_times_is_config")) {
             update_option("shipping_times_min", "08:00");
             update_option("shipping_times_max", "22:00");
-            update_option("shipping_times_is_config", 1);
+            update_option("shipping_times_is_config", 0);
         }
         update_option('access_key', $accessKey);
 

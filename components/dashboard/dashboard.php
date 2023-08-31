@@ -2,74 +2,18 @@
 include_once "dashboard-functions.php";
 ?>
 
-<div id="pickit-error" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'fex_menu')) ?>">
-            <span class="close">&times;</span>
-        </a>
-        <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/error.png') ?>">
-        <h2>
-            <?php echo __('Credenciales incorrectas', 'wc-pickit') ?>
-        </h2>
-        <p>
-            <?php echo __('Las credenciales ingresadas son incorrectas.<br>Por favor, vuelve a intentarlo.', 'wc-pickit') ?>
-        </p>
 
-        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'fex_menu')) ?>">
-            <button>
-                <?php echo __('Aceptar', 'wc-pickit') ?>
-            </button>
-        </a>
-    </div>
-</div>
-<!-- verificar si completó la configuración anterior -->
-<div id="pickit-incomplete" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-        <a href="">
-            <span class="close">&times;</span>
-        </a>
-        <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/error.png') ?>">
-        <h2>
-            <?php echo __('Configuración incompleta', 'wc-pickit') ?>
-        </h2>
-        <p>
-            <?php echo __('Necesitas configurar las Zonas de envío y Horarios de envío para comenzar a trabajar.', 'wc-pickit') ?>
-        </p>
-
-        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'shipping_zones')) ?>">
-            <button id="button-error">
-                <?php echo __('Aceptar', 'wc-pickit') ?>
-            </button>
-        </a>
-    </div>
-</div>
 
 <img class="fex-logo" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/fex_app.png') ?>">
 <div class="dashboard-container">
-    <!-- <div class="contain_options">
-        <ul>
-            <div class="contain_opt">
-                <img class="icon_opt" src="<?php echo plugin_dir_url("fex.php") . 'fex/assets/icons/cubo.png'; ?>">
-                <li class="title_opt"> Órdenes</li>
-            </div>
-            <div class="contain_opt">
-                <img class="icon_opt" src="<?php echo plugin_dir_url("fex.php") . 'fex/assets/icons/camion.png'; ?>">
-                <li class="title_opt">Puntos de despacho</li>
-            </div>
-            <div class="contain_opt">
-                <img class="icon_opt" src="<?php echo plugin_dir_url("fex.php") . 'fex/assets/icons/marcador.png'; ?>">
-                <li class="title_opt">Puntos de entrega</li>
-            </div>
-        </ul>
-    </div> -->
+
     <div class="contain_data">
         <div class="contain-opt-data">
             <div class="contain-title-filters">
                 <button type="submit" name="title-filter" class="title-filter" value="title-filter">Todos</button>
                 <button class="title-filter" value="colectar">Por colectar</button>
                 <button class="title-filter" value="entregados">Entregados</button>
+                <button class="title-filter" value="entregados">En camino</button>
                 <button class="title-filter" value="problemas">Con problemas</button>
             </div>
             <div class="contain-seconds-filter">
@@ -200,6 +144,7 @@ include_once "dashboard-functions.php";
     });
 </script>
 
+
 <?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) { ?>
     <script>
         jQuery(document).ready(function () {
@@ -208,12 +153,90 @@ include_once "dashboard-functions.php";
         });
     </script>
 <?php } ?>
-
-<?php if ($_SESSION["authorized"] == true && !get_option("shipping_zones_is_config")) { ?>
+<?php if ($_SESSION["authorized"] == true && !get_option("shipping_zones_is_config") ) { ?>
     <script>
         jQuery(document).ready(function () {
             console.log("NOK");
-            jQuery("#pickit-incomplete").css("display", 'block');
+            jQuery("#pickit-sz-incomplete").css("display", 'block');
         });
     </script>
 <?php } ?>
+<?php if ($_SESSION["authorized"] == true && !get_option("shipping_times_is_config")) { ?>
+    <script>
+        jQuery(document).ready(function () {
+            console.log("NOK");
+            jQuery("#pickit-st-incomplete").css("display", 'block');
+        });
+    </script>
+<?php } ?>
+
+<!-- error logos -->
+
+
+<div id="pickit-error" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'fex_menu')) ?>">
+            <span class="close">&times;</span>
+        </a>
+        <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/error.png') ?>">
+        <h2>
+            <?php echo __('Credenciales incorrectas', 'wc-pickit') ?>
+        </h2>
+        <p>
+            <?php echo __('Las credenciales ingresadas son incorrectas.<br>Por favor, vuelve a intentarlo.', 'wc-pickit') ?>
+        </p>
+
+        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'fex_menu')) ?>">
+            <button>
+                <?php echo __('Aceptar', 'wc-pickit') ?>
+            </button>
+        </a>
+    </div>
+</div>
+
+
+<!-- verificar si completó la configuración zonas -->
+<div id="pickit-sz-incomplete" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <a href="">
+            <span class="close">&times;</span>
+        </a>
+        <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/error.png') ?>">
+        <h2>
+            <?php echo __('Configuración incompleta', 'wc-pickit') ?>
+        </h2>
+        <p>
+            <?php echo __('Necesitas configurar las Zonas de envío para comenzar a trabajar.', 'wc-pickit') ?>
+        </p>
+
+        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'shipping_zones')) ?>">
+            <button id="button-error">
+                <?php echo __('Aceptar', 'wc-pickit') ?>
+            </button>
+        </a>
+    </div>
+</div>
+<!-- verificar si completó la configuración horarios -->
+<div id="pickit-st-incomplete" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <a href="">
+            <span class="close">&times;</span>
+        </a>
+        <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/error.png') ?>">
+        <h2>
+            <?php echo __('Configuración incompleta', 'wc-pickit') ?>
+        </h2>
+        <p>
+            <?php echo __('Necesitas configurar los Horarios de envío para comenzar a trabajar.', 'wc-pickit') ?>
+        </p>
+
+        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'shipping_times')) ?>">
+            <button id="button-error">
+                <?php echo __('Aceptar', 'wc-pickit') ?>
+            </button>
+        </a>
+    </div>
+</div>

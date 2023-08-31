@@ -2,8 +2,6 @@
 wp_enqueue_style('shipping-times', plugin_dir_url("fex.php") . 'fex/assets/css/shipping-times.css');
 wp_enqueue_style('landing-styles', plugin_dir_url("fex.php") . 'fex/assets/css/onboarding.css');
 include_once "times-functions.php";
-echo get_option("shipping_times_min");
-echo get_option("shipping_times_max")
     ?>
 
 <div id="pickit-error" class="modal">
@@ -49,11 +47,21 @@ echo get_option("shipping_times_max")
         horario en el que termina:</p>
     <p>Recuerda debes elegir horarios entre el rango de 8am y 22pm</p>
     <form method="post">
-        <label for="horaInicio">Hora de Inicio de Operación:</label>
-        <input type="time" id="horaInicio" name="horaInicio" min="08:00" max="22:00"><br><br>
-
-        <label for="horaFin">Hora de Fin de Operación:</label>
-        <input type="time" id="horaFin" name="horaFin" min="08:00" max="22:00"><br><br>
+        <?php 
+        if(get_option("shipping_times_is_config")){
+            echo '<label for="horaInicio">Hora de Inicio:</label>';
+            echo '<input type="time" id="horaInicio" name="horaInicio" min="08:00" max="22:00" value=' . get_option("shipping_times_min") . ' required ><br><br> ';
+            echo '<label for="horaFin">Hora de Fin:</label>';
+            echo '<input type="time" id="horaFin" name="horaFin" min="08:00"  value=' . get_option("shipping_times_max") . ' max="22:00" required><br><br>';
+        }
+        else{
+            echo '<label for="horaInicio">Hora de Inicio:</label>';
+            echo '<input type="time" id="horaInicio" name="horaInicio" min="08:00" max="22:00" required><br><br>';
+            echo '<label for="horaFin">Hora de Fin:</label>';
+            echo '<input type="time" id="horaFin" name="horaFin" min="08:00" max="22:00" required><br><br>';
+        }
+        ?>
+       
 
         <button type="submit" class="button">Guardar Horarios</button>
     </form>

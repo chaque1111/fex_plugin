@@ -288,7 +288,8 @@ function agregar_modal_fex_programado()
                            }
                            ?>
                            </class=span></h3></div>
-                           <p class="fex-p-fex">Programa la fecha y hora en la que te llegará el producto</p>             
+                           <p class="fex-p-fex">Programa la fecha y hora en la que te llegará el producto</p>
+                           <p class="fex-p-fex">Ingresa un horario entre las <?php echo $_SESSION["shipping_times_min"]."AM y las ".$_SESSION["shipping_times_max"]."PM" ?></p>                  
                             <?php
                                 if (isset($_SESSION["programado"])) {
                                     $selectedDate = new DateTime();
@@ -333,12 +334,7 @@ function agregar_modal_fex_programado()
                             $('.fex-confirm-button').prop('disabled', false);
         
                     });
-                    $('.fex-my-modal').on('blur', function () {
-              
-                        //disable confirm-button false
-                        $('.fex-confirm-button').prop('disabled', false);
-                       
-                        });
+                   
                         //cerrar modal
                         $('.fex-close-button').click(function () {
                             event.preventDefault();

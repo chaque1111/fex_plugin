@@ -1,6 +1,5 @@
 <?php
 include_once "dashboard-functions.php";
-
 ?>
 
 <div id="pickit-error" class="modal">
@@ -24,6 +23,29 @@ include_once "dashboard-functions.php";
         </a>
     </div>
 </div>
+<!-- verificar si completó la configuración anterior -->
+<div id="pickit-incomplete" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <a href="">
+            <span class="close">&times;</span>
+        </a>
+        <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/error.png') ?>">
+        <h2>
+            <?php echo __('Configuración incompleta', 'wc-pickit') ?>
+        </h2>
+        <p>
+            <?php echo __('Necesitas configurar las Zonas de envío y Horarios de envío para comenzar a trabajar.', 'wc-pickit') ?>
+        </p>
+
+        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'shipping_zones')) ?>">
+            <button id="button-error">
+                <?php echo __('Aceptar', 'wc-pickit') ?>
+            </button>
+        </a>
+    </div>
+</div>
+
 <img class="fex-logo" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/fex_app.png') ?>">
 <div class="dashboard-container">
     <!-- <div class="contain_options">
@@ -112,17 +134,22 @@ include_once "dashboard-functions.php";
     });
 </script>
 
-<?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) { ?>
-    <script>
-        jQuery(document).ready(function () {
-            console.log("NOK");
-            jQuery("#pickit-error").css("display", 'block');
+<script>
+    jQuery(document).ready(function ($) {
+        $.ajax({
+            url: "<?php echo 'https://naboo-production.up.railway.app/flete/' . get_option("access_key"); ?>",
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                // window.apiData = data;
+                console.log(data)
+                renderData(data);
+            },
+            error: function (xhr, status, error) {
+                console.log("Error en la solicitud GET: " + status + ", " + error);
+            }
         });
-    </script>
-<?php }
-else { ?>
-    <script>
-        jQuery(document).ready(function ($) {
+        $(".reload-icon").click(function () {
             $.ajax({
                 url: "<?php echo 'https://naboo-production.up.railway.app/flete/' . get_option("access_key"); ?>",
                 type: "GET",
@@ -136,56 +163,57 @@ else { ?>
                     console.log("Error en la solicitud GET: " + status + ", " + error);
                 }
             });
-            $(".reload-icon").click(function () {
-                $.ajax({
-                    url: "<?php echo 'https://naboo-production.up.railway.app/flete/' . get_option("access_key"); ?>",
-                    type: "GET",
-                    dataType: "json",
-                    success: function (data) {
-                        // window.apiData = data;
-                        console.log(data)
-                        renderData(data);
-                    },
-                    error: function (xhr, status, error) {
-                        console.log("Error en la solicitud GET: " + status + ", " + error);
-                    }
-                });
-            });
-            function renderData(data) {
-                // Obtener el contenedor donde se mostrarán los datos
-                var dataContainer = $(".contain-orders");
-
-                // Limpiar el contenido actual del contenedor
-                dataContainer.empty();
-                function claseStatus(estado) {
-                    if (estado === 0) return "fex-esperando";
-                    if (estado === 2) return "fex-aceptado";
-                    if (estado === 5) return "fex-pagado";
-                    if (estado === 8) return "fex-cargado";
-                    if (estado === 9) return "fex-terminando";
-                    if (estado === 10) return "fex-terminado";
-                    if (estado === 14) return "fex-no-transportista";
-                    if (estado === 16) return "fex-cancelado";
-                    if (estado === 14) return "fex-cacel-system"
-                }
-                // Iterar sobre los datos y crear los elementos HTML correspondientes
-                $.each(data, function (index, item) {
-                    var newElement = $("<div>").addClass("order-fex");
-                    // Aquí puedes personalizar cómo se mostrará cada elemento del JSON en el HTML
-                    var wc_order = $("<h3>").text("#74").addClass("order-woo");
-                    var numero_seg = $("<h3>").text(item.servicio).addClass("num-seg");
-                    var status_fex = $("<h3>").text(`${item.estado === 5 ? "pagado" : item.descripcion}`).addClass(claseStatus(item.estado));
-                    var modo = $("<h3>").text(item.tipo).addClass("modo-fex");
-                    var fecha = $("<h3>").text("25-08-2023").addClass("fecha-fex");
-                    var distancia = $("<h3>").text(item.distancia).addClass("distancia-envio");
-                    var total = $("<h3>").text(`$${item.total}`).addClass("total-price-fex");
-                    // se agregan los nuevos elementos 
-                    newElement.append(wc_order, numero_seg, status_fex, modo, fecha, distancia, total);
-                    dataContainer.append(newElement);
-                });
-            }
         });
+        function renderData(data) {
+            // Obtener el contenedor donde se mostrarán los datos
+            var dataContainer = $(".contain-orders");
 
+            // Limpiar el contenido actual del contenedor
+            dataContainer.empty();
+            function claseStatus(estado) {
+                if (estado === 0) return "fex-esperando";
+                if (estado === 2) return "fex-aceptado";
+                if (estado === 5) return "fex-pagado";
+                if (estado === 8) return "fex-cargado";
+                if (estado === 9) return "fex-terminando";
+                if (estado === 10) return "fex-terminado";
+                if (estado === 14) return "fex-no-transportista";
+                if (estado === 16) return "fex-cancelado";
+                if (estado === 14) return "fex-cacel-system"
+            }
+            // Iterar sobre los datos y crear los elementos HTML correspondientes
+            $.each(data, function (index, item) {
+                var newElement = $("<div>").addClass("order-fex");
+                // Aquí puedes personalizar cómo se mostrará cada elemento del JSON en el HTML
+                var wc_order = $("<h3>").text("#74").addClass("order-woo");
+                var numero_seg = $("<h3>").text(item.servicio).addClass("num-seg");
+                var status_fex = $("<h3>").text(`${item.estado === 5 ? "pagado" : item.descripcion}`).addClass(claseStatus(item.estado));
+                var modo = $("<h3>").text(item.tipo).addClass("modo-fex");
+                var fecha = $("<h3>").text("25-08-2023").addClass("fecha-fex");
+                var distancia = $("<h3>").text(item.distancia).addClass("distancia-envio");
+                var total = $("<h3>").text(`$${item.total}`).addClass("total-price-fex");
+                // se agregan los nuevos elementos 
+                newElement.append(wc_order, numero_seg, status_fex, modo, fecha, distancia, total);
+                dataContainer.append(newElement);
+            });
+        }
+    });
+</script>
 
+<?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) { ?>
+    <script>
+        jQuery(document).ready(function () {
+            console.log("NOK");
+            jQuery("#pickit-error").css("display", 'block');
+        });
+    </script>
+<?php } ?>
+
+<?php if ($_SESSION["authorized"] == true && !get_option("shipping_zones_is_config")) { ?>
+    <script>
+        jQuery(document).ready(function () {
+            console.log("NOK");
+            jQuery("#pickit-incomplete").css("display", 'block');
+        });
     </script>
 <?php } ?>

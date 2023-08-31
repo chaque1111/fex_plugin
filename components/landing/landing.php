@@ -10,7 +10,7 @@ include_once "landing-functions.php";
             <span class="close">&times;</span>
         </a>
         <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/ok.png') ?>">
-       
+
         <h2>
             <?php echo __('Credenciales correctas', 'wc-pickit') ?>
         </h2>
@@ -23,6 +23,28 @@ include_once "landing-functions.php";
         <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'shipping_zones')) ?>">
             <button>
                 <?php echo __('Ir a Zona de envíos', 'wc-pickit') ?>
+            </button>
+        </a>
+    </div>
+</div>
+<!-- dashboard -->
+<div id="pickit-sz" class="modal">
+    <div class="modal-content">
+        <a href="">
+            <span class="close">&times;</span>
+        </a>
+        <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/ok.png') ?>">
+
+
+        <p>
+            <?php echo __('Has finalizado la configuración.', 'wc-pickit') ?>
+        </p>
+        <p>
+            <?php echo __('Ahora puedes <strong>ir al panel de fex</strong>. Para esto, dirígete a<strong>Fex > Zonas de Envíos</strong>', 'wc-pickit') ?>
+        </p>
+        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'submenu_dashboard')) ?>">
+            <button id="button-success">
+                <?php echo __('Ir al Panel', 'wc-pickit') ?>
             </button>
         </a>
     </div>
@@ -55,7 +77,7 @@ include_once "landing-functions.php";
             <div class="column30">
                 <div class="left-pane">
                     <img style="width: 15vw;"
-                        src="<?php echo plugin_dir_url("fex.php") . 'fex/assets/img/fex_app.png'?>">
+                        src="<?php echo plugin_dir_url("fex.php") . 'fex/assets/img/fex_app.png' ?>">
                     <h1 class="welcome">
                         <?= sprintf(__('¡Hola Bienvenido a Fex!', 'wc-pickit'), get_option('blogname')) ?>
                     </h1>
@@ -104,11 +126,21 @@ include_once "landing-functions.php";
         </div>
     </div>
 </div>
-<?php if (isset($_SESSION["token"]) && $_SESSION["token"] == true) { ?>
+<!-- redirección a zona de envíos -->
+<?php if (isset($_SESSION["token"]) && $_SESSION["token"] == true && !get_option("shipping_zones_is_config")) { ?>
     <script>
         jQuery(document).ready(function () {
             console.log("OK");
             jQuery("#pickit-ok").css("display", 'block');
+        });
+    </script>
+<?php } ?>
+<!-- redirección a dashboard -->
+<?php if (isset($_SESSION["token"]) && $_SESSION["token"] == true && get_option("shipping_zones_is_config")) { ?>
+    <script>
+        jQuery(document).ready(function () {
+            console.log("OK");
+            jQuery("#pickit-sz").css("display", 'block');
         });
     </script>
 <?php } ?>

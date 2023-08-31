@@ -34,7 +34,9 @@ if (isset($_POST["Ingresar"]) && $_POST["accessKey"] !== "" && $_POST["country"]
         $_SESSION["accessKey"] = $accessKey;
         $_SESSION["token"] = $resultado;
         $_SESSION["authorized"] = true;
-
+        if (!get_option("shipping_zones_is_config")) {
+            update_option("shipping_zones_is_config", 0);
+        }
         update_option('access_key', $accessKey);
     }
     else {

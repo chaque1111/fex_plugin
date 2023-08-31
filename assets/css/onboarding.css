@@ -218,6 +218,24 @@ body {
   cursor: pointer;
 }
 
+#button-success {
+  background-color: #04ce6d;
+  border-radius: 50px;
+  border: 0px;
+  color: white;
+  height: 40px;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-top: 20px;
+}
+#button-success:hover {
+  background-color: white;
+  border-radius: 50px;
+  border: 1px solid #04ce6d;
+  color: #04ce6d;
+  cursor: pointer;
+}
+
 #pickit-error button {
   background-color: #ff1515;
   border-radius: 50px;
@@ -229,6 +247,23 @@ body {
   margin-top: 20px;
 }
 #pickit-error button:hover {
+  background-color: white;
+  border-radius: 50px;
+  border: 1px solid #ff1515;
+  color: #ff1515;
+  cursor: pointer;
+}
+#button-error {
+  background-color: #ff1515;
+  border-radius: 50px;
+  border: 0px;
+  color: white;
+  height: 40px;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-top: 20px;
+}
+#button-error:hover {
   background-color: white;
   border-radius: 50px;
   border: 1px solid #ff1515;

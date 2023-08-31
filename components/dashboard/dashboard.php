@@ -185,11 +185,11 @@ include_once "dashboard-functions.php";
             $.each(data, function (index, item) {
                 var newElement = $("<div>").addClass("order-fex");
                 // Aquí puedes personalizar cómo se mostrará cada elemento del JSON en el HTML
-                var wc_order = $("<h3>").text("#74").addClass("order-woo");
+                var wc_order = $("<h3>").text(`#${item.wc_order}`).addClass("order-woo");
                 var numero_seg = $("<h3>").text(item.servicio).addClass("num-seg");
                 var status_fex = $("<h3>").text(`${item.estado === 5 ? "pagado" : item.descripcion}`).addClass(claseStatus(item.estado));
                 var modo = $("<h3>").text(item.tipo).addClass("modo-fex");
-                var fecha = $("<h3>").text("25-08-2023").addClass("fecha-fex");
+                var fecha = $("<h3>").text(item.fecha).addClass("fecha-fex");
                 var distancia = $("<h3>").text(item.distancia).addClass("distancia-envio");
                 var total = $("<h3>").text(`$${item.total}`).addClass("total-price-fex");
                 // se agregan los nuevos elementos 

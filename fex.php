@@ -32,7 +32,7 @@ function adjust_shipping_rate($rates)
     global $woocommerce;
     foreach ($rates as $rate) {
         if ($rate->method_id === "fex_express_shipping_method" || $rate->method_id === "fex_programado_shipping_method") {
-            if(isset($_COOKIE['fex_shipping_cost'])){
+            if (isset($_COOKIE['fex_shipping_cost'])) {
                 $rate->cost = $_COOKIE['fex_shipping_cost'];
             }
         }
@@ -60,6 +60,15 @@ function fex_add_menu()
         'manage_options',
         'shipping_zones',
         'fex_show_shipping_zones'
+    );
+
+    add_submenu_page(
+        'fex_menu',
+        'Horarios de envíos',
+        'Horarios de envíos',
+        'manage_options',
+        'shipping_times',
+        'fex_show_shipping_times'
     );
 
     add_submenu_page(
@@ -93,6 +102,13 @@ function fex_show_shipping_zones()
 {
     include_once plugin_dir_path(__FILE__) . '/components/shipping-zones/shipping-zones.php';
 }
+
+// Mostrar página de Horarios de envíos
+function fex_show_shipping_times()
+{
+    include_once plugin_dir_path(__FILE__) . '/components/shipping-times/shipping-times.php';
+}
+
 
 // Mostrar página de Panel de control
 function fex_show_dashboard()

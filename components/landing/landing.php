@@ -18,7 +18,7 @@ include_once "landing-functions.php";
             <?php echo __('Has finalizado la configuración inicial para fex.', 'wc-pickit') ?>
         </p>
         <p>
-            <?php echo __('Ahora necesitas <strong>configurar los puntos de retiro</strong>. Para esto, dirígete a <strong>Fex > Zonas de Envíos</strong>', 'wc-pickit') ?>
+            <?php echo __('Ahora necesitas <strong>configurar los puntos de retiro</strong>. Para esto, dirígete a <strong>Fex > Zonas de Envíos</strong>', 'wc-pickit') ?>
         </p>
         <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'shipping_zones')) ?>">
             <button>
@@ -40,7 +40,7 @@ include_once "landing-functions.php";
             <?php echo __('Has finalizado la configuración.', 'wc-pickit') ?>
         </p>
         <p>
-            <?php echo __('Ahora puedes <strong>ir al panel de fex</strong>. Para esto, dirígete a<strong>Fex > Zonas de Envíos</strong>', 'wc-pickit') ?>
+            <?php echo __('Ahora puedes <strong>ir al panel de Fex</strong>.Para esto, dirígete a <br/> <strong>Fex > Panel de control</strong>', 'wc-pickit') ?>
         </p>
         <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'submenu_dashboard')) ?>">
             <button id="button-success">

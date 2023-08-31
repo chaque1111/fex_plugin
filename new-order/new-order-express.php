@@ -62,10 +62,10 @@ function fex_flete_express($order_id)
             "rec_tel" => $customer_data->billing_phone,
             "vehiculo" => $_SESSION["vehicle"],
             "reg_origen" => "0",
-            // "fecha" => $currentDateTime->format('Y-m-d H:i:s'),
-            // "wc_order" => $order->get_order_number()
+            "fecha" => $currentDateTime->format('Y-m-d'),
+            "wc_order" => $order->get_order_number()
         );
-
+        print_r($post_data);
         // URL del servidor externo donde deseas enviar la solicitud POST
         $server_url = 'https://naboo-production.up.railway.app/flete';
 
@@ -79,12 +79,15 @@ function fex_flete_express($order_id)
         );
         $context = stream_context_create($options);
         $response = file_get_contents($server_url, false, $context);
+        //elimina las variables de sesión
         unset($_SESSION['client_latitude']);
         unset($_SESSION['client_longitude']);
         unset($_SESSION['vehicle']);
         unset($_SESSION['vehicle_calculate']);
         unset($_SESSION['price_calculate']);
+        unset($_SESSION['price']);
         unset($_SESSION['programado']);
+        setcookie('fex_shipping_cost', 0, time() + (60 * 20), '/');
         // Verificar la respuesta del servidor externo
         if ($response === false) {
             error_log('Error al enviar la solicitud.');

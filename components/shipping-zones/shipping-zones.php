@@ -16,7 +16,7 @@ include_once "shipping-functions.php";
             <?php echo __('Credenciales incorrectas', 'wc-pickit') ?>
         </h2>
         <p>
-            <?php echo __('Las credenciales ingresadas son incorrectas.<br>Por favor, vuelve a intentarlo.', 'wc-pickit') ?>
+            <?php echo __('Las credenciales ingresadas son incorrectas.<br>Por favor, Inicia sesión.', 'wc-pickit') ?>
         </p>
 
         <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'fex_menu')) ?>">
@@ -101,7 +101,7 @@ include_once "shipping-functions.php";
 <script>
     (function ($) {
         $(document).ready(function () {
-            if (<?php echo get_option("shipping_zones_is_config") ?>) {
+            if (<?php echo get_option("shipping_zones_is_config") ?> && <?php echo $_SESSION["token"] ?>) {
                 $("#contain-info").addClass("ubication-info");
                 const coordinatesForm = $("#coordinates-form");
                 const latitudeInput = $("#latitude");

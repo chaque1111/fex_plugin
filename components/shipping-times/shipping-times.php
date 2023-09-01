@@ -2,7 +2,7 @@
 wp_enqueue_style('shipping-times', plugin_dir_url("fex.php") . 'fex/assets/css/shipping-times.css');
 wp_enqueue_style('landing-styles', plugin_dir_url("fex.php") . 'fex/assets/css/onboarding.css');
 include_once "times-functions.php";
-    ?>
+?>
 
 <div id="pickit-error" class="modal">
     <!-- Modal content -->
@@ -15,7 +15,7 @@ include_once "times-functions.php";
             <?php echo __('Credenciales incorrectas', 'wc-pickit') ?>
         </h2>
         <p>
-            <?php echo __('Las credenciales ingresadas son incorrectas.<br>Por favor, vuelve a intentarlo.', 'wc-pickit') ?>
+            <?php echo __('Las credenciales ingresadas son incorrectas.<br>Por favor, Inicia sesión.', 'wc-pickit') ?>
         </p>
 
         <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'fex_menu')) ?>">
@@ -25,6 +25,7 @@ include_once "times-functions.php";
         </a>
     </div>
 </div>
+
 <div class="container">
     <h1>Optimiza tus Envíos con Fex: Configuración de Horarios</h1>
     <p>Para brindarte la mejor experiencia de entrega, sabemos lo importante que es sincronizar tus horarios con los
@@ -47,21 +48,21 @@ include_once "times-functions.php";
         horario en el que termina:</p>
     <p>Recuerda debes elegir horarios entre el rango de 8am y 22pm</p>
     <form method="post">
-        <?php 
-        if(get_option("shipping_times_is_config")){
+        <?php
+        if (get_option("shipping_times_is_config")) {
             echo '<label for="horaInicio">Hora de Inicio:</label>';
             echo '<input type="time" id="horaInicio" name="horaInicio" min="08:00" max="22:00" value=' . get_option("shipping_times_min") . ' required ><br><br> ';
             echo '<label for="horaFin">Hora de Fin:</label>';
             echo '<input type="time" id="horaFin" name="horaFin" min="08:00"  value=' . get_option("shipping_times_max") . ' max="22:00" required><br><br>';
         }
-        else{
+        else {
             echo '<label for="horaInicio">Hora de Inicio:</label>';
             echo '<input type="time" id="horaInicio" name="horaInicio" min="08:00" max="22:00" required><br><br>';
             echo '<label for="horaFin">Hora de Fin:</label>';
             echo '<input type="time" id="horaFin" name="horaFin" min="08:00" max="22:00" required><br><br>';
         }
         ?>
-       
+
 
         <button type="submit" class="button">Guardar Horarios</button>
     </form>

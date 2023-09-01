@@ -12,8 +12,8 @@ include_once "dashboard-functions.php";
             <div class="contain-title-filters">
                 <button type="submit" name="title-filter" class="title-filter" value="title-filter">Todos</button>
                 <button class="title-filter" value="colectar">Por colectar</button>
-                <button class="title-filter" value="entregados">Entregados</button>
                 <button class="title-filter" value="entregados">En camino</button>
+                <button class="title-filter" value="entregados">Entregados</button>
                 <button class="title-filter" value="problemas">Con problemas</button>
             </div>
             <div class="contain-seconds-filter">
@@ -153,7 +153,7 @@ include_once "dashboard-functions.php";
         });
     </script>
 <?php } ?>
-<?php if ($_SESSION["authorized"] == true && !get_option("shipping_zones_is_config") ) { ?>
+<?php if ($_SESSION["authorized"] == true && !get_option("shipping_zones_is_config")) { ?>
     <script>
         jQuery(document).ready(function () {
             console.log("NOK");
@@ -184,7 +184,7 @@ include_once "dashboard-functions.php";
             <?php echo __('Credenciales incorrectas', 'wc-pickit') ?>
         </h2>
         <p>
-            <?php echo __('Las credenciales ingresadas son incorrectas.<br>Por favor, vuelve a intentarlo.', 'wc-pickit') ?>
+            <?php echo __('Las credenciales ingresadas son incorrectas.<br>Por favor, Inicia sesión.', 'wc-pickit') ?>
         </p>
 
         <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'fex_menu')) ?>">

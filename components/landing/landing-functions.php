@@ -36,6 +36,8 @@ if (isset($_POST["Ingresar"]) && $_POST["accessKey"] !== "" && $_POST["country"]
         $_SESSION["authorized"] = true;
         if (!get_option("shipping_zones_is_config")) {
             update_option("shipping_zones_is_config", 0);
+            update_option('get_fex_latitude', 0);
+            update_option('get_fex_longitude', 0);
         }
         if (!get_option("shipping_times_is_config")) {
             update_option("shipping_times_min", "08:00");

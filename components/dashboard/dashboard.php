@@ -39,21 +39,6 @@ include_once "dashboard-functions.php";
             <div class="contain-orders">
 
             </div>
-            <?php
-
-            // foreach ($arrayPersonas as $orden) {
-            //     echo '<div class="contain-orders">';
-            //     echo '<div class="order">';
-            //     echo '<h3 class="camp-order-woo">' . $orden->orden_woo . '</h3>';
-            //     echo '<h3>' . $orden->numero_seg . '</h3>';
-            //     echo '<h3>' . $orden->status_fex . '</h3>';
-            //     echo '<h3>' . $orden->modo . '</h3>';
-            //     echo '<h3>' . $orden->fecha . '</h3>';
-            //     echo '<h3>' . $orden->pago . '</h3>';
-            //     echo '</div>';
-            //     echo '</div>';
-            // }
-            ?>
 
         </div>
     </div>

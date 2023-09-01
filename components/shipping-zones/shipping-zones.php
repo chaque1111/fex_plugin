@@ -28,23 +28,33 @@ include_once "shipping-functions.php";
 </div>
 <div class="container">
     <div class="steps-container">
-        <h1>¡Hola Bienvenido a Fex!</h1>
-        <p>Gracias por utilizar nuestro plugin. Para obtener las coordenadas del punto de retiro de
-            los productos, por favor
-            sigue estos pasos:</p>
+        <h1>Punto de retiro</h1>
+        <p>El punto de retiro es el lugar donde los repartidores de Fex recogerán los pedidos para
+            realizar el envío.
+        </p>
+        <p><span style="color: #FF0000; font-weight: 600;">Atención:</span> Es importante que verifiques en el mapa si
+            las coordenadas son correctas ya qué dependen mucho de la calidad del GPS de tu dispositivo y tu ubicación
+            actual
+        </p>
+        <p><span style="color: green; font-weight: 600;">Recomendación:</span> Para mayor precisión en las coordenadas
+            puedes ir a <a
+                href="https://www.google.com/maps/place/Santiago,+Regi%C3%B3n+Metropolitana,+Chile/@-33.4723925,-70.7946379,11z/data=!3m1!4b1!4m6!3m5!1s0x9662c5410425af2f:0x8475d53c400f0931!8m2!3d-33.4488897!4d-70.6692655!16zL20vMGRscXY?entry=ttu"
+                target="_blank">google maps</a> .
+            Busca la ubicación de tu tienda copia las coordenadas en los inputs correspondientes, <a href=""
+                target="_blank">Puedes
+                seguir éste tutorial.</a><br>
+        </p>
+        <p> Puedes seguir estos pasos para configurar la ubicación de tu tienda:</p>
         <ol>
-            <li>Asegúrate de estar en el punto de retiro físico de los productos.</li>
-            <li>Haz clic en el botón "Obtener Coordenadas" en esta página.</li>
-            <li>Si tu navegador solicita permiso para acceder a tu ubicación, por favor acepta para que podamos capturar
-                automáticamente las coordenadas.</li>
-            <li>Si prefieres ingresar las coordenadas manualmente, puedes hacerlo en los campos correspondientes.</li>
-            <li>Verifica en el mapa si las coordenadas son correctas, si es así guarda tu configuración.</li>
+            <li>Presiona el botón de "Obtener Coordenadas" y acepta los permisos para acceder a tu ubicación.</li>
+            <li>En el mapa aparecerá tu ubicación actual puede variar dependiendo la calidad del GPS debes verificar
+                haciendo zoom.</li>
+            <li>Si la ubicación en el mapa no coincide con la ubicación de tu tienda debes seguir la Recomendación de
+                arriba.</li>
+            <li>Una vez que la configuración sea correcta has click en "Guardar Configuración".</li>
         </ol>
-        <p>Recuerda asegurarte de que tu dispositivo tenga activada la función de geolocalización y esté conectado a
-            Internet.</p>
-
-
-        <p>Si necesitas ayuda adicional o tienes alguna pregunta, no dudes en contactarnos.</p>
+        <p>Si necesitas ayuda adicional o tienes alguna pregunta, no dudes en <a href="https://fex.cl/index.php#support"
+                target="_blank">contactarnos</a>.</p>
         <p>¡Gracias y esperamos que disfrutes utilizando Fex!</p>
     </div>
     <div class="container-info">

@@ -28,7 +28,7 @@ include_once "shipping-functions.php";
 </div>
 <div class="container">
     <div class="steps-container">
-        <h1>Punto de retiro</h1>
+        <h1>Punto de Retiro</h1>
         <p>El punto de retiro es el lugar donde los repartidores de Fex recogerán los pedidos para
             realizar el envío.
         </p>
@@ -60,11 +60,11 @@ include_once "shipping-functions.php";
     <div class="container-info">
 
         <div class="address-info">
-            <h1>Información de Dirección</h1>
+            <h1 class="address-title">Dirección de WooCommerce</h1>
             <h2>
-                La información de dirección proporcionada es de su tienda WooCommerce.
+                Ésta dirección proporcionada es de su tienda WooCommerce.
             </h2>
-            <p><strong>Pais:</strong>
+            <p><strong>País:</strong>
                 Chile
             </p>
             <p><strong>Región:</strong>
@@ -78,18 +78,17 @@ include_once "shipping-functions.php";
                 <?php echo $direccion['calle']; ?>
             </p>
         </div>
-        <div>
-            <button id="obtain-cors">Obtener cordenadas</button>
-            <div id="contain-info" class="ubication-info-hidden">
-                <div id="map" style="width: 500px; height: 400px;"></div>
 
+        <div class="map-container">
+            <div id="contain-info" class="ubication-info-hidden">
+                <button id="obtain-cors">Obtener Coordenadas</button>
+                <div id="map" style="margin: 20px auto; width: 400px; height: 350px;"></div>
                 <form method="post" id="coordinates-form">
                     <label for="latitude">Latitud:</label>
                     <input type="text" name="latitude" id="latitude" required>
                     <label for="longitude">Longitud:</label>
                     <input type="text" name="longitude" id="longitude" required>
-
-                    <p>Si toda la información es correcta guarde la configuración de su tienda</p>
+                    <p class="message-fex">¡Cuando la información sea correcta guarda la configuración de tu tienda!</p>
                     <input type="submit" id="save-shipping-zones" value="Guardar configuración">
                 </form>
             </div>
@@ -111,6 +110,16 @@ include_once "shipping-functions.php";
 <script>
     (function ($) {
         $(document).ready(function () {
+            $("#contain-info").addClass("ubication-info");
+            jQuery(document).ready(function ($) {
+                map = L.map('map').setView([-34.6118, -58.4173], 3);
+                // Agrega una capa de mapa base (por ejemplo, Mapbox Streets)
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+
+                marker = L.marker([0, 0]).addTo(map)
+            })
             if (<?php echo get_option("shipping_zones_is_config") ?> && <?php echo $_SESSION["token"] ?>) {
                 $("#contain-info").addClass("ubication-info");
                 const coordinatesForm = $("#coordinates-form");
@@ -119,13 +128,8 @@ include_once "shipping-functions.php";
                 latitudeInput.val(<?php echo get_option("get_fex_latitude") ?>);
                 longitudeInput.val(<?php echo get_option("get_fex_longitude") ?>);
                 jQuery(document).ready(function ($) {
-                    map = L.map('map').setView([-34.6118, -58.4173], 3);
-                    // Agrega una capa de mapa base (por ejemplo, Mapbox Streets)
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '© OpenStreetMap contributors'
-                    }).addTo(map);
-
-                    marker = L.marker([latitudeInput.val(), longitudeInput.val()]).addTo(map)
+                    marker.setLatLng([latitudeInput.val(), longitudeInput.val()]);
+                    map.setView([-34.6118, -58.4173], 3);
                 })
             }
             $("#obtain-cors").click(function () {
@@ -133,35 +137,14 @@ include_once "shipping-functions.php";
                 const coordinatesForm = $("#coordinates-form");
                 const latitudeInput = $("#latitude");
                 const longitudeInput = $("#longitude");
-
-                if (navigator.geolocation && <?php echo get_option("shipping_zones_is_config") ?>) {
+                if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         function (position) {
                             latitudeInput.val(position.coords.latitude);
                             longitudeInput.val(position.coords.longitude);
                             jQuery(document).ready(function ($) {
                                 marker.setLatLng([latitudeInput.val(), longitudeInput.val()]);
-                                map.setView([-34.6118, -58.4173], 3);
-                            })
-                        },
-                        function (error) {
-                            console.log("Error al obtener la ubicación: ", error.message);
-                        }
-                    );
-                }
-                else if (navigator.geolocation && !<?php echo get_option("shipping_zones_is_config") ?>) {
-                    navigator.geolocation.getCurrentPosition(
-                        function (position) {
-                            latitudeInput.val(position.coords.latitude);
-                            longitudeInput.val(position.coords.longitude);
-                            jQuery(document).ready(function ($) {
-                                map = L.map('map').setView([-34.6118, -58.4173], 3);
-                                // Agrega una capa de mapa base (por ejemplo, Mapbox Streets)
-                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                    attribution: '© OpenStreetMap contributors'
-                                }).addTo(map);
 
-                                marker = L.marker([latitudeInput.val(), longitudeInput.val()]).addTo(map)
                             })
                         },
                         function (error) {
@@ -187,7 +170,7 @@ include_once "shipping-functions.php";
             const longitudeInput = $("#longitude");
             jQuery(document).ready(function ($) {
                 marker.setLatLng([latitudeInput.val(), longitudeInput.val()]);
-                map.setView([-34.6118, -58.4173], 3);
+
             })
         })
         $("#longitude").change(function (event) {
@@ -195,7 +178,7 @@ include_once "shipping-functions.php";
             const longitudeInput = $("#longitude");
             jQuery(document).ready(function ($) {
                 marker.setLatLng([latitudeInput.val(), longitudeInput.val()]);
-                map.setView([-34.6118, -58.4173], 3);
+
             })
         })
     })

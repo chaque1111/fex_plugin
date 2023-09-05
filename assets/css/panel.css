@@ -1,3 +1,4 @@
+
 .fex-logo {
   height: 100px;
   margin-left: 30px;
@@ -18,6 +19,7 @@
   border-right: 1px solid rgba(62, 62, 62, 0.578);
   padding-top: 40px;
   padding-left: 10px;
+  margin: auto auto;
 }
 .contain_opt {
   padding: 10px;
@@ -155,12 +157,16 @@
 .contain-orders {
   display: flex;
   flex-direction: column;
+  min-height: 500px;
+  max-height: 500px;
+  overflow-y: scroll;
 }
 .order-fex {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
   justify-content: center; /* Centrar las columnas horizontalmente */
+  border-bottom: 0.50px solid rgba(128, 128, 128, 0.49);
 }
 .order-fex > h3 {
   display: flex;

@@ -95,6 +95,10 @@ function fex_flete_programado($order_id)
         unset($_SESSION['price']);
         unset($_SESSION['programado']);
         setcookie('fex_shipping_cost', 0, time() + (60 * 20), '/');
+        $packages = WC()->cart->get_shipping_packages();
+        foreach ($packages as $package_key => $package) {
+            WC()->session->set('shipping_for_package_' . $package_key, false);
+        }
         // Verificar la respuesta del servidor externo
         if ($response === false) {
             error_log('Error al enviar la solicitud.');

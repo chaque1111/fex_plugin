@@ -3,8 +3,6 @@ include_once "dashboard-functions.php";
 ?>
 
 
-
-<img class="fex-logo" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/fex_app.png') ?>">
 <div class="dashboard-container">
 
     <div class="contain_data">
@@ -123,6 +121,7 @@ include_once "dashboard-functions.php";
                 var total = $("<h3>").text(`$${item.total}`).addClass("total-price-fex");
                 // se agregan los nuevos elementos 
                 newElement.append(wc_order, numero_seg, status_fex, modo, fecha, distancia, total);
+                
                 dataContainer.append(newElement);
             });
         }

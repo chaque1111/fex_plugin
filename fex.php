@@ -9,7 +9,6 @@ Author URI: https://www.linkedin.com/company/holocruxe
 License: GPL2
 */
 
-register_activation_hook(__FILE__, 'fex_add_menu');
 
 //Agregar métodos de envío
 include_once plugin_dir_path(__FILE__) . '/shipping/shipping-methods.php';
@@ -27,6 +26,22 @@ include_once plugin_dir_path(__FILE__) . '/new-order/new-order-express.php';
 //new order programado
 include_once plugin_dir_path(__FILE__) . '/new-order/new-order-programado.php';
 
+// Verificar si WooCommerce está activo
+function fex_woocommerce_validacion()
+{
+
+    if (is_plugin_active('woocommerce/woocommerce.php')) {
+        register_activation_hook(__FILE__, 'fex_add_menu');
+    }
+    else {
+        deactivate_plugins(plugin_basename(__FILE__));
+        wp_die('Este plugin requiere WooCommerce para funcionar correctamente. Por favor, instala, configura y activa WooCommerce.');
+    }
+}
+
+register_activation_hook(__FILE__, 'fex_woocommerce_validacion');
+
+//Ajustar el precio
 function adjust_shipping_rate($rates)
 {
     global $woocommerce;

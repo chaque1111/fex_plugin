@@ -130,6 +130,29 @@
   color: #333;
   margin-bottom: 10px;
 }
+.contain-inputs-date-fex{
+  display: flex;
+  gap: 5px;
+  margin: 5px 0px;
+}
+#time-fex, #date-fex {
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 0.305rem 0.75rem;
+  font-size: 0.80rem;
+  border: 1px solid gray;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s e;
+  background: #f8f9fa;
+}
 .fex-price {
   font-weight: bold;
   color: green;

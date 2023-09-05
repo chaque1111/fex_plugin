@@ -289,8 +289,9 @@ function agregar_modal_fex_programado()
                            ?>
                            </class=span></h3></div>
                            <p class="fex-p-fex">Programa la fecha y hora en la que te llegará el producto</p>
-                           <p class="fex-p-fex">Ingresa un horario entre las <?php echo $_SESSION["shipping_times_min"]."AM y las ".$_SESSION["shipping_times_max"]."PM" ?></p>                  
-                            <?php
+                           <p class="fex-p-fex">Ingresa un horario entre las <?php echo $_SESSION["shipping_times_min"]." AM - ".$_SESSION["shipping_times_max"]." PM" ?></p>                  
+                           <div class="contain-inputs-date-fex">
+                           <?php
                                 if (isset($_SESSION["programado"])) {
                                     $selectedDate = new DateTime();
                                     $nextDay = clone $selectedDate;
@@ -311,11 +312,11 @@ function agregar_modal_fex_programado()
                                     $nextMonth->modify('first day of next month');
     
                                     echo '<input id="date-fex" type="date" min=' . $nextDay->format('Y-m-d') . ' max=' . $nextMonth->format('Y-m-28') . ' value=' . $nextDay->format('Y-m-d') . ' required/>';
-                                    echo '<input type="time" id="time-fex"   min=' . $_SESSION["shipping_times_min"] . ' max=' . $_SESSION["shipping_times_max"] . ' required />';
+                                    echo '<input type="time" id="time-fex"   min=' . $_SESSION["shipping_times_min"] . ' max=' . $_SESSION["shipping_times_max"] . ' value=' . $_SESSION["shipping_times_min"] . ' required />';
                                 }
 
                                 ?>
-           
+                                </div>
                                <input type="submit" class="fex-confirm-button" disabled value="Confirmar método de envío"/input>
                              </form>`;
                     $('.fex-my-modal').fadeOut(function () {

@@ -8,11 +8,11 @@ include_once "dashboard-functions.php";
     <div class="contain_data">
         <div class="contain-opt-data">
             <div class="contain-title-filters">
-                <button type="submit" name="title-filter" class="title-filter" value="title-filter">Todos</button>
-                <button class="title-filter" value="colectar">Por colectar</button>
-                <button class="title-filter" value="entregados">En camino</button>
-                <button class="title-filter" value="entregados">Entregados</button>
-                <button class="title-filter" value="problemas">Con problemas</button>
+                <button type="submit" name="title-filter" class="title-filter" value="">Todos</button>
+                <button class="title-filter" value="1">Por colectar</button>
+                <button class="title-filter" value="4">En camino</button>
+                <button class="title-filter" value="2">Entregados</button>
+                <button class="title-filter" value="3">Con problemas</button>
             </div>
             <div class="contain-seconds-filter">
                 <div class="contain-searchbar">
@@ -79,6 +79,23 @@ include_once "dashboard-functions.php";
         $(".reload-icon").click(function () {
             $.ajax({
                 url: "<?php echo 'https://naboo-production.up.railway.app/flete/' . get_option("access_key"); ?>",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    // window.apiData = data;
+                    console.log(data)
+                    renderData(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error en la solicitud GET: " + status + ", " + error);
+                }
+            });
+        });
+        //filtrado
+          $(".title-filter").click(function () {
+            var valor = $(this).val();
+            $.ajax({
+                url: "<?php echo 'https://naboo-production.up.railway.app/flete/' . get_option("access_key"); ?>?filtro="+valor,
                 type: "GET",
                 dataType: "json",
                 success: function (data) {

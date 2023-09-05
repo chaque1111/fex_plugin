@@ -82,12 +82,13 @@ include_once "landing-functions.php";
 
 <!-- redirección a dashboard -->
 <?php if (isset($_SESSION["token"]) && $_SESSION["token"] == true && get_option("shipping_zones_is_config") && get_option("shipping_times_is_config")) { ?>
-    <script>
+    <?php wp_redirect(admin_url('admin.php?page=submenu_dashboard'));?>
+    <!-- <script>
         jQuery(document).ready(function () {
             console.log("OK");
             jQuery("#pickit-ok-3").css("display", 'block');
         });
-    </script>
+    </script> -->
 <?php } ?>
 <!-- credenciales incorrectas -->
 <?php if (isset($authorized) && $authorized == false) { ?>
@@ -172,6 +173,8 @@ include_once "landing-functions.php";
         </a>
     </div>
 </div>
+
+<!-- error -->
 <div id="pickit-error" class="modal">
     <!-- Modal content -->
     <div class="modal-content">

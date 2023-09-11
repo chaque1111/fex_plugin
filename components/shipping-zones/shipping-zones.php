@@ -3,6 +3,32 @@ wp_enqueue_style('shipping-styles', plugin_dir_url("fex.php") . 'fex/assets/css/
 wp_enqueue_style('landing-styles', plugin_dir_url("fex.php") . 'fex/assets/css/onboarding.css');
 include_once "shipping-functions.php";
 ?>
+<!-- Reconfigurar -->
+<div id="pickit-ok" class="modal">
+    <div class="modal-content">
+
+        <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/ok.png') ?>">
+
+        <h2>
+            <?php echo __('Zona de envíos configurada', 'wc-pickit') ?>
+        </h2>
+        <p>
+            <?php echo __('Has configurado correctamente la Zonas de envío.', 'wc-pickit') ?>
+        </p>
+        <p>
+            <?php echo __('Puedes <strong>Configurar los zona de envío las veces que quieras</strong>.', 'wc-pickit') ?>
+        </p>
+        <button style="background: black; " id="button-reconfigure">
+            <?php echo __('Configurar Zona', 'wc-pickit') ?>
+        </button>
+        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'submenu_dashboard')) ?>">
+            <button>
+                <?php echo __('Ir al Panel', 'wc-pickit') ?>
+            </button>
+        </a>
+    </div>
+</div>
+
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <div id="pickit-error" class="modal">
@@ -96,6 +122,18 @@ include_once "shipping-functions.php";
     </div>
 </div>
 
+<?php if ($_SESSION["authorized"] == true && get_option("shipping_zones_is_config")) { ?>
+    <script>
+        jQuery(document).ready(function ($) {
+            jQuery("#pickit-ok").css("display", 'block');
+              jQuery("#map").css("z-index", '9');
+            $("#button-reconfigure").click(function () {
+                jQuery("#pickit-ok").css("display", 'none');
+              
+            })
+        });
+    </script>
+<?php } ?>
 
 <?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) { ?>
     <script>

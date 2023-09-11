@@ -18,8 +18,6 @@ function agregar_modal_fex()
                         navigator.geolocation.getCurrentPosition(function (position) {
                             var latitude = position.coords.latitude;
                             var longitude = position.coords.longitude;
-                            console.log("Latitud:", latitude);
-                            console.log("Longitud:", longitude);
                             $.ajax({
                                 url: '<?php echo admin_url('admin-ajax.php'); ?>',
                                 type: 'POST',
@@ -30,7 +28,7 @@ function agregar_modal_fex()
                                 },
                                 dataType: 'json',
                                 success: function (response) {
-                                    console.log('Respuesta exitosa:', response);
+                                 
                                 },
                                 error: function (xhr, status, error) {
                                     console.log('Error:', error);
@@ -163,7 +161,6 @@ function agregar_modal_fex()
                             },
                             dataType: 'json',
                             success: function (response) {
-                                console.log(response)
                                 if (response === true) {
                                     window.location.reload()
                                     $('.fex-my-modal').fadeOut(function () {
@@ -202,8 +199,6 @@ function agregar_modal_fex_programado()
                         navigator.geolocation.getCurrentPosition(function (position) {
                             var latitude = position.coords.latitude;
                             var longitude = position.coords.longitude;
-                            console.log("Latitud:", latitude);
-                            console.log("Longitud:", longitude);
                             $.ajax({
                                 url: '<?php echo admin_url('admin-ajax.php'); ?>',
                                 type: 'POST',
@@ -214,7 +209,6 @@ function agregar_modal_fex_programado()
                                 },
                                 dataType: 'json',
                                 success: function (response) {
-                                    console.log('Respuesta exitosa:', response);
                                 },
                                 error: function (xhr, status, error) {
                                     console.log('Error:', error);
@@ -345,6 +339,15 @@ function agregar_modal_fex_programado()
                         });
                         //calcular precio
                         $('.fex-contain-vehicles').change(function () {
+                              var country = $('#calc_shipping_country').val();
+                             var state = $('#calc_shipping_state').val();
+                             var postcode = $('#calc_shipping_postcode').val();
+                             var city = $('#calc_shipping_city').val();
+                             // Haz algo con los valores capturados, como mostrarlos en la consola
+                            //  console.log('País: ' + country);
+                            //  console.log('Estado: ' + state);
+                            //  console.log('Código postal: ' + postcode);
+                            //  console.log('City: ' + city);
                             event.preventDefault();
                             var valorSeleccionado = $('input[name="radio"]:checked').val();
                             const overlay = document.querySelector('.fex-overlay');
@@ -398,7 +401,6 @@ function agregar_modal_fex_programado()
                             },
                             dataType: 'json',
                             success: function (response) {
-                                console.log(response)
                                 if (response === true) {
                                     window.location.reload()
                                     $('.fex-my-modal').fadeOut(function () {

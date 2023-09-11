@@ -74,7 +74,7 @@ function fex_flete_programado($order_id)
         );
 
         // URL del servidor externo donde deseas enviar la solicitud POST
-        $server_url = 'https://naboo-production.up.railway.app/flete';
+        $server_url = 'https://naboo.holocruxe.com/flete';
 
         // Configurar los encabezados de la solicitud
         $options = array(

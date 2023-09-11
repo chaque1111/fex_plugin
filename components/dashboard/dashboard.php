@@ -64,7 +64,7 @@ include_once "dashboard-functions.php";
 <script>
     jQuery(document).ready(function ($) {
         $.ajax({
-            url: "<?php echo 'https://naboo-production.up.railway.app/flete/' . get_option("access_key"); ?>",
+            url: "<?php echo 'https://naboo.holocruxe.com/flete/' . get_option("access_key"); ?>",
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -78,7 +78,7 @@ include_once "dashboard-functions.php";
         });
         $(".reload-icon").click(function () {
             $.ajax({
-                url: "<?php echo 'https://naboo-production.up.railway.app/flete/' . get_option("access_key"); ?>",
+                url: "<?php echo 'https://naboo.holocruxe.com/flete/' . get_option("access_key"); ?>",
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
@@ -95,7 +95,7 @@ include_once "dashboard-functions.php";
           $(".title-filter").click(function () {
             var valor = $(this).val();
             $.ajax({
-                url: "<?php echo 'https://naboo-production.up.railway.app/flete/' . get_option("access_key"); ?>?filtro="+valor,
+                url: "<?php echo 'https://naboo.holocruxe.com/flete/' . get_option("access_key"); ?>?filtro="+valor,
                 type: "GET",
                 dataType: "json",
                 success: function (data) {

@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         update_option('get_fex_latitude', $latitude);
         update_option('get_fex_longitude', $longitude);
         update_option('get_fex_dir_org', $direccion["calle"] . ', ' . $direccion["comuna"] . ', ' . $direccion["estado"] . ', Chile');
-        $url = 'https://naboo-production.up.railway.app/config';
+        $url = 'https://naboo.holocruxe.com/config';
         $data = array(
             "access_key" => get_option('access_key'),
             "country" => "Chile",

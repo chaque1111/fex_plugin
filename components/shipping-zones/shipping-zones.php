@@ -93,10 +93,7 @@ include_once "shipping-functions.php";
             <p><strong>País:</strong>
                 Chile
             </p>
-            <p><strong>Región:</strong>
-                <?php echo $direccion['estado']; ?>
-            </p>
-            <p><strong>Comuna:</strong>
+            <p><strong>Ciudad:</strong>
                 <?php echo $direccion['comuna']; ?>
             </p>
 
@@ -126,10 +123,10 @@ include_once "shipping-functions.php";
     <script>
         jQuery(document).ready(function ($) {
             jQuery("#pickit-ok").css("display", 'block');
-              jQuery("#map").css("z-index", '9');
+            jQuery("#map").css("z-index", '9');
             $("#button-reconfigure").click(function () {
                 jQuery("#pickit-ok").css("display", 'none');
-              
+
             })
         });
     </script>
@@ -158,6 +155,7 @@ include_once "shipping-functions.php";
 
                 marker = L.marker([0, 0]).addTo(map)
             })
+            //si la zona de envío ya está configurada
             if (<?php echo get_option("shipping_zones_is_config") ?> && <?php echo $_SESSION["token"] ?>) {
                 $("#contain-info").addClass("ubication-info");
                 const coordinatesForm = $("#coordinates-form");
@@ -170,27 +168,86 @@ include_once "shipping-functions.php";
                     map.setView([-34.6118, -58.4173], 3);
                 })
             }
-            $("#obtain-cors").click(function () {
+            //si la zona de envío no está configurada
+            else if (!<?php echo get_option("shipping_zones_is_config") ?> && <?php echo $_SESSION["token"] ?>) {
                 $("#contain-info").addClass("ubication-info");
+                //obteniendo inputs 
                 const coordinatesForm = $("#coordinates-form");
                 const latitudeInput = $("#latitude");
                 const longitudeInput = $("#longitude");
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        function (position) {
-                            latitudeInput.val(position.coords.latitude);
-                            longitudeInput.val(position.coords.longitude);
+                //solicitud a google maps
+                const claveAPI = 'AIzaSyCun8jl3qRLnWMhhFkwFI5JY81Pklvgyu0';
+                const pais = 'Chile';
+                const region = ' <?php echo $direccion['estado']; ?>';
+                const comuna = ' <?php echo $direccion['comuna']; ?>';
+                const calle = ' <?php echo $direccion['calle']; ?>';
+
+                // Construir la dirección completa
+                const direccion = `${calle}, ${comuna}, ${region}, ${pais}`;
+                const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(direccion)}&key=${claveAPI}`;
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.status === 'OK') {
+                            // Obtener la latitud y longitud desde la respuesta
+                            const latitud = data.results[0].geometry.location.lat;
+                            const longitud = data.results[0].geometry.location.lng;
+                            latitudeInput.val(latitud);
+                            longitudeInput.val(longitud);
                             jQuery(document).ready(function ($) {
                                 marker.setLatLng([latitudeInput.val(), longitudeInput.val()]);
 
                             })
-                        },
-                        function (error) {
-                            console.log("Error al obtener la ubicación: ", error.message);
-                        }
-                    );
-                }
 
+                        } else {
+                            console.error('No se encontraron resultados para la dirección proporcionada.');
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error al realizar la solicitud a la API de Geocodificación de Google Maps.', errorThrown);
+                    }
+                });
+            }
+            $("#obtain-cors").click(function () {
+                $("#contain-info").addClass("ubication-info");
+                //obteniendo inputs 
+                const coordinatesForm = $("#coordinates-form");
+                const latitudeInput = $("#latitude");
+                const longitudeInput = $("#longitude");
+                //solicitud a google maps
+                const claveAPI = 'AIzaSyCun8jl3qRLnWMhhFkwFI5JY81Pklvgyu0';
+                const pais = 'Chile';
+                const region = ' <?php echo $direccion['estado']; ?>';
+                const comuna = ' <?php echo $direccion['comuna']; ?>';
+                const calle = ' <?php echo $direccion['calle']; ?>';
+
+                // Construir la dirección completa
+                const direccion = `${calle}, ${comuna}, ${region}, ${pais}`;
+                const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(direccion)}&key=${claveAPI}`;
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.status === 'OK') {
+                            // Obtener la latitud y longitud desde la respuesta
+                            const latitud = data.results[0].geometry.location.lat;
+                            const longitud = data.results[0].geometry.location.lng;
+                            latitudeInput.val(latitud);
+                            longitudeInput.val(longitud);
+                            jQuery(document).ready(function ($) {
+                                marker.setLatLng([latitudeInput.val(), longitudeInput.val()]);
+
+                            })
+
+                        } else {
+                            console.error('No se encontraron resultados para la dirección proporcionada.');
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error al realizar la solicitud a la API de Geocodificación de Google Maps.', errorThrown);
+                    }
+                });
             })
         });
     })(jQuery);

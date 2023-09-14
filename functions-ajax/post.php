@@ -1,20 +1,20 @@
 <?php
-add_action('wp_ajax_save_coordinates', 'save_coordinates_callback');
-add_action('wp_ajax_nopriv_save_coordinates', 'save_coordinates_callback');
-function save_coordinates_callback()
-{
-    if (isset($_POST['latitude']) && isset($_POST['longitude'])) {
-        session_start();
-        $_SESSION["client_latitude"] = $_POST['latitude'];
-        $_SESSION["client_longitude"] = $_POST['longitude'];
+// add_action('wp_ajax_save_coordinates', 'save_coordinates_callback');
+// add_action('wp_ajax_nopriv_save_coordinates', 'save_coordinates_callback');
+// function save_coordinates_callback()
+// {
+//     if (isset($_POST['latitude']) && isset($_POST['longitude'])) {
+//         session_start();
+//         $_SESSION["client_latitude"] = $_POST['latitude'];
+//         $_SESSION["client_longitude"] = $_POST['longitude'];
 
-        wp_send_json(true);
-    }
-    else {
-        $response = array('status' => 'error', 'message' => 'Invalid data');
-        wp_send_json($response);
-    }
-}
+//         wp_send_json(true);
+//     }
+//     else {
+//         $response = array('status' => 'error', 'message' => 'Invalid data');
+//         wp_send_json($response);
+//     }
+// }
 
 add_action('wp_ajax_calculate_shipping', 'calculate_shipping_ajax_callback');
 add_action('wp_ajax_nopriv_calculate_shipping', 'calculate_shipping_ajax_callback');
@@ -22,7 +22,44 @@ add_action('wp_ajax_nopriv_calculate_shipping', 'calculate_shipping_ajax_callbac
 function calculate_shipping_ajax_callback()
 {
     session_start();
-    if (isset($_POST['vehicle']) && isset($_SESSION["client_latitude"]) && isset($_SESSION["client_longitude"])) {
+    if (isset($_POST['vehicle']) && isset($_POST['pais']) && isset($_POST['region']) && isset($_POST['comuna']) && isset($_POST['calle']) ) {
+        // Obtener la información de dirección desde algún lugar
+        $pais = $_POST['pais'];
+        $region = $_POST['region'];
+        $comuna = $_POST['comuna'];
+        $calle = $_POST['calle'];
+
+        // Construir la dirección completa
+        $direccion =  $calle .", ". $comuna .", ". $region .", ". $pais;
+
+        // Clave de la API de Google Maps
+        $claveAPI = 'AIzaSyCun8jl3qRLnWMhhFkwFI5JY81Pklvgyu0';
+
+        // Construir la URL para la solicitud
+        $url = "https://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode($direccion) . "&key=" . $claveAPI;
+
+        // Realizar la solicitud a Google Maps usando wp_remote_get
+        $response = wp_remote_get($url);
+
+        if (is_wp_error($response)) {
+            // Error al realizar la solicitud
+            echo "Error al realizar la solicitud a la API de Google Maps: " . $response->get_error_message();
+        }
+        else {
+            $body = wp_remote_retrieve_body($response);
+            $data = json_decode($body);
+
+            if ($data && $data->status === 'OK') {
+                // Obtener la latitud y longitud desde la respuesta
+                $_SESSION["client_latitude"] = $data->results[0]->geometry->location->lat;
+                $_SESSION["client_longitude"] = $data->results[0]->geometry->location->lng;
+            }
+            else {
+                // No se encontraron resultados para la dirección proporcionada
+                echo "No se encontraron resultados para la dirección proporcionada.";
+            }
+        }
+
         $data = array(
             "acceso" => get_option("access_key"),
             "ori_lat" => get_option("get_fex_latitude"),
@@ -53,6 +90,7 @@ function calculate_shipping_ajax_callback()
         $response = json_decode($result);
         $_SESSION["vehicle_calculate"] = $_POST["vehicle"];
         $_SESSION["price_calculate"] = $response->resultado->total;
+        //wp_send_json($direccion . " ". $_SESSION["client_latitude"] . " ". $_SESSION["client_longitude"]);
         wp_send_json($response->resultado->total);
     }
     else {
@@ -73,6 +111,10 @@ function save_config_ajax_callback()
             $_SESSION["date"] = $_POST["date"];
             $_SESSION["time"] = $_POST["time"];
         }
+        $_SESSION["pais"] = $_POST['pais'];
+        $_SESSION["region"] = $_POST['region'];
+        $_SESSION["comuna"] = "Lo"." "."barnechea";
+        $_SESSION["calle"] = $_POST['calle'];
         $_SESSION["vehicle"] = $_POST["vehicle"];
         $_SESSION["price"] = $_SESSION["price_calculate"];
         setcookie('fex_shipping_cost', $_SESSION["price_calculate"], time() + (60 * 20), '/');

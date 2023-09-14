@@ -13,32 +13,6 @@ function agregar_modal_fex()
             $('body').on('click', 'input[name="shipping_method[0]"]', function () {
                 var metodoEnvioSeleccionado = $(this).val();
                 if (metodoEnvioSeleccionado === 'fex_express_shipping_method') {
-                    //geolocalización 
-                    if ("geolocation" in navigator) {
-                        navigator.geolocation.getCurrentPosition(function (position) {
-                            var latitude = position.coords.latitude;
-                            var longitude = position.coords.longitude;
-                            $.ajax({
-                                url: '<?php echo admin_url('admin-ajax.php'); ?>',
-                                type: 'POST',
-                                data: {
-                                    action: 'save_coordinates',
-                                    latitude: latitude,
-                                    longitude: longitude,
-                                },
-                                dataType: 'json',
-                                success: function (response) {
-                                 
-                                },
-                                error: function (xhr, status, error) {
-                                    console.log('Error:', error);
-                                }
-                            });
-
-                        });
-                    } else {
-                        alert("La geolocalización no está disponible en este navegador.");
-                    }
 
                     // Mostrar el modal aquí
                     var modalContent = `
@@ -48,12 +22,11 @@ function agregar_modal_fex()
                             <h2 class="fex-title-fex">Fex express</h2>
                             <p class="fex-description-shipping">¡Tus productos llegan en 30 minutos en la ciudad de Santiago!</p>
                             <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
-                            <p class="fex-p-fex">¡Recuerda que el precio se calcula según tu ubiación actual!</p>
                             <div class="fex-contain-vehicles">
                             <div  class="fex-contain-moto">
                             <img class="fex-vehicle-icon" style="width: 60px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
                             <label class="fex-container">Moto
-                            <input class="fex-input-vehicle" value="1" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "1") ? "checked" : ""; ?> type="radio" name="radio">
+                            <input class="fex-input-vehicle" required value="1" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "1") ? "checked" : ""; ?> type="radio" name="radio">
                             <span class="fex-checkmark"></span>
                             </div>
                             <div class="fex-contain-opt">
@@ -87,7 +60,47 @@ function agregar_modal_fex()
                               <span class="fex-checkmark"></span>
                               </div>
                               </div>
-                              <p class="fex-p-fex">Debes darnos acceso a tu ubiación para poder calcular el precio del envío</p>
+                               <p class="fex-p-fex">Ingresa tu dirección.</p>
+                              <div class="fex-contain-address">
+                              <label for="pais">País:</label>
+                               <select required id="fex-pais-address" name="pais">
+                               <option value="Chile">Chile</option>
+                               </select>
+                               <label for="region">Región:</label>
+                               <select required id="fex-region-adress" name="region">
+                                <option disabled value="Araucanía">Araucanía</option>
+                                <option disabled value="Arica y Parinacota">Arica y Parinacota</option>
+                                <option disabled value="Atacama">Atacama</option>
+                                <option disabled value="Aysén">Aysén</option>
+                                <option disabled value="Biobío">Biobío</option>
+                                <option disabled value="Coquimbo">Coquimbo</option>
+                                <option disabled value="Los Lagos">Los Lagos</option>
+                                <option disabled value="Los Ríos">Los Ríos</option>
+                                <option value="Santiago">Santiago de Chile</option>
+                                <option disabled value="Magallanes y de la Antártica Chilena">Magallanes y de la Antártica Chilena</option>
+                                <option disabled value="Maule">Maule</option>
+                                <option disabled value="Ñuble">Ñuble</option>
+                                <option disabled value="O'Higgins">O'Higgins</option>
+                                <option disabled value="Tarapacá">Tarapacá</option>
+                                <option disabled value="Valparaíso">Valparaíso</option>
+                               </select>
+                               <label for="comuna">Comuna:</label>
+                               <?php if(isset($_SESSION["comuna"])){
+                                   echo '<input  value="' . $_SESSION["comuna"] . '" required type="text" id="fex-comuna-address" name="comuna">';
+                               }else{
+                                   echo '<input required type="text" id="fex-comuna-address" name="comuna">';
+                               }
+                               ?>
+                               <label for="calle">Calle:</label>
+                                <?php if (isset($_SESSION["calle"])) {
+                                        echo '<input  value="' . $_SESSION["calle"] . '" required type="text" id="fex-calle-address" name="calle">';
+                                    }
+                                    else {
+                                        echo '<input required type="text" id="fex-calle-address" name="calle">';
+                                    }
+                                    ?>
+                              </div>
+                              <button id="calculate-shipping-fex">Calcular precio</button>
                               <div class="fex-price-container"><h3 class="fex-price-text">Precio: <span class="fex-price">
                               <?php
                               if (isset($_SESSION["price"])) {
@@ -112,8 +125,14 @@ function agregar_modal_fex()
                         });
                     });
                     //calcular precio
-                    $('.fex-my-modal').change(function () {
-                        event.preventDefault();
+                    $('.fex-my-modal').submit(function (event) {
+                       event.preventDefault()
+                        //accediendo a los valores del formulario de cálculo
+                        var pais = $('#fex-pais-address').val();
+                        var region = $('#fex-region-adress').val();
+                        var comuna = $('#fex-comuna-address').val();
+                        var calle = $('#fex-calle-address').val();
+                        //valor del vehículo
                         var valorSeleccionado = $('input[name="radio"]:checked').val();
                         const overlay = document.querySelector('.fex-overlay');
                         const modal = document.querySelector('.fex-my-modal');
@@ -124,7 +143,11 @@ function agregar_modal_fex()
                             type: 'POST',
                             data: {
                                 action: 'calculate_shipping',
-                                vehicle: valorSeleccionado
+                                vehicle: valorSeleccionado,
+                                pais: pais,
+                                region: region,
+                                comuna: comuna,
+                                calle: calle,
                             },
                             dataType: 'json',
                             success: function (response) {
@@ -150,14 +173,23 @@ function agregar_modal_fex()
                     });
                     //confirmar método de envío
                     $('.fex-confirm-button').click(function () {
-                        event.preventDefault();
+                        event.preventDefault();                      
                         var valorSeleccionado = $('input[name="radio"]:checked').val();
+                        //valores de la dirección
+                        var pais = $('#fex-pais-address').val();
+                        var region = $('#fex-region-adress').val();
+                        var comuna = $('#fex-comuna-address').val();
+                        var calle = $('#fex-calle-address').val();
                         $.ajax({
                             url: '<?php echo admin_url('admin-ajax.php'); ?>',
                             type: 'POST',
                             data: {
                                 action: 'save_config',
                                 vehicle: valorSeleccionado,
+                                pais: pais,
+                                region: region,
+                                comuna: comuna,
+                                calle: calle,
                             },
                             dataType: 'json',
                             success: function (response) {
@@ -194,31 +226,6 @@ function agregar_modal_fex_programado()
             $('body').on('click', 'input[name="shipping_method[0]"]', function () {
                 var metodoEnvioSeleccionado = $(this).val();
                 if (metodoEnvioSeleccionado === 'fex_programado_shipping_method') {
-                    //geolocalización 
-                    if ("geolocation" in navigator) {
-                        navigator.geolocation.getCurrentPosition(function (position) {
-                            var latitude = position.coords.latitude;
-                            var longitude = position.coords.longitude;
-                            $.ajax({
-                                url: '<?php echo admin_url('admin-ajax.php'); ?>',
-                                type: 'POST',
-                                data: {
-                                    action: 'save_coordinates',
-                                    latitude: latitude,
-                                    longitude: longitude,
-                                },
-                                dataType: 'json',
-                                success: function (response) {
-                                },
-                                error: function (xhr, status, error) {
-                                    console.log('Error:', error);
-                                }
-                            });
-
-                        });
-                    } else {
-                        alert("La geolocalización no está disponible en este navegador.");
-                    }
                     <?php
                     $nextMonth = new DateTime();
                     $nextMonth->modify('+1 month');
@@ -232,7 +239,6 @@ function agregar_modal_fex_programado()
                            <h2 class="fex-title-fex">Fex programado</h2>
                            <p class="fex-description-shipping">¡Programa la fecha y hora en la que quieres recibir tus productos!</p>
                            <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
-                           <p class="fex-p-fex">¡Recuerda que el precio se calcula según tu ubiación actual!</p>
                           <div class="fex-contain-vehicles">
                                <div  class="fex-contain-moto">
                                  <img class="fex-vehicle-icon" style="width: 60px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
@@ -271,8 +277,49 @@ function agregar_modal_fex_programado()
                                         <span class="fex-checkmark"></span>
                               </div>
                            </div>
-                           <p class="fex-p-fex">Debes darnos acceso a tu ubiación para poder calcular el precio del envío</p>
-                           <div class="fex-price-container"><h3 class="fex-price-text">Precio: <span class="fex-price">                 
+                            <p class="fex-p-fex">Ingresa tu dirección.</p>
+                              <div class="fex-contain-address">
+                              <label for="pais">País:</label>
+                               <select required id="fex-pais-address" name="pais">
+                               <option value="Chile">Chile</option>
+                               </select>
+                               <label for="region">Región:</label>
+                               <select required id="fex-region-adress" name="region">
+                                <option disabled value="Araucanía">Araucanía</option>
+                                <option disabled value="Arica y Parinacota">Arica y Parinacota</option>
+                                <option disabled value="Atacama">Atacama</option>
+                                <option disabled value="Aysén">Aysén</option>
+                                <option disabled value="Biobío">Biobío</option>
+                                <option disabled value="Coquimbo">Coquimbo</option>
+                                <option disabled value="Los Lagos">Los Lagos</option>
+                                <option disabled value="Los Ríos">Los Ríos</option>
+                                <option value="Santiago">Santiago de Chile</option>
+                                <option disabled value="Magallanes y de la Antártica Chilena">Magallanes y de la Antártica Chilena</option>
+                                <option disabled value="Maule">Maule</option>
+                                <option disabled value="Ñuble">Ñuble</option>
+                                <option disabled value="O'Higgins">O'Higgins</option>
+                                <option disabled value="Tarapacá">Tarapacá</option>
+                                <option disabled value="Valparaíso">Valparaíso</option>
+                               </select>
+                               <label for="comuna">Comuna:</label>
+                               <?php if (isset($_SESSION["comuna"])) {
+                                       echo '<input  value="' . $_SESSION["comuna"] . '" required type="text" id="fex-comuna-address" name="comuna">';
+                                   }
+                                   else {
+                                       echo '<input required type="text" id="fex-comuna-address" name="comuna">';
+                                   }
+                                   ?>
+                                   <label for="calle">Calle:</label>
+                                    <?php if (isset($_SESSION["calle"])) {
+                                        echo '<input  value="' . $_SESSION["calle"] . '" required type="text" id="fex-calle-address" name="calle">';
+                                    }
+                                    else {
+                                        echo '<input required type="text" id="fex-calle-address" name="calle">';
+                                    }
+                                    ?>
+                                  </div>
+                                  <button id="calculate-shipping-fex">Calcular precio</button>
+                               <div class="fex-price-container"><h3 class="fex-price-text">Precio: <span class="fex-price">                 
                            <?php
                            if (isset($_SESSION["price"])) {
                                echo "$" . $_SESSION["price"];
@@ -338,17 +385,14 @@ function agregar_modal_fex_programado()
                             });
                         });
                         //calcular precio
-                        $('.fex-contain-vehicles').change(function () {
-                              var country = $('#calc_shipping_country').val();
-                             var state = $('#calc_shipping_state').val();
-                             var postcode = $('#calc_shipping_postcode').val();
-                             var city = $('#calc_shipping_city').val();
-                             // Haz algo con los valores capturados, como mostrarlos en la consola
-                            //  console.log('País: ' + country);
-                            //  console.log('Estado: ' + state);
-                            //  console.log('Código postal: ' + postcode);
-                            //  console.log('City: ' + city);
+                        $('.fex-my-modal').submit(function () {
                             event.preventDefault();
+                            //accediendo a los valores del formulario de cálculo
+                            var pais = $('#fex-pais-address').val();
+                            var region = $('#fex-region-adress').val();
+                            var comuna = $('#fex-comuna-address').val();
+                            var calle = $('#fex-calle-address').val();
+                            //accediendo a los valores del modal
                             var valorSeleccionado = $('input[name="radio"]:checked').val();
                             const overlay = document.querySelector('.fex-overlay');
                             const modal = document.querySelector('.fex-my-modal');
@@ -359,7 +403,11 @@ function agregar_modal_fex_programado()
                             type: 'POST',
                             data: {
                                 action: 'calculate_shipping',
-                                vehicle: valorSeleccionado
+                                vehicle: valorSeleccionado,
+                                pais: pais,
+                                region: region,
+                                comuna: comuna,
+                                calle: calle,
                             },
                             dataType: 'json',
                             success: function (response) {
@@ -367,6 +415,7 @@ function agregar_modal_fex_programado()
                                     window.alert("Debes dar acceso a tu ubiación");
                                     overlay.style.display = 'none';
                                 } else {
+                                    console.log(response)
                                     overlay.style.display = 'none';
                                     var h3Element = $(`<h3 class="fex-price-text">Precio: <span class="fex-price">$${response}</span></h3>`);
                                     $('.fex-confirm-button').prop('disabled', false);
@@ -384,8 +433,14 @@ function agregar_modal_fex_programado()
 
                     });
                     //confirmar método de envío
-                    $('.fex-my-modal').submit(function (event) {
-                        event.preventDefault()
+                    $('.fex-confirm-button').click(function (event) {
+                         event.preventDefault()
+                        //valores de la dirección
+                        var pais = $('#fex-pais-address').val();
+                        var region = $('#fex-region-adress').val();
+                        var comuna = $('#fex-comuna-address').val();
+                        var calle = $('#fex-calle-address').val();
+                        //valor del vehículo
                         var valorSeleccionado = $('input[name="radio"]:checked').val();
                         var date = $("#date-fex").val()
                         var time = $("#time-fex").val()
@@ -395,6 +450,10 @@ function agregar_modal_fex_programado()
                             data: {
                                 action: 'save_config',
                                 vehicle: valorSeleccionado,
+                                pais: pais,
+                                region: region,
+                                comuna: comuna,
+                                calle: calle,
                                 time: time,
                                 date: date,
                                 programado: `${date} ${time}:00`

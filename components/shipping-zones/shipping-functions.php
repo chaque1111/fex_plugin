@@ -3,7 +3,7 @@ session_start();
 function obtener_direccion_woocommerce()
 {
     $direccion = array(
-        'estado' => obtener_todas_las_regiones_chile(get_option('woocommerce_default_country')),
+        'estado' => get_option('woocommerce_default_country'),
         'comuna' => get_option('woocommerce_store_city'),
         'calle' => get_option('woocommerce_store_address'),
         'ciudad' => get_option('woocommerce_store_city'),
@@ -12,27 +12,27 @@ function obtener_direccion_woocommerce()
     return $direccion;
 }
 
-function obtener_todas_las_regiones_chile($name)
-{
-    $regiones = array(
-        'CL:CL-AI' => 'Aisén del General Carlos Ibáñez del Campo',
-        'CL:CL-AN' => 'Antofagasta',
-        'CL:CL-AP' => 'Arica y Parinacota',
-        'CL:CL-TA' => 'Tarapacá',
-        'CL:CL-AT' => 'Atacama',
-        'CL:CL-CO' => 'Coquimbo',
-        'CL:CL-VA' => 'Valparaíso',
-        'CL:CL-LI' => 'Libertador General Bernardo O\'Higgins',
-        'CL:CL-ML' => 'Maule',
-        'CL:CL-BI' => 'Biobío',
-        'CL:CL-AR' => 'La Araucanía',
-        'CL:CL-LR' => 'Los Ríos',
-        'CL:CL-LS' => 'Los Lagos',
-        'CL:CL-MG' => 'Magallanes y de la Antártica Chilena',
-        'CL:CL-RM' => 'Región Metropolitana de Santiago'
-    );
-    return $regiones[$name];
-}
+// function obtener_todas_las_regiones_chile($name)
+// {
+//     $regiones = array(
+//         'CL:CL-AI' => 'Aisén del General Carlos Ibáñez del Campo',
+//         'CL:CL-AN' => 'Antofagasta',
+//         'CL:CL-AP' => 'Arica y Parinacota',
+//         'CL:CL-TA' => 'Tarapacá',
+//         'CL:CL-AT' => 'Atacama',
+//         'CL:CL-CO' => 'Coquimbo',
+//         'CL:CL-VA' => 'Valparaíso',
+//         'CL:CL-LI' => 'Libertador General Bernardo O\'Higgins',
+//         'CL:CL-ML' => 'Maule',
+//         'CL:CL-BI' => 'Biobío',
+//         'CL:CL-AR' => 'La Araucanía',
+//         'CL:CL-LR' => 'Los Ríos',
+//         'CL:CL-LS' => 'Los Lagos',
+//         'CL:CL-MG' => 'Magallanes y de la Antártica Chilena',
+//         'CL:CL-RM' => 'Región Metropolitana de Santiago'
+//     );
+//     return $regiones[$name];
+// }
 $direccion = obtener_direccion_woocommerce();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

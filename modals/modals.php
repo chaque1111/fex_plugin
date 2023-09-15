@@ -10,21 +10,24 @@ function agregar_modal_fex()
     ?>
     <script>
         jQuery(document).ready(function ($) {
-            $('body').on('click', 'input[name="shipping_method[0]"]', function () {
-                var metodoEnvioSeleccionado = $(this).val();
-                if (metodoEnvioSeleccionado === 'fex_express_shipping_method') {
+            if("<?php echo $_SESSION["calle"] ?>" && "<?php echo is_checkout() ?>") {
+                        direccion = $("#billing_address_1").val("<?php echo $_SESSION["calle"] . ", " . $_SESSION["comuna"] ?>")
+                    }
+                $('body').on('click', 'input[name="shipping_method[0]"]', function () {
+                    var metodoEnvioSeleccionado = $(this).val();
+                    if (metodoEnvioSeleccionado === 'fex_express_shipping_method') {
 
-                    // Mostrar el modal aquí
-                    var modalContent = `
-                            <form class="fex-my-modal">
-                            <div class="fex-overlay"></div> 
-                            <button class="fex-close-button">x</button>
-                            <h2 class="fex-title-fex">Fex express</h2>
-                            <p class="fex-description-shipping">¡Tus productos llegan en 30 minutos en la ciudad de Santiago!</p>
-                            <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
-                            <div class="fex-contain-vehicles">
-                            <div  class="fex-contain-moto">
-                            <img class="fex-vehicle-icon" style="width: 60px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
+                        // Mostrar el modal aquí
+                        var modalContent = `
+                                <form class="fex-my-modal">
+                                <div class="fex-overlay"></div> 
+                                <button class="fex-close-button">x</button>
+                                <h2 class="fex-title-fex">Fex express</h2>
+                                <p class="fex-description-shipping">¡Tus productos llegan en 30 minutos en la ciudad de Santiago!</p>
+                                <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
+                                <div class="fex-contain-vehicles">
+                                <div  class="fex-contain-moto">
+                                <img class="fex-vehicle-icon" style="width: 60px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
                             <label class="fex-container">Moto
                             <input class="fex-input-vehicle" required value="1" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "1") ? "checked" : ""; ?> type="radio" name="radio">
                             <span class="fex-checkmark"></span>
@@ -100,7 +103,7 @@ function agregar_modal_fex()
                                     }
                                     ?>
                               </div>
-                              <button id="calculate-shipping-fex">Calcular precio</button>
+                              <button id="calculate-shipping-fex" class="fex-calculate-price" >Calcular precio</button>
                               <div class="fex-price-container"><h3 class="fex-price-text">Precio: <span class="fex-price">
                               <?php
                               if (isset($_SESSION["price"])) {
@@ -152,7 +155,7 @@ function agregar_modal_fex()
                             dataType: 'json',
                             success: function (response) {
                                 if (response === "false") {
-                                    window.alert("Debes dar acceso a tu ubiación");
+                                    window.alert("Debes rellenar todos los campos");
                                     overlay.style.display = 'none';
                                 } else {
                                     overlay.style.display = 'none';
@@ -223,6 +226,9 @@ function agregar_modal_fex_programado()
     ?>
     <script>
         jQuery(document).ready(function ($) {
+            if("<?php echo $_SESSION["calle"] ?>" && "<?php echo is_checkout() ?>") {
+              direccion = $("#billing_address_1").val("<?php echo $_SESSION["calle"] .", ". $_SESSION["comuna"] ?>")
+             }
             $('body').on('click', 'input[name="shipping_method[0]"]', function () {
                 var metodoEnvioSeleccionado = $(this).val();
                 if (metodoEnvioSeleccionado === 'fex_programado_shipping_method') {
@@ -318,7 +324,7 @@ function agregar_modal_fex_programado()
                                     }
                                     ?>
                                   </div>
-                                  <button id="calculate-shipping-fex">Calcular precio</button>
+                                  <button id="calculate-shipping-fex" class="fex-calculate-price" >Calcular precio</button>
                                <div class="fex-price-container"><h3 class="fex-price-text">Precio: <span class="fex-price">                 
                            <?php
                            if (isset($_SESSION["price"])) {
@@ -412,16 +418,14 @@ function agregar_modal_fex_programado()
                             dataType: 'json',
                             success: function (response) {
                                 if (response === "false") {
-                                    window.alert("Debes dar acceso a tu ubiación");
+                                    window.alert("Debes rellenar todos los campos");
                                     overlay.style.display = 'none';
                                 } else {
-                                    console.log(response)
                                     overlay.style.display = 'none';
                                     var h3Element = $(`<h3 class="fex-price-text">Precio: <span class="fex-price">$${response}</span></h3>`);
                                     $('.fex-confirm-button').prop('disabled', false);
                                     // Vaciar el contenido existente del contenedor
                                     $('.fex-price-container').empty();
-
                                     // Agregar el nuevo elemento h3 al contenedor
                                     $('.fex-price-container').append(h3Element);
                                 }

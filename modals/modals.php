@@ -10,24 +10,21 @@ function agregar_modal_fex()
     ?>
     <script>
         jQuery(document).ready(function ($) {
-            if("<?php echo $_SESSION["calle"] ?>" && "<?php echo is_checkout() ?>") {
-                        direccion = $("#billing_address_1").val("<?php echo $_SESSION["calle"] . ", " . $_SESSION["comuna"] ?>")
-                    }
                 $('body').on('click', 'input[name="shipping_method[0]"]', function () {
                     var metodoEnvioSeleccionado = $(this).val();
                     if (metodoEnvioSeleccionado === 'fex_express_shipping_method') {
 
                         // Mostrar el modal aquí
                         var modalContent = `
-                                <form class="fex-my-modal">
-                                <div class="fex-overlay"></div> 
-                                <button class="fex-close-button">x</button>
-                                <h2 class="fex-title-fex">Fex express</h2>
-                                <p class="fex-description-shipping">¡Tus productos llegan en 30 minutos en la ciudad de Santiago!</p>
-                                <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
-                                <div class="fex-contain-vehicles">
-                                <div  class="fex-contain-moto">
-                                <img class="fex-vehicle-icon" style="width: 60px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
+                            <form class="fex-my-modal">
+                            <div class="fex-overlay"></div> 
+                            <button class="fex-close-button">x</button>
+                            <h2 class="fex-title-fex">Fex express</h2>
+                            <p class="fex-description-shipping">¡Tus productos llegan en 30 minutos en la ciudad de Santiago!</p>
+                            <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
+                            <div class="fex-contain-vehicles">
+                            <div  class="fex-contain-moto">
+                            <img class="fex-vehicle-icon" style="width: 60px" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
                             <label class="fex-container">Moto
                             <input class="fex-input-vehicle" required value="1" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "1") ? "checked" : ""; ?> type="radio" name="radio">
                             <span class="fex-checkmark"></span>
@@ -226,9 +223,18 @@ function agregar_modal_fex_programado()
     ?>
     <script>
         jQuery(document).ready(function ($) {
-            if("<?php echo $_SESSION["calle"] ?>" && "<?php echo is_checkout() ?>") {
-              direccion = $("#billing_address_1").val("<?php echo $_SESSION["calle"] .", ". $_SESSION["comuna"] ?>")
+            <?php
+             if (isset($_SESSION["calle"]) && isset($_SESSION["comuna"])) {
+                 $direccion_form = $_SESSION["calle"] . ", " . $_SESSION["comuna"];
              }
+             else {
+                 $direccion_form = ""; 
+             }
+             ?>
+            if("<?php echo $direccion_form ?>") {
+              direccion = $("#billing_address_1").val("<?php echo  $direccion_form?>")
+             }
+             
             $('body').on('click', 'input[name="shipping_method[0]"]', function () {
                 var metodoEnvioSeleccionado = $(this).val();
                 if (metodoEnvioSeleccionado === 'fex_programado_shipping_method') {

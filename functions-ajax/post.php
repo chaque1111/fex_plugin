@@ -28,7 +28,9 @@ function calculate_shipping_ajax_callback()
         $region = $_POST['region'];
         $comuna = $_POST['comuna'];
         $calle = $_POST['calle'];
-
+        if($comuna === "" || $calle === ""){
+            wp_send_json("false");
+        }
         // Construir la dirección completa
         $direccion =  $calle .", ". $comuna .", ". $region .", ". $pais;
 
@@ -113,7 +115,7 @@ function save_config_ajax_callback()
         }
         $_SESSION["pais"] = $_POST['pais'];
         $_SESSION["region"] = $_POST['region'];
-        $_SESSION["comuna"] = "Lo"." "."barnechea";
+        $_SESSION["comuna"] = $_POST['comuna'];
         $_SESSION["calle"] = $_POST['calle'];
         $_SESSION["vehicle"] = $_POST["vehicle"];
         $_SESSION["price"] = $_SESSION["price_calculate"];
@@ -127,6 +129,6 @@ function save_config_ajax_callback()
         wp_send_json(true);
     }
     else {
-        wp_send_json("false");
+        wp_send_json(false);
     }
 }

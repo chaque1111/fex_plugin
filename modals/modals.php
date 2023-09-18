@@ -232,13 +232,16 @@ function agregar_modal_fex_programado()
             <?php
             if (isset($_SESSION["calle"]) && isset($_SESSION["comuna"])) {
                 $direccion_form = $_SESSION["calle"] . ", " . $_SESSION["comuna"];
+                $ciudad = $_SESSION["region"];
             }
             else {
                 $direccion_form = "";
+                $ciudad = "";
             }
             ?>
             if ("<?php echo $direccion_form ?>") {
-                direccion = $("#billing_address_1").val("<?php echo $direccion_form ?>")
+                 $("#billing_address_1").val("<?php echo $direccion_form ?>")
+                 $("#billing_city").val("<?php echo $ciudad ?>")         
             }
 
             $('body').on('click', 'input[name="shipping_method[0]"]', function () {

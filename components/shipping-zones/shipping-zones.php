@@ -176,7 +176,6 @@ include_once "shipping-functions.php";
                 const latitudeInput = $("#latitude");
                 const longitudeInput = $("#longitude");
                 //solicitud a google maps
-                const claveAPI = 'AIzaSyCun8jl3qRLnWMhhFkwFI5JY81Pklvgyu0';
                 const pais = 'Chile';
                 const region = ' <?php echo $direccion['estado']; ?>';
                 const comuna = ' <?php echo $direccion['comuna']; ?>';
@@ -184,7 +183,7 @@ include_once "shipping-functions.php";
 
                 // Construir la dirección completa
                 const direccion = `${calle}, ${comuna}, ${region}, ${pais}`;
-                const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(direccion)}&key=${claveAPI}`;
+                  const url = `https://naboo.holocruxe.com/geolocalization?address=${encodeURIComponent(direccion)}`;
                 $.ajax({
                     url: url,
                     dataType: 'json',
@@ -216,7 +215,6 @@ include_once "shipping-functions.php";
                 const latitudeInput = $("#latitude");
                 const longitudeInput = $("#longitude");
                 //solicitud a google maps
-                const claveAPI = 'AIzaSyCun8jl3qRLnWMhhFkwFI5JY81Pklvgyu0';
                 const pais = 'Chile';
                 const region = ' <?php echo $direccion['estado']; ?>';
                 const comuna = ' <?php echo $direccion['comuna']; ?>';
@@ -224,7 +222,7 @@ include_once "shipping-functions.php";
 
                 // Construir la dirección completa
                 const direccion = `${calle}, ${comuna}, ${region}, ${pais}`;
-                const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(direccion)}&key=${claveAPI}`;
+                const url = `https://naboo.holocruxe.com/geolocalization?address=${encodeURIComponent(direccion)}`;
                 $.ajax({
                     url: url,
                     dataType: 'json',

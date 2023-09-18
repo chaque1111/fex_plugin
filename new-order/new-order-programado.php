@@ -18,7 +18,6 @@ function fex_programado_validation($passed, $checkout)
 
         if (!isset($_SESSION["client_latitude"]) && !isset($_SESSION["client_longitude"])) {
             wc_add_notice('Para usar el método de envío de Fex debes darnos acceso a tu ubicación', 'error');
-            wc_add_notice('Asegúrate de que los permisos de ubicación estén permitidos', 'error');
             $passed = false;
             return;
 
@@ -62,7 +61,7 @@ function fex_flete_programado($order_id)
             "dir_origen" => get_option("get_fex_dir_org"),
             "des_lat" => $_SESSION["client_latitude"],
             "des_lng" => $_SESSION["client_longitude"],
-            "dir_destino" => $info_client["address_1"] . ' ' . $info_client["address_2"] . ', ' . $info_client["address_2"] . $info_client["city"] . ', ' . $info_client["state"] . ', ' . $info_client["country"],
+            "dir_destino" => $info_client["address_1"] . ', ' . $info_client["city"] . ', ' . $info_client["state"] . ', ' . $info_client["country"],
             "des_carga" => "Envío fex para woocommerce",
             "rec_nom" => $info_client["first_name"] . ' ' . $info_client["last_name"],
             "rec_tel" => $customer_data->billing_phone,
@@ -94,6 +93,10 @@ function fex_flete_programado($order_id)
         unset($_SESSION['price_calculate']);
         unset($_SESSION['price']);
         unset($_SESSION['programado']);
+        unset($_SESSION['pais']);
+        unset($_SESSION['region']);
+        unset($_SESSION['comuna']);
+        unset($_SESSION['calle']);
         setcookie('fex_shipping_cost', 0, time() + (60 * 20), '/');
         $packages = WC()->cart->get_shipping_packages();
         foreach ($packages as $package_key => $package) {

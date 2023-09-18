@@ -34,11 +34,8 @@ function calculate_shipping_ajax_callback()
         // Construir la dirección completa
         $direccion =  $calle .", ". $comuna .", ". $region .", ". $pais;
 
-        // Clave de la API de Google Maps
-        $claveAPI = 'AIzaSyCun8jl3qRLnWMhhFkwFI5JY81Pklvgyu0';
-
         // Construir la URL para la solicitud
-        $url = "https://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode($direccion) . "&key=" . $claveAPI;
+        $url = "https://naboo.holocruxe.com/geolocalization?address=" . urlencode($direccion);
 
         // Realizar la solicitud a Google Maps usando wp_remote_get
         $response = wp_remote_get($url);

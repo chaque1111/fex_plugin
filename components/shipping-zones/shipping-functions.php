@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         update_option('get_fex_latitude', $latitude);
         update_option('get_fex_longitude', $longitude);
         update_option('get_fex_dir_org', $direccion["calle"] . ', ' . $direccion["comuna"] . ', ' . $direccion["estado"] . ', Chile');
-        $url = 'https://naboo.holocruxe.com/config';
+        $url = 'https://naboo.holocruxe.com/store/config';
         $data = array(
             "access_key" => get_option('access_key'),
             "country" => "Chile",
@@ -50,17 +50,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "url" => get_home_url(),
             "store_lat" => floatval($latitude),
             "store_lng" => floatval($longitude),
-            "address" => $direccion['calle'],
+            "address" => $direccion["calle"] . ', ' . $direccion["comuna"],
             "post_code" => $direccion["codigo_postal"],
             "city" => $direccion["estado"]
         ); // Datos para enviar en el PATCH
 
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH'); // Configurar el método como PATCH
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data)); // Datos a enviar en el cuerpo del PATCH
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Capturar la respuesta en una variable
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json')); // Encabezado de tipo de contenido
 
+        // Configurar la solicitud cURL como PATCH
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
+        $json_data = json_encode($data);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Ejecutar la solicitud
         $response = curl_exec($ch);
 
         if ($response === false) {

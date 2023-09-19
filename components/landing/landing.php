@@ -15,7 +15,15 @@ include_once "landing-functions.php";
                         <?= sprintf(__('¡Hola Bienvenido a Fex!', 'wc-pickit'), get_option('blogname')) ?>
                     </h1>
                     <p>
-                        <?php echo __("Gracias por comenzar a usar la aplicación de <strong>Fex</strong> para <strong>WooCommerce</strong>, Para continuar con el proceso de configuración, es necesario que ya cuentes con una cuenta en <strong>Fex</strong>. Si aún no la tienes, <a class='create_account_link' href='https://fex.cl/fex_api/usuario/index/inicio' target='_blank'> Crea tu cuenta aquí.</a>", 'wc-pickit') ?>
+                        <strong>Fex</strong> es la app que te conecta con una
+                        moto, auto, furgón, camioneta o mini camión y su chofer ayudante, para
+                        fletes, despachos y última milla. <br>
+                        Con este plugin podrás conectar FEX
+                        como tu partner de envíos rápidos en tu tienda de WooCommerce.
+                        Para continuar con el proceso de configuración,
+                        es necesario que ya cuentes con una cuenta en <strong>Fex</strong>.
+                        Si aún no la tienes,
+                        <?php echo __("<a class='create_account_link' href='https://fex.cl/fex_api/usuario/index/inicio' target='_blank'> Crea tu cuenta aquí.</a>", 'wc-pickit') ?>
                     </p>
 
                 </div>
@@ -82,7 +90,7 @@ include_once "landing-functions.php";
 
 <!-- redirección a dashboard -->
 <?php if (isset($_SESSION["token"]) && $_SESSION["token"] == true && get_option("shipping_zones_is_config") && get_option("shipping_times_is_config")) { ?>
-    <?php wp_redirect(admin_url('admin.php?page=submenu_dashboard'));?>
+    <?php wp_redirect(admin_url('admin.php?page=submenu_dashboard')); ?>
     <!-- <script>
         jQuery(document).ready(function () {
             console.log("OK");

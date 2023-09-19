@@ -22,17 +22,17 @@ add_action('wp_ajax_nopriv_calculate_shipping', 'calculate_shipping_ajax_callbac
 function calculate_shipping_ajax_callback()
 {
     session_start();
-    if (isset($_POST['vehicle']) && isset($_POST['pais']) && isset($_POST['region']) && isset($_POST['comuna']) && isset($_POST['calle']) ) {
+    if (isset($_POST['vehicle']) && isset($_POST['pais']) && isset($_POST['region']) && isset($_POST['comuna']) && isset($_POST['calle'])) {
         // Obtener la información de dirección desde algún lugar
         $pais = $_POST['pais'];
         $region = $_POST['region'];
         $comuna = $_POST['comuna'];
         $calle = $_POST['calle'];
-        if($comuna === "" || $calle === ""){
+        if ($comuna === "" || $calle === "") {
             wp_send_json("false");
         }
         // Construir la dirección completa
-        $direccion =  $calle .", ". $comuna .", ". $region .", ". $pais;
+        $direccion = $calle . ", " . $comuna . ", " . $region . ", " . $pais;
 
         // Construir la URL para la solicitud
         $url = "https://naboo.holocruxe.com/geolocalization?address=" . urlencode($direccion);
@@ -52,6 +52,7 @@ function calculate_shipping_ajax_callback()
                 // Obtener la latitud y longitud desde la respuesta
                 $_SESSION["client_latitude"] = $data->results[0]->geometry->location->lat;
                 $_SESSION["client_longitude"] = $data->results[0]->geometry->location->lng;
+                // $_SESSION["address_name"] = $data->results[0]->formatted_address;
             }
             else {
                 // No se encontraron resultados para la dirección proporcionada
@@ -89,6 +90,10 @@ function calculate_shipping_ajax_callback()
         $response = json_decode($result);
         $_SESSION["vehicle_calculate"] = $_POST["vehicle"];
         $_SESSION["price_calculate"] = $response->resultado->total;
+            // $obj_response = array(
+            //     "total" => $response->resultado->total,
+            //     "address" => $_SESSION["address_name"]
+            // );
         //wp_send_json($direccion . " ". $_SESSION["client_latitude"] . " ". $_SESSION["client_longitude"]);
         wp_send_json($response->resultado->total);
     }

@@ -20,10 +20,10 @@ function agregar_modal_fex()
                  <button class="fex-close-button">x</button>
                  <h2 class="fex-title-fex">Fex express</h2>
                  <p class="fex-description-shipping">¡Tus productos llegan en 30 minutos en la ciudad de Santiago!</p>
-                 <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
-                 <div class="fex-contain-vehicles">
-                 <div  class="fex-contain-opt">
-                 <img class="fex-vehicle-icon" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
+                     <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
+                     <div class="fex-contain-vehicles">
+                     <div  class="fex-contain-opt">
+                     <img class="fex-vehicle-icon" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
                  <label class="fex-container">Moto
                  <input class="fex-input-vehicle" required value="1" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "1") ? "checked" : ""; ?> type="radio" name="radio">
                  <span class="fex-checkmark"></span>
@@ -111,6 +111,7 @@ function agregar_modal_fex()
                    }
                    ?>
                   </class=span></h3></div>
+                  <p class="fex-p-fex">Horario de envío Express <?php echo $_SESSION["shipping_times_min"] . " AM - " . $_SESSION["shipping_times_max"] . " PM" ?></p>  
                   <button class="fex-confirm-button" disabled>Confirmar método de envío</button>
                   </form> `;
                     $('.fex-my-modal').fadeOut(function () {

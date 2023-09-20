@@ -6,28 +6,28 @@ include_once "times-functions.php";
 
 <!-- Reconfigurar -->
 <div id="pickit-ok" class="modal">
-<div class="modal-content">
-  
-    <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/ok.png') ?>">
+    <div class="modal-content">
 
-    <h2>
-        <?php echo __('Horarios de envíos configurado', 'wc-pickit') ?>
-    </h2>
-    <p>
-        <?php echo __('Has configurado correctamente los horarios de envío.', 'wc-pickit') ?>
-    </p>
-    <p>
-        <?php echo __('Puedes <strong>Configurar los horarios de envío las veces que quieras</strong>.', 'wc-pickit') ?>
-    </p>
-    <button style="background: black; "  id="button-reconfigure">
-         <?php echo __('Configurar Horarios', 'wc-pickit') ?>
-    </button>
-    <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'submenu_dashboard')) ?>">
-        <button>
-            <?php echo __('Ir al Panel', 'wc-pickit') ?>
+        <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/ok.png') ?>">
+
+        <h2>
+            <?php echo __('Horarios de envíos configurado', 'wc-pickit') ?>
+        </h2>
+        <p>
+            <?php echo __('Has configurado correctamente los horarios de envío.', 'wc-pickit') ?>
+        </p>
+        <p>
+            <?php echo __('Puedes <strong>Configurar los horarios de envío las veces que quieras</strong>.', 'wc-pickit') ?>
+        </p>
+        <button style="background: black; " id="button-reconfigure">
+            <?php echo __('Configurar Horarios', 'wc-pickit') ?>
         </button>
-    </a>
-</div>
+        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'submenu_dashboard')) ?>">
+            <button>
+                <?php echo __('Ir al Panel', 'wc-pickit') ?>
+            </button>
+        </a>
+    </div>
 </div>
 
 
@@ -106,8 +106,8 @@ include_once "times-functions.php";
     <script>
         jQuery(document).ready(function ($) {
             jQuery("#pickit-ok").css("display", 'block');
-            $("#button-reconfigure").click(function(){
-              jQuery("#pickit-ok").css("display", 'none');
+            $("#button-reconfigure").click(function () {
+                jQuery("#pickit-ok").css("display", 'none');
             })
         });
     </script>

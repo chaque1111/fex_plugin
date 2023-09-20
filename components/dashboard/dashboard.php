@@ -8,19 +8,19 @@ include_once "dashboard-functions.php";
     <div class="contain_data">
         <div class="contain-opt-data">
             <div class="contain-title-filters">
-                <button type="submit" name="title-filter" class="title-filter" value="">Todos</button>
+                <button type="submit" name="title-filter" class="title-filter-todos">Todos</button>
                 <button class="title-filter" value="1">Por colectar</button>
                 <button class="title-filter" value="4">En camino</button>
                 <button class="title-filter" value="2">Entregados</button>
                 <button class="title-filter" value="3">Con problemas</button>
             </div>
             <div class="contain-seconds-filter">
-                <div class="contain-searchbar">
+                <!-- <div class="contain-searchbar">
                     <input placeholder="Buscar por #número de seguimiento" class="search-bar" type="text" name="" id="">
                     <img class="search-image"
-                        src="<?php echo plugin_dir_url("fex.php") . 'fex/assets/icons/lupa.png'; ?>">
+                        src="">
                 </div>
-                <input placeholder="Filtrar por fecha" class="input-date" type="text">
+                <input placeholder="Filtrar por fecha" class="input-date" type="text">-->
                 <img class="reload-icon"
                     src="<?php echo plugin_dir_url("fex.php") . 'fex/assets/icons/recargar.png'; ?>">
             </div>
@@ -69,12 +69,39 @@ include_once "dashboard-functions.php";
             dataType: "json",
             success: function (data) {
                 // window.apiData = data;
-                console.log(data)
-                renderData(data);
+                if (data.length) {
+                    renderData(data);
+                } else {
+                    var dataContainer = $(".contain-orders");
+                    dataContainer.empty();
+                    var message = "<p class='message'>Aún no se han realizado pedidos con los métodos de envío Fex</p>"
+                    dataContainer.append(message);
+                }
             },
             error: function (xhr, status, error) {
                 console.log("Error en la solicitud GET: " + status + ", " + error);
             }
+        });
+        $(".title-filter-todos").click(function () {
+            $.ajax({
+                url: "<?php echo 'https://naboo.holocruxe.com/flete/' . get_option("access_key"); ?>",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    // window.apiData = data;
+                    if (data.length) {
+                        renderData(data);
+                    } else {
+                        var dataContainer = $(".contain-orders");
+                        dataContainer.empty();
+                        var message = "<p class='message'>Aún no se han realizado pedidos con los métodos de envío Fex</p>"
+                        dataContainer.append(message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error en la solicitud GET: " + status + ", " + error);
+                }
+            });
         });
         $(".reload-icon").click(function () {
             $.ajax({
@@ -82,9 +109,14 @@ include_once "dashboard-functions.php";
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
-                    // window.apiData = data;
-                    console.log(data)
-                    renderData(data);
+                    if (data.length) {
+                        renderData(data);
+                    } else {
+                        var dataContainer = $(".contain-orders");
+                        dataContainer.empty();
+                        var message = "<p class='message'>Aún no se han realizado pedidos con los métodos de envío Fex</p>"
+                        dataContainer.append(message);
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.log("Error en la solicitud GET: " + status + ", " + error);
@@ -92,16 +124,24 @@ include_once "dashboard-functions.php";
             });
         });
         //filtrado
-          $(".title-filter").click(function () {
+        $(".title-filter").click(function () {
             var valor = $(this).val();
+            var estado = $(this).text();
+            console.log(estado)
             $.ajax({
-                url: "<?php echo 'https://naboo.holocruxe.com/flete/' . get_option("access_key"); ?>?filtro="+valor,
+                url: "<?php echo 'https://naboo.holocruxe.com/flete/' . get_option("access_key"); ?>?filtro=" + valor,
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
                     // window.apiData = data;
-                    console.log(data)
-                    renderData(data);
+                    if (data.length) {
+                        renderData(data);
+                    } else {
+                        var dataContainer = $(".contain-orders");
+                        dataContainer.empty();
+                        var message = `<p class='message'>No se encontraron pedidos ${estado}</p>`
+                        dataContainer.append(message);
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.log("Error en la solicitud GET: " + status + ", " + error);
@@ -138,7 +178,7 @@ include_once "dashboard-functions.php";
                 var total = $("<h3>").text(`$${item.total}`).addClass("total-price-fex");
                 // se agregan los nuevos elementos 
                 newElement.append(wc_order, numero_seg, status_fex, modo, fecha, distancia, total);
-                
+
                 dataContainer.append(newElement);
             });
         }

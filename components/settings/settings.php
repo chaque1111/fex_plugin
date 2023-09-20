@@ -8,7 +8,7 @@ $ciudad_tienda = get_option('woocommerce_store_city');
 $estado_tienda = get_option('woocommerce_store_state');
 $codigo_postal_tienda = get_option('woocommerce_store_postcode');
 $pais_tienda = get_option('woocommerce_default_country');
-$ubicacion_tienda = $direccion_tienda . ', ' . $ciudad_tienda . ', ' . $estado_tienda . ' ' . $codigo_postal_tienda . ', ' . $pais_tienda;
+$ubicacion_tienda = $direccion_tienda . ', ' . $ciudad_tienda . ', ' . $estado_tienda . ' ' . $pais_tienda . ' ' . $codigo_postal_tienda;
 ?>
 <!-- Incluye Leaflet CSS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />

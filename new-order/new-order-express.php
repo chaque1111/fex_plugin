@@ -4,12 +4,21 @@ function fex_express_validation($passed, $checkout)
 {
     // Obtén el ID del método de envío seleccionado
     $chosen_shipping_method = WC()->session->get('chosen_shipping_methods')[0];
-
     // Define el ID del método de envío que quieres validar
     $metodo_envio_validar = 'fex_express_shipping_method'; // Cambia esto por el ID correcto
 
     if ($chosen_shipping_method === $metodo_envio_validar) {
-        // Realiza tu validación aquí
+        date_default_timezone_set('America/Santiago');
+
+        $current_time = current_time('H:i');
+        $start_time = get_option("shipping_times_max"); // Hora de inicio
+        $end_time = get_option("shipping_times_min"); // Hora de finalización
+        // Si la hora actual está dentro del rango, deshabilita el método de envío
+        if (($current_time >= $start_time && $current_time <= '23:59') || ($current_time >= '00:00' && $current_time <= $end_time)) {
+            wc_add_notice("Los horarios de envío Express en 30 minutos son entre las " . $end_time . " - AM " . "y las " . $start_time . " - PM.<br> ¡Puedes usar Fex programado y programar la llegada para mañana!", 'error');
+            $passed = false;
+            return;
+        }
         if (!is_user_logged_in()) {
             wc_add_notice('Debes iniciar sesión para usar el método de envío de Fex', 'error');
             $passed = false;

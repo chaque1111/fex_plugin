@@ -53,7 +53,9 @@ function fex_flete_programado($order_id)
     $customer_data = get_userdata($customer_id);
     // Verificar si el método de envío es el deseado (cambia 'fex_shipping_method' por el método real)
     if ($order->get_shipping_method() === "Fex programado" && isset($_SESSION["client_latitude"]) && isset($_SESSION["client_longitude"])) {
-        $currentDateTime = new DateTime(); // Crea un objeto DateTime con la fecha y hora actuales
+        date_default_timezone_set('America/Santiago');
+        // Obtiene la hora actual de Chile
+        $currentDateTime = new DateTime(); // Crea un objeto DateTime con la fecha y hora actuales de Chile
         $post_data = array(
             "acceso" => get_option("access_key"),
             "ori_lat" => get_option("get_fex_latitude"),

@@ -13,107 +13,108 @@ function agregar_modal_fex()
             $('body').on('click', 'input[name="shipping_method[0]"]', function () {
                 var metodoEnvioSeleccionado = $(this).val();
                 if (metodoEnvioSeleccionado === 'fex_express_shipping_method') {
+                    $('.fex-my-modal').empty();
                     // Mostrar el modal aquí
-                var modalContent = `
-                 <form class="fex-my-modal">
-                 <div class="fex-overlay"></div> 
-                 <button class="fex-close-button">x</button>
-                 <h2 class="fex-title-fex">Fex express</h2>
-                 <p class="fex-description-shipping">¡Tus productos llegan en 30 minutos en la ciudad de Santiago!</p>
-                     <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
-                     <div class="fex-contain-vehicles">
-                     <div  class="fex-contain-opt">
-                     <img class="fex-vehicle-icon" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
-                 <label class="fex-container">Moto
-                 <input class="fex-input-vehicle" required value="1" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "1") ? "checked" : ""; ?> type="radio" name="radio">
-                 <span class="fex-checkmark"></span>
-                 </div>
-                 <div class="fex-contain-opt">
-                 <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/auto_fex.png') ?>">
-                 <label class="fex-container">Auto
-                 <input class="fex-input-vehicle" value="2" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "2") ? "checked" : ""; ?> type="radio" name="radio">
-                 <span class="fex-checkmark"></span>
-                 </div>
-                 <div class="fex-contain-opt">
-                 <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/furgon_fex.png') ?>">
-                 <label class="fex-container">Furgón
-                 <input class="fex-input-vehicle" value="3" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "3") ? "checked" : ""; ?> type="radio" name="radio">
-                 <span class="fex-checkmark"></span>
-                   </div>
-                   <div class="fex-contain-opt">
-                   <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camioneta_fex.png') ?>">
-                   <label class="fex-container">Camioneta
-                   <input class="fex-input-vehicle" value="5" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "5") ? "checked" : ""; ?> type="radio" name="radio">
-                   <span class="fex-checkmark"></span>
-                   </div>
-                   <div class="fex-contain-opt">
-                   <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_abierto_fex.png') ?>">
-                   <label class="fex-container">Camión abierto
-                   <input class="fex-input-vehicle" value="7" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "7") ? "checked" : ""; ?> type="radio" name="radio">
-                   <span class="fex-checkmark"></span>
-                   </div>
-                   <div class="fex-contain-opt">
-                   <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_cerrado_fex.png') ?>">
-                   <label class="fex-container">Camión cerrado
-                   <input class="fex-input-vehicle" value="8" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "8") ? "checked" : ""; ?> type="radio" name="radio">
-                   <span class="fex-checkmark"></span>
-                   </div>
-                   </div>
-                    <p class="fex-p-fex">Ingresa tu dirección.</p>
-                   <div class="fex-contain-address">
-                   <label for="fex-pais-address">País:</label>
-                    <select required id="fex-pais-address" name="pais">
-                    <option value="Chile">Chile</option>
-                    </select>
-                    <label for="fex-region-adress">Región:</label>
-                    <select required id="fex-region-adress" name="region">
-                     <option disabled value="Araucanía">Araucanía</option>
-                     <option disabled value="Arica y Parinacota">Arica y Parinacota</option>
-                     <option disabled value="Atacama">Atacama</option>
-                     <option disabled value="Aysén">Aysén</option>
-                     <option disabled value="Biobío">Biobío</option>
-                     <option disabled value="Coquimbo">Coquimbo</option>
-                     <option disabled value="Los Lagos">Los Lagos</option>
-                     <option disabled value="Los Ríos">Los Ríos</option>
-                     <option value="Santiago">Santiago de Chile</option>
-                     <option disabled value="Magallanes y de la Antártica Chilena">Magallanes y de la Antártica Chilena</option>
-                     <option disabled value="Maule">Maule</option>
-                     <option disabled value="Ñuble">Ñuble</option>
-                     <option disabled value="O'Higgins">O'Higgins</option>
-                     <option disabled value="Tarapacá">Tarapacá</option>
-                     <option disabled value="Valparaíso">Valparaíso</option>
-                    </select>
-                    <label for="fex-comuna-address">Comuna:</label>
-                    <?php if (isset($_SESSION["comuna"])) {
-                        echo '<input  value="' . $_SESSION["comuna"] . '" required type="text" id="fex-comuna-address" name="comuna">';
-                    }
-                    else {
-                        echo '<input required type="text" id="fex-comuna-address" name="comuna">';
-                    }
-                    ?>
-                    <label for="fex-calle-address">Calle:</label>
-                     <?php if (isset($_SESSION["calle"])) {
-                         echo '<input  value="' . $_SESSION["calle"] . '" required type="text" id="fex-calle-address" name="calle">';
-                     }
-                     else {
-                         echo '<input required type="text" id="fex-calle-address" name="calle">';
-                     }
-                     ?>
-                   </div>
-                   <button id="calculate-shipping-fex" class="fex-calculate-price" >Calcular precio</button>
-                   <div class="fex-price-container"><h3 class="fex-price-text">Precio: <span class="fex-price">
-                   <?php
-                   if (isset($_SESSION["price"])) {
-                       echo "$" . $_SESSION["price"];
-                   }
-                   else {
-                       echo "$0";
-                   }
-                   ?>
-                  </class=span></h3></div>
-                  <p class="fex-p-fex">Horario de envío Express <?php echo $_SESSION["shipping_times_min"] . " AM - " . $_SESSION["shipping_times_max"] . " PM" ?></p>  
-                  <button class="fex-confirm-button" disabled>Confirmar método de envío</button>
-                  </form> `;
+                    var modalContent = `
+                     <form class="fex-my-modal">
+                     <div class="fex-overlay"></div> 
+                     <button class="fex-close-button">x</button>
+                     <h2 class="fex-title-fex">Fex express</h2>
+                     <p class="fex-description-shipping">¡Tus productos llegan en 30 minutos en la ciudad de Santiago!</p>
+                         <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
+                         <div class="fex-contain-vehicles">
+                         <div  class="fex-contain-opt">
+                         <img class="fex-vehicle-icon" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
+                     <label class="fex-container">Moto
+                     <input class="fex-input-vehicle" required value="1" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "1") ? "checked" : ""; ?> type="radio" name="radio">
+                     <span class="fex-checkmark"></span>
+                     </div>
+                     <div class="fex-contain-opt">
+                     <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/auto_fex.png') ?>">
+                     <label class="fex-container">Auto
+                     <input class="fex-input-vehicle" value="2" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "2") ? "checked" : ""; ?> type="radio" name="radio">
+                     <span class="fex-checkmark"></span>
+                     </div>
+                     <div class="fex-contain-opt">
+                     <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/furgon_fex.png') ?>">
+                     <label class="fex-container">Furgón
+                     <input class="fex-input-vehicle" value="3" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "3") ? "checked" : ""; ?> type="radio" name="radio">
+                     <span class="fex-checkmark"></span>
+                       </div>
+                       <div class="fex-contain-opt">
+                       <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camioneta_fex.png') ?>">
+                       <label class="fex-container">Camioneta
+                       <input class="fex-input-vehicle" value="5" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "5") ? "checked" : ""; ?> type="radio" name="radio">
+                       <span class="fex-checkmark"></span>
+                       </div>
+                       <div class="fex-contain-opt">
+                       <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_abierto_fex.png') ?>">
+                       <label class="fex-container">Camión abierto
+                       <input class="fex-input-vehicle" value="7" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "7") ? "checked" : ""; ?> type="radio" name="radio">
+                       <span class="fex-checkmark"></span>
+                       </div>
+                       <div class="fex-contain-opt">
+                       <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_cerrado_fex.png') ?>">
+                       <label class="fex-container">Camión cerrado
+                       <input class="fex-input-vehicle" value="8" <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "8") ? "checked" : ""; ?> type="radio" name="radio">
+                       <span class="fex-checkmark"></span>
+                       </div>
+                       </div>
+                        <p class="fex-p-fex">Ingresa tu dirección.</p>
+                       <div class="fex-contain-address">
+                       <label for="fex-pais-address">País:</label>
+                        <select required id="fex-pais-address" name="pais">
+                        <option value="Chile">Chile</option>
+                        </select>
+                        <label for="fex-region-adress">Región:</label>
+                        <select required id="fex-region-adress" name="region">
+                         <option disabled value="Araucanía">Araucanía</option>
+                         <option disabled value="Arica y Parinacota">Arica y Parinacota</option>
+                         <option disabled value="Atacama">Atacama</option>
+                         <option disabled value="Aysén">Aysén</option>
+                         <option disabled value="Biobío">Biobío</option>
+                         <option disabled value="Coquimbo">Coquimbo</option>
+                         <option disabled value="Los Lagos">Los Lagos</option>
+                         <option disabled value="Los Ríos">Los Ríos</option>
+                         <option value="Santiago">Santiago de Chile</option>
+                         <option disabled value="Magallanes y de la Antártica Chilena">Magallanes y de la Antártica Chilena</option>
+                         <option disabled value="Maule">Maule</option>
+                         <option disabled value="Ñuble">Ñuble</option>
+                         <option disabled value="O'Higgins">O'Higgins</option>
+                         <option disabled value="Tarapacá">Tarapacá</option>
+                         <option disabled value="Valparaíso">Valparaíso</option>
+                        </select>
+                        <label for="fex-comuna-address">Comuna:</label>
+                        <?php if (isset($_SESSION["comuna"])) {
+                            echo '<input  value="' . $_SESSION["comuna"] . '" required type="text" id="fex-comuna-address" name="comuna">';
+                        }
+                        else {
+                            echo '<input required type="text" id="fex-comuna-address" name="comuna">';
+                        }
+                        ?>
+                        <label for="fex-calle-address">Calle:</label>
+                         <?php if (isset($_SESSION["calle"])) {
+                             echo '<input  value="' . $_SESSION["calle"] . '" required type="text" id="fex-calle-address" name="calle">';
+                         }
+                         else {
+                             echo '<input required type="text" id="fex-calle-address" name="calle">';
+                         }
+                         ?>
+                       </div>
+                       <button id="calculate-shipping-fex" class="fex-calculate-price" >Calcular precio</button>
+                       <div class="fex-price-container"><h3 class="fex-price-text">Precio: <span class="fex-price">
+                       <?php
+                       if (isset($_SESSION["price"])) {
+                           echo "$" . $_SESSION["price"];
+                       }
+                       else {
+                           echo "$0";
+                       }
+                       ?>
+                      </class=span></h3></div>
+                      <p class="fex-p-fex">Horario de envío Express <?php echo $_SESSION["shipping_times_min"] . " AM - " . $_SESSION["shipping_times_max"] . " PM" ?></p>  
+                      <button class="fex-confirm-button" disabled>Confirmar método de envío</button>
+                      </form> `;
                     $('.fex-my-modal').fadeOut(function () {
                         $(this).remove();
                     });
@@ -153,11 +154,11 @@ function agregar_modal_fex()
                             dataType: 'json',
                             success: function (response) {
                                 if (response === "false") {
-                                     Swal.fire({
-                                      title: "Rellenar todos los campos",
-                                      text: "Por favor, complete todos los campos obligatorios.",
-                                      icon: "warning",
-                                      confirmButtonText: "Aceptar",
+                                    Swal.fire({
+                                        title: "Rellenar todos los campos",
+                                        text: "Por favor, complete todos los campos obligatorios.",
+                                        icon: "warning",
+                                        confirmButtonText: "Aceptar",
                                     });
                                     overlay.style.display = 'none';
                                 } else {
@@ -241,8 +242,10 @@ function agregar_modal_fex_programado()
             }
             ?>
             if ("<?php echo $direccion_form ?>") {
-                 $("#billing_address_1").val("<?php echo $direccion_form ?>")
-                 $("#billing_city").val("<?php echo $ciudad ?>")         
+                $("#billing_address_1").val("<?php echo $direccion_form ?>")
+                $("#billing_city").val("<?php echo $ciudad ?>")
+                $('#billing_country').val("CL")
+                $('#billing_state').val("CL-RM")
             }
 
             $('body').on('click', 'input[name="shipping_method[0]"]', function () {
@@ -252,136 +255,136 @@ function agregar_modal_fex_programado()
                     $nextMonth = new DateTime();
                     $nextMonth->modify('+1 month');
                     ?>
-
+                    $('.fex-my-modal').empty();
                     // Mostrar el modal aquí
                     var modalContent = `
-                <form class="fex-my-modal">
-                 <div class="fex-overlay"></div> 
-                <button class="fex-close-button">x</button>
-                  <h2 class="fex-title-fex">Fex programado</h2>
-                  <p class="fex-description-shipping">¡Programa la fecha y hora en la que quieres recibir tus productos!</p>
-                  <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
-                 <div class="fex-contain-vehicles">
-                      <div  class="fex-contain-opt">
-                        <img class="fex-vehicle-icon" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
-                         <label class="fex-container">Moto
-                             <input class="fex-input-vehicle" value="1" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "1") ? "checked" : ""; ?> type="radio" name="radio">
-                            <span class="fex-checkmark"></span>
-                    </div>
-                    <div class="fex-contain-opt">
-                        <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/auto_fex.png') ?>">
-                           <label class="fex-container">Auto
-                             <input class="fex-input-vehicle" value="2" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "2") ? "checked" : ""; ?> type="radio" name="radio">
-                              <span class="fex-checkmark"></span>
-                     </div>
-                     <div class="fex-contain-opt">
-                         <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/furgon_fex.png') ?>">
-                         <label class="fex-container">Furgón
-                             <input class="fex-input-vehicle" value="3" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "3") ? "checked" : ""; ?> type="radio" name="radio">
-                              <span class="fex-checkmark"></span>
-                     </div>
-                      <div class="fex-contain-opt">
-                        <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camioneta_fex.png') ?>">
-                        <label class="fex-container">Camioneta
-                            <input class="fex-input-vehicle" value="5" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "5") ? "checked" : ""; ?> type="radio" name="radio">
-                            <span class="fex-checkmark"></span>
-                    </div>
-                    <div class="fex-contain-opt">
-                         <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_abierto_fex.png') ?>">
-                        <label class="fex-container">Camión abierto
-                             <input class="fex-input-vehicle" value="7" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "7") ? "checked" : ""; ?> type="radio" name="radio">
-                            <span class="fex-checkmark"></span>
-                                                        </div>
-                    <div class="fex-contain-opt">
-                          <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_cerrado_fex.png') ?>">
-                         <label class="fex-container">Camión cerrado
-                               <input class="fex-input-vehicle" value="8" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "8") ? "checked" : ""; ?> type="radio" name="radio">
-                               <span class="fex-checkmark"></span>
-                     </div>
-                  </div>
-                   <p class="fex-p-fex">Ingresa tu dirección.</p>
-                     <div class="fex-contain-address">
-                     <label for="fex-pais-address">País:</label>
-                      <select required id="fex-pais-address" name="pais">
-                      <option value="Chile">Chile</option>
-                      </select>
-                      <label for="fex-region-adress">Región:</label>
-                      <select required id="fex-region-adress" name="region">
-                       <option disabled value="Araucanía">Araucanía</option>
-                       <option disabled value="Arica y Parinacota">Arica y Parinacota</option>
-                       <option disabled value="Atacama">Atacama</option>
-                       <option disabled value="Aysén">Aysén</option>
-                       <option disabled value="Biobío">Biobío</option>
-                       <option disabled value="Coquimbo">Coquimbo</option>
-                       <option disabled value="Los Lagos">Los Lagos</option>
-                       <option disabled value="Los Ríos">Los Ríos</option>
-                       <option value="Santiago">Santiago de Chile</option>
-                       <option disabled value="Magallanes y de la Antártica Chilena">Magallanes y de la Antártica Chilena</option>
-                       <option disabled value="Maule">Maule</option>
-                       <option disabled value="Ñuble">Ñuble</option>
-                       <option disabled value="O'Higgins">O'Higgins</option>
-                       <option disabled value="Tarapacá">Tarapacá</option>
-                       <option disabled value="Valparaíso">Valparaíso</option>
-                      </select>
-                      <label for="fex-comuna-address">Comuna:</label>
-                      <?php if (isset($_SESSION["comuna"])) {
-                          echo '<input  value="' . $_SESSION["comuna"] . '" required type="text" id="fex-comuna-address" name="comuna">';
+                    <form class="fex-my-modal">
+                     <div class="fex-overlay"></div> 
+                    <button class="fex-close-button">x</button>
+                      <h2 class="fex-title-fex">Fex programado</h2>
+                      <p class="fex-description-shipping">¡Programa la fecha y hora en la que quieres recibir tus productos!</p>
+                      <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
+                     <div class="fex-contain-vehicles">
+                          <div  class="fex-contain-opt">
+                            <img class="fex-vehicle-icon" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
+                             <label class="fex-container">Moto
+                                 <input class="fex-input-vehicle" value="1" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "1") ? "checked" : ""; ?> type="radio" name="radio">
+                                <span class="fex-checkmark"></span>
+                        </div>
+                        <div class="fex-contain-opt">
+                            <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/auto_fex.png') ?>">
+                               <label class="fex-container">Auto
+                                 <input class="fex-input-vehicle" value="2" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "2") ? "checked" : ""; ?> type="radio" name="radio">
+                                  <span class="fex-checkmark"></span>
+                         </div>
+                         <div class="fex-contain-opt">
+                             <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/furgon_fex.png') ?>">
+                             <label class="fex-container">Furgón
+                                 <input class="fex-input-vehicle" value="3" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "3") ? "checked" : ""; ?> type="radio" name="radio">
+                                  <span class="fex-checkmark"></span>
+                         </div>
+                          <div class="fex-contain-opt">
+                            <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camioneta_fex.png') ?>">
+                            <label class="fex-container">Camioneta
+                                <input class="fex-input-vehicle" value="5" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "5") ? "checked" : ""; ?> type="radio" name="radio">
+                                <span class="fex-checkmark"></span>
+                        </div>
+                        <div class="fex-contain-opt">
+                             <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_abierto_fex.png') ?>">
+                            <label class="fex-container">Camión abierto
+                                 <input class="fex-input-vehicle" value="7" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "7") ? "checked" : ""; ?> type="radio" name="radio">
+                                <span class="fex-checkmark"></span>
+                                                            </div>
+                        <div class="fex-contain-opt">
+                              <img class="fex-vehicle-icon"  src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/camion_cerrado_fex.png') ?>">
+                             <label class="fex-container">Camión cerrado
+                                   <input class="fex-input-vehicle" value="8" required <?php echo (isset($_SESSION["vehicle"]) && $_SESSION["vehicle"] === "8") ? "checked" : ""; ?> type="radio" name="radio">
+                                   <span class="fex-checkmark"></span>
+                         </div>
+                      </div>
+                       <p class="fex-p-fex">Ingresa tu dirección.</p>
+                         <div class="fex-contain-address">
+                         <label for="fex-pais-address">País:</label>
+                          <select required id="fex-pais-address" name="pais">
+                          <option value="Chile">Chile</option>
+                          </select>
+                          <label for="fex-region-adress">Región:</label>
+                          <select required id="fex-region-adress" name="region">
+                           <option disabled value="Araucanía">Araucanía</option>
+                           <option disabled value="Arica y Parinacota">Arica y Parinacota</option>
+                           <option disabled value="Atacama">Atacama</option>
+                           <option disabled value="Aysén">Aysén</option>
+                           <option disabled value="Biobío">Biobío</option>
+                           <option disabled value="Coquimbo">Coquimbo</option>
+                           <option disabled value="Los Lagos">Los Lagos</option>
+                           <option disabled value="Los Ríos">Los Ríos</option>
+                           <option value="Santiago">Santiago de Chile</option>
+                           <option disabled value="Magallanes y de la Antártica Chilena">Magallanes y de la Antártica Chilena</option>
+                           <option disabled value="Maule">Maule</option>
+                           <option disabled value="Ñuble">Ñuble</option>
+                           <option disabled value="O'Higgins">O'Higgins</option>
+                           <option disabled value="Tarapacá">Tarapacá</option>
+                           <option disabled value="Valparaíso">Valparaíso</option>
+                          </select>
+                          <label for="fex-comuna-address">Comuna:</label>
+                          <?php if (isset($_SESSION["comuna"])) {
+                              echo '<input  value="' . $_SESSION["comuna"] . '" required type="text" id="fex-comuna-address" name="comuna">';
+                          }
+                          else {
+                              echo '<input required type="text" id="fex-comuna-address" name="comuna">';
+                          }
+                          ?>
+                              <label for="fex-calle-address">Calle:</label>
+                               <?php if (isset($_SESSION["calle"])) {
+                                   echo '<input  value="' . $_SESSION["calle"] . '" required type="text" id="fex-calle-address" name="calle">';
+                               }
+                               else {
+                                   echo '<input required type="text" id="fex-calle-address" name="calle">';
+                               }
+                               ?>
+                             </div>
+                             <button id="calculate-shipping-fex" class="fex-calculate-price" >Calcular precio</button>
+                          <div class="fex-price-container"><h3 class="fex-price-text">Precio: <span class="fex-price">                 
+                      <?php
+                      if (isset($_SESSION["price"])) {
+                          echo "$" . $_SESSION["price"];
                       }
                       else {
-                          echo '<input required type="text" id="fex-comuna-address" name="comuna">';
+                          echo "$0";
                       }
                       ?>
-                          <label for="fex-calle-address">Calle:</label>
-                           <?php if (isset($_SESSION["calle"])) {
-                               echo '<input  value="' . $_SESSION["calle"] . '" required type="text" id="fex-calle-address" name="calle">';
-                           }
-                           else {
-                               echo '<input required type="text" id="fex-calle-address" name="calle">';
-                           }
-                           ?>
-                         </div>
-                         <button id="calculate-shipping-fex" class="fex-calculate-price" >Calcular precio</button>
-                      <div class="fex-price-container"><h3 class="fex-price-text">Precio: <span class="fex-price">                 
-                  <?php
-                  if (isset($_SESSION["price"])) {
-                      echo "$" . $_SESSION["price"];
-                  }
-                  else {
-                      echo "$0";
-                  }
-                  ?>
-                  </class=span></h3></div>
-                  <p class="fex-p-fex">Programa la fecha y hora en la que te llegará el producto</p>
-                  <p class="fex-p-fex">Ingresa un horario entre las <?php echo $_SESSION["shipping_times_min"] . " AM - " . $_SESSION["shipping_times_max"] . " PM" ?></p>                  
-                  <div class="contain-inputs-date-fex">
-                  <?php
-                  if (isset($_SESSION["programado"])) {
-                      $selectedDate = new DateTime();
-                      $nextDay = clone $selectedDate;
-                      $nextDay->modify('+1 day');
+                      </class=span></h3></div>
+                      <p class="fex-p-fex">Programa la fecha y hora en la que te llegará el producto</p>
+                      <p class="fex-p-fex">Ingresa un horario entre las <?php echo $_SESSION["shipping_times_min"] . " AM - " . $_SESSION["shipping_times_max"] . " PM" ?></p>                  
+                      <div class="contain-inputs-date-fex">
+                      <?php
+                      if (isset($_SESSION["programado"])) {
+                          $selectedDate = new DateTime();
+                          $nextDay = clone $selectedDate;
+                          $nextDay->modify('+1 day');
 
-                      $nextMonth = clone $nextDay;
-                      $nextMonth->modify('first day of next month');
+                          $nextMonth = clone $nextDay;
+                          $nextMonth->modify('first day of next month');
 
-                      echo '<input id="date-fex" type="date" min=' . $nextDay->format('Y-m-d') . ' max=' . $nextMonth->format('Y-m-28') . ' value=' . $_SESSION["date"] . ' required/>';
-                      echo '<input type="time" id="time-fex"   min=' . $_SESSION["shipping_times_min"] . ' max=' . $_SESSION["shipping_times_max"] . ' value=' . $_SESSION["time"] . ' required />';
-                  }
-                  else {
-                      $selectedDate = new DateTime(); // Fecha actual por defecto
-                      $nextDay = clone $selectedDate;
-                      $nextDay->modify('+1 day');
+                          echo '<input id="date-fex" type="date" min=' . $nextDay->format('Y-m-d') . ' max=' . $nextMonth->format('Y-m-28') . ' value=' . $_SESSION["date"] . ' required/>';
+                          echo '<input type="time" id="time-fex"   min=' . $_SESSION["shipping_times_min"] . ' max=' . $_SESSION["shipping_times_max"] . ' value=' . $_SESSION["time"] . ' required />';
+                      }
+                      else {
+                          $selectedDate = new DateTime(); // Fecha actual por defecto
+                          $nextDay = clone $selectedDate;
+                          $nextDay->modify('+1 day');
 
-                      $nextMonth = clone $nextDay;
-                      $nextMonth->modify('first day of next month');
+                          $nextMonth = clone $nextDay;
+                          $nextMonth->modify('first day of next month');
 
-                      echo '<input id="date-fex" type="date" min=' . $nextDay->format('Y-m-d') . ' max=' . $nextMonth->format('Y-m-28') . ' value=' . $nextDay->format('Y-m-d') . ' required/>';
-                      echo '<input type="time" id="time-fex"   min=' . $_SESSION["shipping_times_min"] . ' max=' . $_SESSION["shipping_times_max"] . ' value=' . $_SESSION["shipping_times_min"] . ' required />';
-                  }
+                          echo '<input id="date-fex" type="date" min=' . $nextDay->format('Y-m-d') . ' max=' . $nextMonth->format('Y-m-28') . ' value=' . $nextDay->format('Y-m-d') . ' required/>';
+                          echo '<input type="time" id="time-fex"   min=' . $_SESSION["shipping_times_min"] . ' max=' . $_SESSION["shipping_times_max"] . ' value=' . $_SESSION["shipping_times_min"] . ' required />';
+                      }
 
-                  ?>
-                       </div>
-                      <input type="submit" class="fex-confirm-button" disabled value="Confirmar método de envío"/input>
-                    </form>`;
+                      ?>
+                           </div>
+                          <input type="submit" class="fex-confirm-button" disabled value="Confirmar método de envío"/input>
+                        </form>`;
                     $('.fex-my-modal').fadeOut(function () {
                         $(this).remove();
                     });
@@ -434,11 +437,11 @@ function agregar_modal_fex_programado()
                             dataType: 'json',
                             success: function (response) {
                                 if (response === "false") {
-                                     Swal.fire({
-                                      title: "Rellenar todos los campos",
-                                      text: "Por favor, complete todos los campos obligatorios.",
-                                      icon: "warning",
-                                      confirmButtonText: "Aceptar",
+                                    Swal.fire({
+                                        title: "Rellenar todos los campos",
+                                        text: "Por favor, complete todos los campos obligatorios.",
+                                        icon: "warning",
+                                        confirmButtonText: "Aceptar",
                                     });
                                     overlay.style.display = 'none';
                                 } else {
@@ -490,12 +493,12 @@ function agregar_modal_fex_programado()
                                     $('.fex-my-modal').fadeOut(function () {
                                         $(this).remove();
                                     });
-                                }else{
-                                      Swal.fire({
-                                      title: "¡Calcula el precio!",
-                                      icon: "warning",
-                                      text: "Por favor, Calcula el precio del envío antes de confirmar.",
-                                      confirmButtonText: "Aceptar",
+                                } else {
+                                    Swal.fire({
+                                        title: "¡Calcula el precio!",
+                                        icon: "warning",
+                                        text: "Por favor, Calcula el precio del envío antes de confirmar.",
+                                        confirmButtonText: "Aceptar",
                                     });
                                 }
                             },

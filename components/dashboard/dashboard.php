@@ -127,7 +127,6 @@ include_once "dashboard-functions.php";
         $(".title-filter").click(function () {
             var valor = $(this).val();
             var estado = $(this).text();
-            console.log(estado)
             $.ajax({
                 url: "<?php echo 'https://naboo.holocruxe.com/flete/' . get_option("access_key"); ?>?filtro=" + valor,
                 type: "GET",
@@ -186,14 +185,9 @@ include_once "dashboard-functions.php";
 </script>
 
 
-<?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) { ?>
-    <script>
-        jQuery(document).ready(function () {
-            console.log("NOK");
-            jQuery("#pickit-error").css("display", 'block');
-        });
-    </script>
-<?php } ?>
+<?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) {
+    wp_redirect(admin_url('admin.php?page=fex_menu'));
+} ?>
 <?php if ($_SESSION["authorized"] == true && !get_option("shipping_zones_is_config")) { ?>
     <script>
         jQuery(document).ready(function () {

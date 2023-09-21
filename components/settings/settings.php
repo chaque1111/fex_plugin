@@ -103,13 +103,8 @@ $ubicacion_tienda = $direccion_tienda . ', ' . $ciudad_tienda . ', ' . $estado_t
         </a>
     </div>
 </div>
-<?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) { ?>
-    <script>
-        jQuery(document).ready(function () {
-            console.log("NOK");
-            jQuery("#pickit-error").css("display", 'block');
-        });
-    </script>
-<?php } ?>
+<?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) {
+    wp_redirect(admin_url('admin.php?page=fex_menu'));
+} ?>
 
 <?php ?>

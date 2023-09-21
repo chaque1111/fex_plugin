@@ -65,7 +65,8 @@ include_once "shipping-functions.php";
             puedes ir a <a
                 href="https://www.google.com/maps/place/Santiago,+Regi%C3%B3n+Metropolitana,+Chile/@-33.4723925,-70.7946379,11z/data=!3m1!4b1!4m6!3m5!1s0x9662c5410425af2f:0x8475d53c400f0931!8m2!3d-33.4488897!4d-70.6692655!16zL20vMGRscXY?entry=ttu"
                 target="_blank">google maps</a> .
-            Busca la ubicación de tu tienda copia las coordenadas en los inputs correspondientes, <a href="https://support.google.com/maps/answer/18539?hl=es-419&co=GENIE.Platform%3DAndroid#:~:text=C%C3%B3mo%20obtener%20las%20coordenadas%20de%20un%20lugar&text=Mant%C3%A9n%20presionada%20un%20%C3%A1rea%20del,b%C3%BAsqueda%2C%20puedes%20encontrar%20las%20coordenadas."
+            Busca la ubicación de tu tienda copia las coordenadas en los inputs correspondientes, <a
+                href="https://support.google.com/maps/answer/18539?hl=es-419&co=GENIE.Platform%3DAndroid#:~:text=C%C3%B3mo%20obtener%20las%20coordenadas%20de%20un%20lugar&text=Mant%C3%A9n%20presionada%20un%20%C3%A1rea%20del,b%C3%BAsqueda%2C%20puedes%20encontrar%20las%20coordenadas."
                 target="_blank">Puedes
                 seguir éste tutorial.</a><br>
         </p>
@@ -90,8 +91,8 @@ include_once "shipping-functions.php";
                 Ésta dirección proporcionada es de su tienda WooCommerce.
             </h2>
             <p><strong>País:</strong>
-                  <?php echo strpos($direccion['estado'], "CL:CL") !== false? "Chile" : $direccion['estado']; ?>
-           
+                <?php echo strpos($direccion['estado'], "CL:CL") !== false ? "Chile" : $direccion['estado']; ?>
+
             </p>
             <p><strong>Ciudad:</strong>
                 <?php echo $direccion['comuna']; ?>
@@ -101,7 +102,7 @@ include_once "shipping-functions.php";
                 <?php echo $direccion['calle']; ?>
             </p>
             <a id="redirect" href="<?php echo esc_url(admin_url('admin.php?page=' . 'wc-settings')) ?>">
-             <button id="modify-address">Cambiar Ubicación</button>
+                <button id="modify-address">Cambiar Ubicación</button>
             </a>
         </div>
 
@@ -135,15 +136,9 @@ include_once "shipping-functions.php";
     </script>
 <?php } ?>
 
-<?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) { ?>
-    <script>
-        jQuery(document).ready(function () {
-            console.log("NOK");
-            jQuery("#pickit-error").css("display", 'block');
-        });
-    </script>
-<?php }
-?>
+<?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) {
+    wp_redirect(admin_url('admin.php?page=fex_menu'));
+} ?>
 
 <script>
     (function ($) {
@@ -179,14 +174,14 @@ include_once "shipping-functions.php";
                 const latitudeInput = $("#latitude");
                 const longitudeInput = $("#longitude");
                 //solicitud a google maps
-            
+
                 const region = ' <?php echo $direccion['estado']; ?>';
                 const comuna = ' <?php echo $direccion['comuna']; ?>';
                 const calle = ' <?php echo $direccion['calle']; ?>';
 
                 // Construir la dirección completa
                 const direccion = `${calle}, ${comuna}, ${region}`;
-                  const url = `https://naboo.holocruxe.com/geolocalization?address=${encodeURIComponent(direccion)}`;
+                const url = `https://naboo.holocruxe.com/geolocalization?address=${encodeURIComponent(direccion)}`;
                 $.ajax({
                     url: url,
                     dataType: 'json',
@@ -218,7 +213,7 @@ include_once "shipping-functions.php";
                 const latitudeInput = $("#latitude");
                 const longitudeInput = $("#longitude");
                 //solicitud a google maps
-            
+
                 const region = ' <?php echo $direccion['estado']; ?>';
                 const comuna = ' <?php echo $direccion['comuna']; ?>';
                 const calle = ' <?php echo $direccion['calle']; ?>';

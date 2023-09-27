@@ -14,14 +14,15 @@ function agregar_modal_fex()
                 var metodoEnvioSeleccionado = $(this).val();
                 if (metodoEnvioSeleccionado === 'fex_express_shipping_method') {
                     $('.fex-my-modal').empty();
+                       document.body.style.overflow = "hidden";
                     // Mostrar el modal aquí
                     var modalContent = `
                      <form class="fex-my-modal">
                      <div class="fex-overlay"></div> 
                      <button class="fex-close-button">x</button>
                      <h2 class="fex-title-fex">Fex express</h2>
-                     <p class="fex-description-shipping">¡Tus productos llegan en 30 minutos en la ciudad de Santiago!</p>
-                         <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
+                     <p class="fex-description-shipping">¡Tu pedido llegará en 90min!</p>
+                         <p class="fex-p-fex">Elige un vehículo de acuerdo al tamaño de tu pedido para calcular el precio</p>
                          <div class="fex-contain-vehicles">
                          <div  class="fex-contain-opt">
                          <img class="fex-vehicle-icon" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
@@ -122,6 +123,7 @@ function agregar_modal_fex()
                     //cerrar modal
                     $('.fex-close-button').click(function () {
                         event.preventDefault();
+                         document.body.style.overflow = "auto";
                         $('.fex-my-modal').fadeOut(function () {
                             $(this).remove();
                         });
@@ -136,8 +138,10 @@ function agregar_modal_fex()
                         var calle = $('#fex-calle-address').val();
                         //valor del vehículo
                         var valorSeleccionado = $('input[name="radio"]:checked').val();
+                         $('.fex-confirm-button').prop('disabled', true);
                         const overlay = document.querySelector('.fex-overlay');
                         const modal = document.querySelector('.fex-my-modal');
+                         modal.style.overflow = "hidden";
                         overlay.style.display = 'block';
 
                         $.ajax({
@@ -161,8 +165,11 @@ function agregar_modal_fex()
                                         confirmButtonText: "Aceptar",
                                     });
                                     overlay.style.display = 'none';
+                                    modal.style.overflow = "auto";
                                 } else {
                                     overlay.style.display = 'none';
+                                    modal.style.overflow = "auto";
+                                    modal.scrollTop += 100
                                     var h3Element = $(`<h3 class="fex-price-text">Precio: <span class="fex-price">$${response}</span></h3>`);
                                     $('.fex-confirm-button').prop('disabled', false);
                                     // Vaciar el contenido existente del contenedor
@@ -256,14 +263,15 @@ function agregar_modal_fex_programado()
                     $nextMonth->modify('+1 month');
                     ?>
                     $('.fex-my-modal').empty();
+                       document.body.style.overflow = "hidden";
                     // Mostrar el modal aquí
                     var modalContent = `
                     <form class="fex-my-modal">
                      <div class="fex-overlay"></div> 
                     <button class="fex-close-button">x</button>
                       <h2 class="fex-title-fex">Fex programado</h2>
-                      <p class="fex-description-shipping">¡Programa la fecha y hora en la que quieres recibir tus productos!</p>
-                      <p class="fex-p-fex">Elige un vehículo acorde a tus productos para calcular el precio</p>
+                      <p class="fex-description-shipping">Escoge el día y la hora en la que deseas recibir tus productos</p>
+                      <p class="fex-p-fex">Elige un vehículo de acuerdo al tamaño de tu pedido para calcular el precio</p>
                      <div class="fex-contain-vehicles">
                           <div  class="fex-contain-opt">
                             <img class="fex-vehicle-icon" src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/moto_fex.png') ?>">
@@ -354,8 +362,8 @@ function agregar_modal_fex_programado()
                       }
                       ?>
                       </class=span></h3></div>
-                      <p class="fex-p-fex">Programa la fecha y hora en la que te llegará el producto</p>
-                      <p class="fex-p-fex">Ingresa un horario entre las <?php echo $_SESSION["shipping_times_min"] . " AM - " . $_SESSION["shipping_times_max"] . " PM" ?></p>                  
+                      <p class="fex-p-fex">Ingresa la fecha y la hora para recibir tu pedido</p>
+                      <p class="fex-p-fex">Debes escoger un horario entre las  <?php echo $_SESSION["shipping_times_min"] . " AM - " . $_SESSION["shipping_times_max"] . " PM" ?></p>                  
                       <div class="contain-inputs-date-fex">
                       <?php
                       if (isset($_SESSION["programado"])) {
@@ -405,6 +413,7 @@ function agregar_modal_fex_programado()
                     //cerrar modal
                     $('.fex-close-button').click(function () {
                         event.preventDefault();
+                         document.body.style.overflow = "auto";
                         $('.fex-my-modal').fadeOut(function () {
                             $(this).remove();
                         });
@@ -419,10 +428,12 @@ function agregar_modal_fex_programado()
                         var calle = $('#fex-calle-address').val();
                         //accediendo a los valores del modal
                         var valorSeleccionado = $('input[name="radio"]:checked').val();
+                        $('.fex-confirm-button').prop('disabled', true);
                         const overlay = document.querySelector('.fex-overlay');
                         const modal = document.querySelector('.fex-my-modal');
+                        modal.style.overflow = "hidden";
                         overlay.style.display = 'block';
-
+                        
                         $.ajax({
                             url: '<?php echo admin_url('admin-ajax.php'); ?>',
                             type: 'POST',
@@ -444,8 +455,11 @@ function agregar_modal_fex_programado()
                                         confirmButtonText: "Aceptar",
                                     });
                                     overlay.style.display = 'none';
+                                    modal.style.overflow = "auto";
                                 } else {
                                     overlay.style.display = 'none';
+                                    modal.style.overflow = "auto";
+                                    modal.scrollTop += 100
                                     var h3Element = $(`<h3 class="fex-price-text">Precio: <span class="fex-price">$${response}</span></h3>`);
                                     $('.fex-confirm-button').prop('disabled', false);
                                     // Vaciar el contenido existente del contenedor

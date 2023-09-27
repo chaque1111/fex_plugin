@@ -10,19 +10,15 @@ include_once "landing-functions.php";
             <div class="column30">
                 <div class="left-pane">
                     <img style="width: 15vw;"
-                        src="<?php echo plugin_dir_url("fex.php") . 'fex/assets/img/fex_app.png' ?>">
+                        src="<?php echo plugin_dir_url("fex.php") . 'fex/assets/img/fex.app.png' ?>">
                     <h1 class="welcome">
-                        <?= sprintf(__('¡Hola Bienvenido a Fex!', 'wc-pickit'), get_option('blogname')) ?>
+                        <?= sprintf(__('¡Hola! Bienvenido a FEX', 'wc-pickit'), get_option('blogname')) ?>
                     </h1>
                     <p>
-                        <strong>Fex</strong> es la app que te conecta con una
-                        moto, auto, furgón, camioneta o mini camión y su chofer ayudante, para
-                        fletes, despachos y última milla. <br>
-                        Con este plugin podrás conectar FEX
-                        como tu partner de envíos rápidos en tu tienda de WooCommerce.
-                        Para continuar con el proceso de configuración,
-                        es necesario que ya cuentes con una cuenta en <strong>Fex</strong>.
-                        Si aún no la tienes,
+                        <strong>Gestiona tus despachos rápidamente y entrega a tus clientes en 90min.</strong><br>
+                        Con este plugin podrás conectar FEX como tu partner de envíos rápidos en tu tienda de
+                        WooCommerce. Para continuar con el proceso de configuración, es necesario que cuentes con una
+                        cuenta en FEX. Si aún no la tienes crea tu cuenta aquí
                         <?php echo __("<a class='create_account_link' href='https://fex.cl/fex_api/usuario/index/inicio' target='_blank'> Crea tu cuenta aquí.</a>", 'wc-pickit') ?>
                     </p>
 

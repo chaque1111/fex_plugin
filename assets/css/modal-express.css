@@ -24,6 +24,9 @@
   background-color: white;
   padding: 20px;
   border-radius: 5px;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto; 
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 .fex-close-button {
@@ -263,12 +266,20 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 @media screen and (max-width: 800px) {
   .fex-my-modal {
-    width: 95%; /* Haz que el modal ocupe todo el ancho en dispositivos pequeños */
-    padding: 10px; /* Reduce el espaciado interior */
+    width: 95%;
+    padding: 10px;
     min-width: none;
+  }
+  .fex-title-fex {
+    font-size: 28px;
+    margin-bottom: 10px;
   }
   .fex-description-shipping {
     font-size: 14px;
+  }
+  .fex-vehicle-icon {
+    width: 100px;
+    min-width: 100px;
   }
   .fex-contain-address {
     display: flex;
@@ -291,5 +302,174 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     grid-template-rows: repeat(2, 1fr);
     align-items: center;
     gap: 5px;
+  }
+}
+@media screen and (max-width: 445px) {
+  .fex-my-modal {
+    width: 95%;
+    max-width: 100%;
+    max-height: 85%;
+    padding: 10px;
+    overflow: auto;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .fex-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  backdrop-filter: blur(1px); /* Aplicar el efecto backdrop-filter */
+  z-index: 999; /* Z-index inferior al del modal */
+  display: none; /* Inicialmente oculto */
+}
+  .fex-my-modal {
+    width: 95%;
+    padding: 10px;
+    overflow: auto;
+  }
+
+  .fex-contain-address {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    place-items: center;
+    align-items: center;
+    gap: 5px;
+  }
+  .fex-title-fex {
+    font-size: 25px;
+    margin-bottom: 5px;
+  }
+  .fex-description-shipping {
+    margin-bottom: 5px;
+  }
+  .fex-p-fex {
+    margin: 0px;
+    font-size: 14px;
+    color: #b54d0d;
+  }
+  .fex-vehicle-icon {
+    width: 90px;
+    min-width: 90px;
+  }
+
+  .fex-contain-vehicles {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    min-width: 100%;
+  }
+  .fex-contain-address input {
+    width: 84%;
+    font-size: 13px;
+  }
+  .fex-contain-address select {
+    width: 100%;
+    font-size: 13px;
+  }
+  .fex-contain-address label {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .fex-calculate-price {
+    font-family: "Mulish", sans-serif;
+    margin-top: 10px;
+    border-style: none;
+    border-radius: 4px;
+    padding: 7px 17px; /* Espaciado interno */
+    font-size: 13px;
+    color: white;
+    background: #b54d0d;
+  }
+}
+
+@media screen and (max-height: 650px)  {
+  .fex-my-modal {
+    margin-top: 15px;
+    width: 95%;
+    max-width: 100%;
+    max-height: 83%;
+    padding: 10px;
+    overflow: auto;
+    width: 95%;
+    padding: 10px;
+    overflow: auto;
+  }
+}
+@media screen and (max-height: 580px)  {
+  .fex-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  backdrop-filter: blur(1px); /* Aplicar el efecto backdrop-filter */
+  z-index: 999; /* Z-index inferior al del modal */
+  display: none; /* Inicialmente oculto */
+}
+  .fex-my-modal {
+    margin-top: 15px;
+    width: 95%;
+    max-width: 100%;
+    max-height: 83%;
+    padding: 10px;
+    overflow: auto;
+    width: 95%;
+    padding: 10px;
+    overflow: auto;
+  }
+
+  .fex-contain-address {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    place-items: center;
+    align-items: center;
+    gap: 5px;
+  }
+  .fex-title-fex {
+    font-size: 25px;
+    margin-bottom: 5px;
+  }
+  .fex-description-shipping {
+    margin-bottom: 5px;
+  }
+  .fex-p-fex {
+    margin: 0px;
+    font-size: 14px;
+    color: #b54d0d;
+  }
+  .fex-vehicle-icon {
+    width: 90px;
+    min-width: 90px;
+  }
+
+  .fex-contain-vehicles {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    min-width: 100%;
+  }
+
+
+  .fex-calculate-price {
+    font-family: "Mulish", sans-serif;
+    margin-top: 10px;
+    border-style: none;
+    border-radius: 4px;
+    padding: 7px 17px; /* Espaciado interno */
+    font-size: 13px;
+    color: white;
+    background: #b54d0d;
+  }
+}
+
+@media screen and (max-height: 450px) {
+
+  .fex-my-modal {
+    margin-top: 30px;
+    
   }
 }

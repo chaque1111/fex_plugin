@@ -84,18 +84,23 @@ include_once "times-functions.php";
         <div class="contain-inputs">
             <?php
             if (get_option("shipping_times_is_config")) {
-                echo '<label for="horaInicio">Hora de Inicio:</label>';
-                echo '<input type="time" id="horaInicio" name="horaInicio" min="08:00" max="22:00" value=' . get_option("shipping_times_min") . ' required ><br><br> ';
-                echo '<label for="horaFin">Hora de Fin:</label>';
-                echo '<input type="time" id="horaFin" name="horaFin" min="08:00"  value=' . get_option("shipping_times_max") . ' max="22:00" required><br><br>';
+                $horaInicioValue = get_option("shipping_times_min");
+                $horaFinValue = get_option("shipping_times_max");
             }
             else {
-                echo '<label for="horaInicio">Hora de Inicio:</label>';
-                echo '<input type="time" id="horaInicio" name="horaInicio" min="08:00" max="22:00" value="08:00" required><br><br>';
-                echo '<label for="horaFin">Hora de Fin:</label>';
-                echo '<input type="time" id="horaFin" name="horaFin" min="08:00" max="22:00" value="22:00" required><br><br>';
+                $horaInicioValue = "08:00";
+                $horaFinValue = "22:00";
             }
             ?>
+
+            <label for="horaInicio">Hora de Inicio:</label>
+            <input type="time" id="horaInicio" name="horaInicio" min="08:00" max="22:00"
+                value="<?php echo $horaInicioValue; ?>" required><br><br>
+
+            <label for="horaFin">Hora de Fin:</label>
+            <input type="time" id="horaFin" name="horaFin" min="08:00" max="22:00" value="<?php echo $horaFinValue; ?>"
+                required><br><br>
+
         </div>
         <p class="alert-times">¡Si los horarios ingresados son correctos presiona el botón "Guardar Horarios"!</p>
         <button type="submit" class="submit-times">Guardar Horarios</button>

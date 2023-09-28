@@ -8,13 +8,17 @@ function fex_express_validation($passed, $checkout)
     $metodo_envio_validar = 'fex_express_shipping_method'; // Cambia esto por el ID correcto
 
     if ($chosen_shipping_method === $metodo_envio_validar) {
-        date_default_timezone_set('America/Santiago');
+        $url = "http://worldtimeapi.org/api/timezone/America/Santiago";
+        // Realizar la solicitud GET
+        $response = file_get_contents($url);
+        $data = json_decode($response, true);
+        $datetime = DateTime::createFromFormat('Y-m-d\TH:i:s.uP', $data['datetime']);
+        $current_time = $datetime->format('H:i');
 
-        $current_time = current_time('H:i');
         $start_time = get_option("shipping_times_max"); // Hora de inicio
         $end_time = get_option("shipping_times_min"); // Hora de finalización
         // Si la hora actual está dentro del rango, deshabilita el método de envío
-        if (($current_time >= $start_time && $current_time <= '23:59') || ($current_time >= '00:00' && $current_time <= $end_time)) {
+        if (($current_time >= $start_time && $current_time <= '23:59') || ($current_time >= '08:00' && $current_time <= $end_time)) {
             wc_add_notice("Los horarios de envío Express en 30 minutos son entre las " . $end_time . " - AM " . "y las " . $start_time . " - PM.<br> ¡Puedes usar Fex programado y programar la llegada para mañana!", 'error');
             $passed = false;
             return;

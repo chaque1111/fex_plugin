@@ -39,11 +39,11 @@ include_once "landing-functions.php";
                         <label for="wc-pickit-api-key" required>
                             <?php echo __('Access Key', 'wc-pickit') ?>
                         </label>
-                        <input type="text" name="accessKey" id="accessKey">
-                        <label for="wc-pickit-api-country" required>
+                        <input type="text" name="accessKey" id="accessKey" required>
+                        <label for="wc-pickit-api-country">
                             <?php echo __('País', 'wc-pickit') ?>
                         </label>
-                        <select name="country" id="country">
+                        <select name="country" id="country" required>
                             <option value="" id="placeholder-country">Seleccione el país donde opera su tienda</option>
                             <!-- <option value="Argentina">Argentina</option> -->
                             <option value="Chile">Chile</option>

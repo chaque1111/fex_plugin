@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: Fex Plugin
-Plugin URI: https://holocruxe.com
-Description: Agrega los métodos de envío Fex a tu tienda de Woocommerce. Una solución completamente funcional que integra métodos de envío a tu tienda sin modificar su estructura o estilos. El plugin captura y procesa la información o eventos requeridos de tu tienda Woo para mejorar su performance.
+Plugin URI: https://naboo.holocruxe.com/docs
+Description: Agrega los métodos de envío FEX a tu tienda de Woocommerce. Una solución completamente funcional que integra métodos de envío a tu tienda sin modificar su estructura o estilos. El plugin captura y procesa la información o eventos requeridos de tu tienda Woo para mejorar su performance.
 Version: 1.0
 Author: Holocruxe Factory
 Author URI: https://www.linkedin.com/company/holocruxe
@@ -55,27 +55,6 @@ function adjust_shipping_rate($rates)
     return $rates;
 }
 add_filter('woocommerce_package_rates', 'adjust_shipping_rate', 50, 1);
-
-//deshabilitar método de envío express cuando la tienda no está operando
-
-// add_filter('woocommerce_package_rates', 'disable_shipping_method_by_hours', 10, 2);
-
-// function disable_shipping_method_by_hours($available_shipping_methods, $package)
-// {
-//     // Obtengo la hora actual
-//     $current_time = current_time('H:i');
-
-//     // Define el rango de horas durante el cual deshabilitar el método de envío
-//     if(get_option("shipping_times_is_config")){
-//         $start_time = get_option("shipping_times_max"); // Hora de inicio
-//         $end_time = get_option("shipping_times_min");; // Hora de finalización
-//         // Si la hora actual está dentro del rango, deshabilita el método de envío
-//         if (($current_time >= $start_time && $current_time <= '23:59') || ($current_time >= '00:00' && $current_time <= $end_time)) {
-//             unset($available_shipping_methods['fex_express_shipping_method']);
-//         }  
-//         return $available_shipping_methods;
-//     }
-// }
 
 
 function fex_add_menu()

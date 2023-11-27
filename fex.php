@@ -89,12 +89,22 @@ function fex_add_menu()
 
     add_submenu_page(
         'fex_menu',
+        'Comisión Extra',
+        'Comisión Extra',
+        'manage_options',
+        'submenu_extra',
+        'fex_show_extra'
+    );
+
+    add_submenu_page(
+        'fex_menu',
         'Dashboard',
         'Panel de control',
         'manage_options',
         'submenu_dashboard',
         'fex_show_dashboard'
     );
+
 
     add_submenu_page(
         'fex_menu',
@@ -130,6 +140,14 @@ function fex_show_shipping_times()
 function fex_show_dashboard()
 {
     include_once plugin_dir_path(__FILE__) . '/components/dashboard/dashboard.php';
+}
+
+// Mostrar página de comisión extra
+
+function fex_show_extra()
+{
+    include_once plugin_dir_path(__FILE__) . '/components/extra-commission/extra.php';
+
 }
 
 // Mostrar página de Ajustes

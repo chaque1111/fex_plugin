@@ -1,6 +1,6 @@
 <?php
 
-if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins'))) && get_option('shipping_zones_is_config') && get_option("shipping_times_is_config")) {
+if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins'))) && get_option('shipping_zones_is_config') && get_option("shipping_times_is_config") && get_option("extra_commission_is_config")) {
     function express_shipping_method_init()
     {
         if (!class_exists('Fex_Express_Shipping_Method')) {

@@ -1,21 +1,4 @@
 <?php
-// add_action('wp_ajax_save_coordinates', 'save_coordinates_callback');
-// add_action('wp_ajax_nopriv_save_coordinates', 'save_coordinates_callback');
-// function save_coordinates_callback()
-// {
-//     if (isset($_POST['latitude']) && isset($_POST['longitude'])) {
-//         session_start();
-//         $_SESSION["client_latitude"] = $_POST['latitude'];
-//         $_SESSION["client_longitude"] = $_POST['longitude'];
-
-//         wp_send_json(true);
-//     }
-//     else {
-//         $response = array('status' => 'error', 'message' => 'Invalid data');
-//         wp_send_json($response);
-//     }
-// }
-
 add_action('wp_ajax_calculate_shipping', 'calculate_shipping_ajax_callback');
 add_action('wp_ajax_nopriv_calculate_shipping', 'calculate_shipping_ajax_callback');
 
@@ -90,12 +73,14 @@ function calculate_shipping_ajax_callback()
         $response = json_decode($result);
         $_SESSION["vehicle_calculate"] = $_POST["vehicle"];
         $_SESSION["price_calculate"] = $response->resultado->total;
-            // $obj_response = array(
-            //     "total" => $response->resultado->total,
-            //     "address" => $_SESSION["address_name"]
-            // );
-        //wp_send_json($direccion . " ". $_SESSION["client_latitude"] . " ". $_SESSION["client_longitude"]);
-        wp_send_json($response->resultado->total);
+
+        if (get_option("extra_porcentage")) {
+            wp_send_json($response->resultado->total + $response->resultado->total * get_option("extra_porcentage"));
+        }
+        if (get_option("extra_price")) {
+            wp_send_json($response->resultado->total + get_option("extra_price"));
+        }
+        ;
     }
     else {
         wp_send_json("false");

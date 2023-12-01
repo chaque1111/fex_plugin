@@ -121,11 +121,5 @@ include_once "times-functions.php";
 
 <?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) {
     wp_redirect(admin_url('admin.php?page=fex_menu'));
-    //  <script>
-    //     jQuery(document).ready(function () {
-    //         console.log("NOK");
-    //         jQuery("#pickit-error").css("display", 'block');
-    //     });
-    // </script> 
 }
 ?>

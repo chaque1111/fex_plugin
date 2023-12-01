@@ -31,6 +31,8 @@ include_once "dashboard-functions.php";
                 <H2 class="camp">MODO</H2>
                 <H2 class="camp">FECHA</H2>
                 <H2 class="camp">DISTANCIA</H2>
+                <H2 class="camp">ENVÍO FEX</H2>
+                <H2 class="camp">COMISIÓN</H2>
                 <H2 class="camp">TOTAL</H2>
             </div>
 
@@ -69,6 +71,7 @@ include_once "dashboard-functions.php";
             dataType: "json",
             success: function (data) {
                 // window.apiData = data;
+
                 if (data.length) {
                     renderData(data);
                 } else {
@@ -174,9 +177,12 @@ include_once "dashboard-functions.php";
                 var modo = $("<h3>").text(item.tipo).addClass("modo-fex");
                 var fecha = $("<h3>").text(item.fecha).addClass("fecha-fex");
                 var distancia = $("<h3>").text(item.distancia).addClass("distancia-envio");
-                var total = $("<h3>").text(`$${item.total}`).addClass("total-price-fex");
+                var envioFex = $("<h3>").text(`$${item.total}`).addClass("total-price-fex");
+                var commission = $("<h3>").text(`${item.extraCommission}`).addClass("total-price-fex");
+                var totalWithCommission = $("<h3>").text(`${item.totalWithCommission}`).addClass("total-price-fex");
+
                 // se agregan los nuevos elementos 
-                newElement.append(wc_order, numero_seg, status_fex, modo, fecha, distancia, total);
+                newElement.append(wc_order, numero_seg, status_fex, modo, fecha, distancia, envioFex, commission, totalWithCommission);
 
                 dataContainer.append(newElement);
             });
@@ -204,31 +210,16 @@ include_once "dashboard-functions.php";
         });
     </script>
 <?php } ?>
+<?php if ($_SESSION["authorized"] == true && !get_option("extra_commission_is_config")) { ?>
+    <script>
+        jQuery(document).ready(function () {
+            console.log("NOK");
+            jQuery("#pickit-ec-incomplete").css("display", 'block');
+        });
+    </script>
+<?php } ?>
 
-<!-- error logos -->
 
-
-<div id="pickit-error" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'fex_menu')) ?>">
-            <span class="close">&times;</span>
-        </a>
-        <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/error.png') ?>">
-        <h2>
-            <?php echo __('Credenciales incorrectas', 'wc-pickit') ?>
-        </h2>
-        <p>
-            <?php echo __('Las credenciales ingresadas son incorrectas.<br>Por favor, Inicia sesión.', 'wc-pickit') ?>
-        </p>
-
-        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'fex_menu')) ?>">
-            <button>
-                <?php echo __('Aceptar', 'wc-pickit') ?>
-            </button>
-        </a>
-    </div>
-</div>
 
 
 <!-- verificar si completó la configuración zonas -->
@@ -269,6 +260,28 @@ include_once "dashboard-functions.php";
         </p>
 
         <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'shipping_times')) ?>">
+            <button id="button-error">
+                <?php echo __('Aceptar', 'wc-pickit') ?>
+            </button>
+        </a>
+    </div>
+</div>
+<!-- verificar si completó la configuración de comisión extra -->
+<div id="pickit-ec-incomplete" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <a href="">
+            <span class="close">&times;</span>
+        </a>
+        <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/error.png') ?>">
+        <h2>
+            <?php echo __('Configuración incompleta', 'wc-pickit') ?>
+        </h2>
+        <p>
+            <?php echo __('Necesitas configurar la comisión extra para comenzar a trabajar.', 'wc-pickit') ?>
+        </p>
+
+        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'submenu_extra')) ?>">
             <button id="button-error">
                 <?php echo __('Aceptar', 'wc-pickit') ?>
             </button>

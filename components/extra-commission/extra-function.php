@@ -1,7 +1,7 @@
 <?php
 wp_enqueue_style('extra-commission-styles', plugin_dir_url("fex.php") . 'fex/assets/css/extra-commission.css');
-echo get_option('extra_porcentage');
-echo get_option('extra_price');
+wp_enqueue_style('landing-styles', plugin_dir_url("fex.php") . 'fex/assets/css/onboarding.css');
+
 
 
 
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         //Enviando Solicitud Patch
-        $url = 'http://localhost:3001/store/extra';
+        $url = 'https://naboo.holocruxe.com/store/extra';
 
         $ch = curl_init($url);
 

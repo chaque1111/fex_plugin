@@ -72,12 +72,13 @@ function calculate_shipping_ajax_callback()
 
         $response = json_decode($result);
         $_SESSION["vehicle_calculate"] = $_POST["vehicle"];
-        $_SESSION["price_calculate"] = $response->resultado->total;
 
         if (get_option("extra_porcentage")) {
+            $_SESSION["price_calculate"] = $response->resultado->total + $response->resultado->total * get_option("extra_porcentage");
             wp_send_json($response->resultado->total + $response->resultado->total * get_option("extra_porcentage"));
         }
         if (get_option("extra_price")) {
+            $_SESSION["price_calculate"] = $response->resultado->total + get_option("extra_price");
             wp_send_json($response->resultado->total + get_option("extra_price"));
         }
         ;

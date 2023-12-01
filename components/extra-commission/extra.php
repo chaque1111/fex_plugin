@@ -2,6 +2,50 @@
 include_once "extra-function.php";
 ?>
 
+
+<div id="pickit-ok" class="modal">
+    <div class="modal-content">
+
+        <img src="<?php echo esc_url(plugin_dir_url("fex.php") . 'fex/assets/img/ok.png') ?>">
+
+        <h2>
+            <?php echo __('Comisión extra configurada', 'wc-pickit') ?>
+        </h2>
+        <p>
+            <?php echo __('Has configurado correctamente la comisión extra', 'wc-pickit') ?>
+        </p>
+        <p>
+            <?php echo __('Puedes Configurar la <strong>Comisión Extra</strong> las veces que quieras.', 'wc-pickit') ?>
+        </p>
+        <button style="background: black; " id="button-reconfigure">
+            <?php echo __('Configurar Comisión', 'wc-pickit') ?>
+        </button>
+        <a href="<?php echo esc_url(admin_url('admin.php?page=' . 'submenu_dashboard')) ?>">
+            <button>
+                <?php echo __('Ir al Panel', 'wc-pickit') ?>
+            </button>
+        </a>
+    </div>
+</div>
+
+<?php if ($_SESSION["authorized"] == true && get_option("extra_commission_is_config")) { ?>
+    <script>
+        jQuery(document).ready(function ($) {
+            jQuery("#pickit-ok").css("display", 'block');
+            jQuery("#map").css("z-index", '9');
+            $("#button-reconfigure").click(function () {
+                jQuery("#pickit-ok").css("display", 'none');
+
+            })
+        });
+    </script>
+<?php } ?>
+
+<?php if (!isset($_SESSION["authorized"]) || $_SESSION["authorized"] == false) {
+    wp_redirect(admin_url('admin.php?page=fex_menu'));
+} ?>
+
+
 <div id="fexContainerCommission">
     <h1 id="fexTitleCommission">Comisión Extra</h1>
     <p id="descripcionComision">
@@ -24,8 +68,15 @@ include_once "extra-function.php";
                 ajuste en términos de un porcentaje del precio de envío.
             </p>
             <div style="margin-top: 20px;">
-                <label for="porcentaje">Porcentaje:</label>
-                <input min="0" max="100" type="number" name="porcentaje" id="porcentaje" required>
+                <label for='porcentaje'>Porcentaje:</label>
+                <?php
+                if (get_option("extra_porcentage")) {
+                    echo "<input  value='" . get_option("extra_porcentage") * 100 . "' min='0' max='100' type='number' name='porcentaje' id='porcentaje' required>";
+                }
+                else {
+                    echo "<input min='0' max='100' type='number' name='porcentaje' id='porcentaje' required>";
+                }
+                ?>
             </div><br>
             <button type="submit" class="submit-commission">Configurar Porcentaje</button>
         </form>
@@ -37,7 +88,14 @@ include_once "extra-function.php";
                 extra en términos de una cantidad específica.
             </p>
             <div style="margin-top: 20px;"> <label for="precio">Precio Fijo:</label>
-                <input min="0" type="number" name="precio" id="precio" required>
+                <?php
+                if (get_option("extra_price")) {
+                    echo "<input value='" . get_option("extra_price") . "' min='0' type='number' name='precio' id='precio' required>";
+                }
+                else {
+                    echo "<input min='0' type='number' name='precio' id='precio' required>";
+                }
+                ?>
             </div> <br>
             <!-- <p class="alert-commission">¡Si decidiste elegir precio fijo como comisión extra presiona "Configurar Precio
             Fijo"!

@@ -3,7 +3,7 @@
 Plugin Name: Fex Plugin
 Plugin URI: https://naboo.holocruxe.com/docs
 Description: Agrega los métodos de envío FEX a tu tienda de Woocommerce. Una solución completamente funcional que integra métodos de envío a tu tienda sin modificar su estructura o estilos. El plugin captura y procesa la información o eventos requeridos de tu tienda Woo para mejorar su performance.
-Version: 1.0
+Version: 1.0.1
 Author: Holocruxe Factory
 Author URI: https://www.linkedin.com/company/holocruxe
 License: GPL2
